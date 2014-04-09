@@ -405,7 +405,6 @@ function sd_send_email($ticket_id, $notification){
 		return false;
 	}
 
-
 	//headers
 	$headers = "From: " . stripslashes_deep( html_entity_decode( $current_user->display_name, ENT_COMPAT, 'UTF-8' ) ) . " <$current_user->user_email>\r\n";
 	$headers .= "Reply-To: ". $current_user->user_email . "\r\n";
@@ -418,7 +417,7 @@ function sd_send_email($ticket_id, $notification){
 
 	$message .= sd_get_email_body_footer();
 
-	$mail = wp_mail('adam@mygeeknc.com', sd_get_email_subject($ticket_id), $message, $headers);
+	//$mail = wp_mail($customer_email, sd_get_email_subject($ticket_id), $message, $headers);
 
 	return $mail;
 }
