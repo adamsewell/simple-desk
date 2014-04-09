@@ -2,7 +2,7 @@
 /*
 Plugin Name: Simple Desk
 Version: 0.0.2
-Description: Simple Desk is a ticketing and CRM system for WordPress that is completly email driven.
+Description: Simple Desk is a simple ticket and customer management system for WordPress.
 Plugin URI: http://tinyelk.com
 Author: Adam Sewell
 Author URI: http://tinyelk.com
