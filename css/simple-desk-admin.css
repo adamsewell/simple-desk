@@ -1,0 +1,203 @@
+/***********************
+	General Styling
+**********************/
+input[type="text"].medium,
+textarea.medium{
+	width: 200px;
+}
+input[type="text"].large,
+textarea.large{
+	width: 300px;
+}
+input[type="text"].xlarge,
+textarea.xlarge{
+	width: 612px;
+}
+
+textarea{
+	height: 120px;
+}
+
+/*************
+	Add Customer / Add Ticket
+*************/
+#sd-customer h3.section_header,
+#sd-ticket h3.section_header{
+	padding-top: 15px;
+	text-indent: 5%;
+}
+
+#sd-customer .customer_contact,
+#sd-customer .customer_details,
+#sd-customer .customer_other,
+#sd-ticket .ticket_contact,
+#sd-ticket .ticket_details{
+	display: table;
+	margin: 0 auto;
+}
+
+/*************
+	Edit Customer
+*************/
+.button-delete{
+	display: inline-block;
+	text-decoration: none;
+	font-size: 13px;
+	line-height: 26px;
+	height: 28px;
+	margin: 0;
+	padding: 0 10px 1px;
+	cursor: pointer;
+	border-width: 1px;
+	border-style: solid;
+	-webkit-appearance: none;
+	-webkit-border-radius: 3px;
+	border-radius: 3px;
+	white-space: nowrap;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;	
+
+	background: #d9534f;
+	border-color: #d43f3a;
+ 	-webkit-box-shadow: inset 0 1px 0 rgba(120,200,230,0.5), 0 1px 0 rgba(0,0,0,.15);
+ 	box-shadow: inset 0 1px 0 rgba(120,200,230,0.5), 0 1px 0 rgba(0,0,0,.15);
+ 	color: #fff;
+	text-decoration: none;
+}
+
+.button-delete:hover{
+	background: #d2322d;
+	border-color: #ac2925;
+ 	-webkit-box-shadow: inset 0 1px 0 rgba(120,200,230,0.6);
+ 	box-shadow: inset 0 1px 0 rgba(120,200,230,0.6);
+	color: #fff;
+}
+
+.button-delete:focus{
+	border-color: #0e3950;
+	-webkit-box-shadow: inset 0 1px 0 rgba(120,200,230,0.6), 1px 1px 2px rgba(0,0,0,0.4);
+	box-shadow: inset 0 1px 0 rgba(120,200,230,0.6), 1px 1px 2px rgba(0,0,0,0.4);
+}
+
+.button-delete:active{
+	background: #1b7aa6;
+	border-color: #005684;
+	color: rgba(255,255,255,0.95);
+ 	-webkit-box-shadow: inset 0 1px 0 rgba(0,0,0,0.1);
+ 	box-shadow: inset 0 1px 0 rgba(0,0,0,0.1);
+ 	vertical-align: top;
+}
+
+.button-delete:disabled{
+	color: #94cde7 !important;
+	background: #298cba !important;
+	border-color: #1b607f !important;
+	-webkit-box-shadow: none !important;
+	box-shadow: none !important;
+	text-shadow: 0 -1px 0 rgba(0,0,0,0.1) !important;
+	cursor: default;
+}
+
+#sd-edit-customer #post-body-content{
+	margin-bottom: 1em;
+}
+
+/*************
+	Shared Add and Edit Customer
+*************/
+#ticket_actions .button-secondary,
+#customer_actions .button-secondary,
+#ticket_actions .button-primary,
+#customer_actions .button-primary,
+#customer_actions .button-delete,
+#ticket_actions .button-delete{
+	width: 90%;
+	text-align: center;
+}
+
+#ticket_meta select{
+	width: 100%;
+}
+
+/*************
+	Ticket List Status
+*************/
+#sd_ticket span.status-new{
+	color: green;
+	font-weight: bolder;
+}
+
+#sd_ticket span.status-waitingonme{
+	color: red;
+	font-weight: bolder;
+}
+
+#sd_ticket span.status-inprogress{
+	color: purple;
+	font-weight: bolder;
+}
+
+#sd_ticket span.status-waitingoncustomer{
+	color: blue;
+	font-weight: bolder;
+}
+
+#sd_ticket span.status-resolved{
+	font-weight: bolder;
+}
+
+/*************
+	Edit Ticket
+*************/
+#sd-ticket .ticket_reponse_box{
+	margin: 0 17px 1em;
+	position: relative;
+}
+
+#sd-ticket .ticket_reponse_box textarea{
+	width: 100%;
+}
+
+#sd-ticket .ticket_reponse_box .ticket_response_actions{
+	float: right;
+	text-align: right;
+}
+
+#sd-ticket .issue-response-wrap{
+	margin: 0 17px 1em;
+	border: 1px solid #e1e1e1;
+	position: relative;
+	background: #fff;
+}
+#sd-ticket .private-reply{
+	background: #FFFACD;
+}
+
+#sd-ticket .issue-response-wrap .issue-response{
+	padding: 0 20px 0 20px;
+}
+
+#sd-ticket .issue-response-wrap .issue-response .issue-header{
+	padding-bottom: 15px;
+}
+
+#sd-ticket .issue-response-wrap .issue-response .issue-header .issue-response-author{
+	float: left;
+	max-width: 70%;
+}
+
+#sd-ticket .issue-response-wrap .issue-response .issue-header .issue-meta{
+	float: right;
+	text-align: right;
+	color: #999;
+	font-size: 11px;
+}
+#sd-ticket .issue-response-wrap .issue-response .issue-message{
+	clear: both;
+	width: 100%;
+	line-height: 1.3em;
+	word-wrap: break-word;
+	font-size: 1.2em;
+}
+
