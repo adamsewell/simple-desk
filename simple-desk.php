@@ -1,9 +1,9 @@
 <?php
 /*
 Plugin Name: Simple Desk
-Version: 0.0.2
+Version: 0.0.3
 Description: Simple Desk is a simple ticket and customer management system for WordPress.
-Plugin URI: http://tinyelk.com
+Plugin URI: http://simpledesk.io
 Author: Adam Sewell
 Author URI: http://tinyelk.com
 
@@ -28,7 +28,7 @@ if ( !defined( 'ABSPATH' ) ) die();
 define( 'SIMPLEDESK_BASE_URI', dirname( __FILE__ ) );
 define( 'SIMPLEDESK_BASE_DIR', plugin_dir_path( __FILE__ ));
 define( 'SIMPLEDESK_FILE', __FILE__);
-define( 'SIMPLEDESK_VERSION', '0.0.2');
+define( 'SIMPLEDESK_VERSION', '0.0.3');
 
 $SimpleDesk = new SimpleDesk();
 

@@ -218,8 +218,6 @@ class SimpleDeskTicketTable extends WP_List_Table{
         $per_page = 25;
         $current_user = wp_get_current_user();
 
-        // $orderby = isset($_GET['orderby']) ? $_GET['orderby'] : 'default';
-        // $order = isset($_GET['order']) ? $_GET['order'] : 'DESC';
         $status = isset( $_GET['status'] ) ? $_GET['status'] : array('new', 'inprogress', 'waitingonme', 'waitingoncustomer');
         $search = isset( $_GET['s'] ) ? sanitize_text_field( $_GET['s'] ) : null;
 
@@ -230,7 +228,7 @@ class SimpleDeskTicketTable extends WP_List_Table{
             'meta_value' => $status == 'mine' ? $current_user->ID : '',
             'posts_per_page' => $per_page,
             'orderby' => $orderby,
-            'post_status' => $status,
+            'post_status' => $status == 'mine' ? array('new', 'inprogress', 'waitingonme', 'waitingoncustomer') : $status,
             'order' => $order,
             's' => $search
         );
