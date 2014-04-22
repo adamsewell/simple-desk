@@ -183,6 +183,9 @@ function sd_get_ticket_history( $ticket_id ){
 function sd_render_ticket_history ( $ticket_id ){
 	if(!empty($ticket_id)){
 		$responses = sd_get_ticket_history($ticket_id);
+
+		if(empty($responses)) return false;
+		
 		ob_start();
 		foreach($responses as $response){
 ?>
