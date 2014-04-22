@@ -23,15 +23,15 @@ screen_icon();
 			<div class="customer_contact">
 				<p>
 					<span>
-						<input type="text" name="customer[fname]" id="customer-fname" class="large" placeholder="First Name"/>
+						<input type="text" name="customer[fname]" id="customer-fname" class="large" placeholder="First Name" required/>
 					</span>
 					<span>
-						<input type="text" name="customer[lname]" id="customer-lname" class="large" placeholder="Last Name" />
+						<input type="text" name="customer[lname]" id="customer-lname" class="large" placeholder="Last Name" required />
 					</span>
 				</p>
 				<p>
 					<span>
-						<input type="text" name="customer[email]" id="customer-email" class="large" placeholder="Email" />
+						<input type="text" name="customer[email]" id="customer-email" class="large" placeholder="Email" type="email" required />
 					</span>
 					<span>
 						<input type="text" name="customer[company]" id="customer-company" class="large" placeholder="Company" />
@@ -39,7 +39,7 @@ screen_icon();
 				</p>
 				<p>
 					<span>
-						<input type="text" name="customer[phone]" id="customer-phone" class="large" placeholder="Phone Number" />
+						<input type="text" name="customer[phone]" id="customer-phone" class="large" placeholder="Phone Number" required />
 					</span>
 					<span>
 						<input type="text" name="customer[mobile]" id="customer-mobile" class="large" placeholder="Mobile Number" />

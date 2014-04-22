@@ -29,7 +29,7 @@ $customer_id = absint($_GET['cid']);
 					<span>
 						<?php $customers = sd_get_customers(array('posts_per_page' => '-1'), true); ?>
 						<?php if(!empty($customer_id)) $selected = $customer_id; ?>
-						<select name="ticket[customer]" id="ticket-customer">
+						<select name="ticket[customer]" id="ticket-customer" required>
 							<option><?php _e('Select Customer'); ?></option>
 							<?php echo sd_menuoptions($customers, $selected, true); ?>
 						</select>
@@ -41,7 +41,7 @@ $customer_id = absint($_GET['cid']);
 			<div class="ticket_details">
 				<p>
 					<span>
-						<input type="text" name="ticket[issue]" id="ticket-issue" class="xlarge" placeholder="Issue"/>
+						<input type="text" name="ticket[issue]" id="ticket-issue" class="xlarge" placeholder="Issue" required/>
 					</span>
 				</p>
 			</div>
@@ -51,7 +51,7 @@ $customer_id = absint($_GET['cid']);
 			<div class="ticket_details">
 				<p>
 					<span>
-						<textarea name="ticket[details]" id="ticket-details" class="xlarge" placeholder="A detailed description of the issue."></textarea>
+						<textarea name="ticket[details]" id="ticket-details" class="xlarge" placeholder="A detailed description of the issue." required></textarea>
 					</span>
 				</p>
 				<p>

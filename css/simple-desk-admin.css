@@ -36,6 +36,12 @@ textarea{
 	margin: 0 auto;
 }
 
+#sd-ticket .error,
+#sd-customer .error{
+	font-weight: bold;
+	border-color: #FF9494;
+}
+
 /*************
 	Edit Customer
 *************/

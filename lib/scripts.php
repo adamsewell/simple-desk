@@ -18,7 +18,7 @@ add_action( 'admin_enqueue_scripts', 'simpledesk_admin_css', 1 );
 
 function simpledesk_admin_scripts(){
 	wp_enqueue_script('chosen', plugins_url('../js/chosen.jquery.min.js', __FILE__), array('jquery'), '1.1.0');
-	wp_enqueue_script('simple-desk-js', plugins_url('../js/simpledesk.js', __FILE__), array('jquery', 'chosen'), '1.1.0');
-
+	wp_enqueue_script('jquery-validation', plugins_url('../js/jquery.validate.min.js', __FILE__), array('jquery'), '1.11.1');
+	wp_enqueue_script('simple-desk-js', plugins_url('../js/simpledesk.js', __FILE__), array('jquery', 'chosen', 'jquery-validation'), '1.1.0');
 }
 add_action( 'admin_enqueue_scripts', 'simpledesk_admin_scripts', 1 );

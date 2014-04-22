@@ -14,6 +14,22 @@ jQuery(document).ready(function($){
 	});
 
 	/*********************/
+	/*	Validation       */
+	/********************/
+
+	$('#sd-ticket').validate({
+		errorPlacement: function(error, element){
+    		return true;
+  		}
+	});
+
+	$('#sd-customer').validate({
+		errorPlacement: function(error, element){
+			return true;
+		}
+	})
+
+	/*********************/
 	/*Admin Ticket Reply*/
 	/********************/
 	// $('#response-submit').on('click', function(e){
