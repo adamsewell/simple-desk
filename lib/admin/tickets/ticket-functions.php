@@ -51,7 +51,7 @@ function sd_get_tickets_count( $status = 'new' ){
 	return $wpdb->get_var($query);
 }
 
-function sd_save_ticket( $ticket ){
+function sd_add_new_ticket( $ticket ){
 	if(is_array($ticket)){
 		$ticket = array_map('sanitize_text_field', $ticket);
 
@@ -74,12 +74,13 @@ function sd_save_ticket( $ticket ){
 			}			
 		}
 
-		//log ticket status change. 
+		//log ticket status change
 		if($ticket_status != 'new'){
 			sd_log_status_change($ticket_id, $ticket_status);
 		}
 
-
+		//tech and customer notification
+		sd_email_new_ticket_notification($ticket_id);
 
 		return $ticket_id;
 	}
@@ -87,7 +88,7 @@ function sd_save_ticket( $ticket ){
 	return false;
 }
 
-function sd_update_ticket( $ticket, $response = ''){
+function sd_edit_existing_ticket( $ticket, $response = ''){
 	/*
 		General ticket information is stored in $ticket while reponse information will be in
 		$response.
@@ -226,12 +227,18 @@ function sd_get_ticket( $ticket_id ){
 function sd_get_ticket_status($ticket_id){
 	return get_post_status($ticket_id);
 }
+
 function sd_get_ticket_customer($ticket_id){
 	return get_post_meta($ticket_id, '_sd_ticket_customer', true);
 }
 
 function sd_get_ticket_issue($ticket_id){
 	return get_post_meta($ticket_id, '_sd_ticket_issue', true);
+}
+
+function sd_get_ticket_details($ticket_id){
+	$ticket = sd_get_ticket($ticket_id);
+	return $ticket->post_content;
 }
 
 function sd_log_status_change($ticket_id, $status){
@@ -244,28 +251,32 @@ function sd_log_tech_change($ticket_id, $tech){
 
 }
 
-function sd_get_technicians($list = false){
+function sd_get_technicians($list = false, $email = false){
 	$roles = array('sd_tech', 'administrator');
 	$techs = array();
 
 	foreach($roles as $role){
 		$results = get_users(array('role' => $role));
-
 		if($results) $techs = array_merge($techs, $results);
 	}
 
 	if($list){
 		$simple_list = array();
-
 		foreach($techs as $tech){
 			$simple_list[$tech->data->ID] = $tech->data->display_name;
 		}
-
 		asort($simple_list);
-
 		return $simple_list;
 	}
-	
+
+	if($email){
+		$email_list = array();
+		foreach($techs as $tech){
+			$email_list[$tech->data->ID] = $tech->data->user_email;
+		}
+		asort($email_list);
+		return $email_list;
+	}
 
 	return $techs;
 }

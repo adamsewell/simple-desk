@@ -381,7 +381,7 @@ function sd_get_ip() {
 	} else {
 		$ip = $_SERVER['REMOTE_ADDR'];
 	}
-	return apply_filters( 'edd_get_ip', $ip );
+	return apply_filters( 'sd_get_ip', $ip );
 }
 
 function sd_get_ticket_statuses() {
@@ -394,30 +394,4 @@ function sd_get_ticket_statuses() {
 	);
 
 	return $ticket_statuses;
-}
-
-function sd_send_email($ticket_id, $notification){
-	$customer_id = sd_get_ticket_customer($ticket_id);
-	$customer_email = sd_get_customer_email($customer_id);
-	$current_user = wp_get_current_user();
-
-	if(!sd_customer_has_email($customer_id)){
-		return false;
-	}
-
-	//headers
-	$headers = "From: " . stripslashes_deep( html_entity_decode( $current_user->display_name, ENT_COMPAT, 'UTF-8' ) ) . " <$current_user->user_email>\r\n";
-	$headers .= "Reply-To: ". $current_user->user_email . "\r\n";
-	$headers .= "Content-Type: text/html; charset=utf-8\r\n";
-
-	//message
-	$message = sd_get_email_body_header();
-
-	$message .= sd_get_email_body($notification);
-
-	$message .= sd_get_email_body_footer();
-
-	//$mail = wp_mail($customer_email, sd_get_email_subject($ticket_id), $message, $headers);
-
-	return $mail;
 }

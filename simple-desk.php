@@ -56,7 +56,6 @@ class SimpleDesk {
 			require_once SIMPLEDESK_BASE_DIR . 'lib/admin/admin-actions.php';
 			require_once SIMPLEDESK_BASE_DIR . 'lib/admin/admin-pages.php';
 			require_once SIMPLEDESK_BASE_DIR . 'lib/admin/admin-notices.php';
-			require_once SIMPLEDESK_BASE_DIR . 'lib/emails/template.php';
 
 			//customers
 			require_once SIMPLEDESK_BASE_DIR . 'lib/admin/customers/customer-actions.php';
@@ -69,6 +68,10 @@ class SimpleDesk {
 			require_once SIMPLEDESK_BASE_DIR . 'lib/admin/tickets/ticket-functions.php';
 			require_once SIMPLEDESK_BASE_DIR . 'lib/admin/tickets/ui.php';
 			require_once SIMPLEDESK_BASE_DIR . 'lib/admin/tickets/metaboxes.php';
+
+			//email
+			require_once SIMPLEDESK_BASE_DIR . 'lib/emails/template.php';
+			require_once SIMPLEDESK_BASE_DIR . 'lib/emails/functions.php';
 
 			//import and exports
 			require_once SIMPLEDESK_BASE_DIR . 'lib/admin/import/ui.php';

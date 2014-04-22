@@ -27,8 +27,14 @@ function sd_get_email_body_footer() {
 	return ob_get_clean();
 }
 
-function sd_get_email_body($notification = ''){
-	
+function sd_get_email_body( $ticket_id ){
+	$customer_id = sd_get_ticket_customer($ticket_id);
+
+	$body = 'A new ticket has been created by ' . html_entity_decode( sd_get_customer_display_name($customer_id), ENT_COMPAT, 'UTF-8' ) . "\n\n";
+	$body .= 'Issue: ' . html_entity_decode( sd_get_ticket_issue($ticket_id), ENT_COMPAT, 'UTF-8' ) . "\n\n";
+	$body .= 'Details: ';
+
+	return $body;
 }
 
 function sd_get_email_subject($ticket_id){
