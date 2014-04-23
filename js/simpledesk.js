@@ -5,6 +5,7 @@ jQuery(document).ready(function($){
 	/********************/
 	$('#customer-country').chosen();
 	$('#customer-type').chosen();
+	$('#customer-state').chosen();
 
 	/*********************/
 	/*	Add Ticket Page  */

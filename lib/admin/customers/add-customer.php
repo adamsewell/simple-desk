@@ -74,7 +74,11 @@ screen_icon();
 						<input type="text" name="customer[city]" id="customer-city" class="medium" placeholder="City" />
 					</span>
 					<span>
-						<input type="text" name="customer[state]" id="customer-state" class="medium" placeholder="State" />
+						<?php $states = sd_get_states(); ?>
+						<select name="customer[state]" id="customer-state">
+							<option><?php _e('State'); ?></option>
+							<?php echo sd_menuoptions($states, $selected, true); ?>
+						</select>
 					</span>
 					<span>
 						<input type="text" name="customer[zip]" id="customer-zip" class="medium" placeholder="Zip Code" />

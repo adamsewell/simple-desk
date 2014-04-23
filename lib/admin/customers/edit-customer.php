@@ -81,7 +81,14 @@ $customer = sd_get_customer($customer_id);
 						<input type="text" name="customer[city]" id="customer-city" class="medium" placeholder="City" value="<?php echo esc_attr(sd_get_customer_city($customer_id)); ?>" />
 					</span>
 					<span>
-						<input type="text" name="customer[state]" id="customer-state" class="medium" placeholder="State" value="<?php echo esc_attr(sd_get_customer_state($customer_id)); ?>" />
+						<?php 
+							$states = sd_get_states(); 
+							$selected = sd_get_customer_state($customer_id);
+						?>
+						<select name="customer[state]" id="customer-state">
+							<option><?php _e('State'); ?></option>
+							<?php echo sd_menuoptions($states, $selected, true); ?>
+						</select>					
 					</span>
 					<span>
 						<input type="text" name="customer[zip]" id="customer-zip" class="medium" placeholder="Zip Code" value="<?php echo esc_attr(sd_get_customer_zip($customer_id)); ?>" />
