@@ -354,19 +354,13 @@ function sd_get_states() {
 		'WY' => 'Wyoming',
 		'AS' => 'American Samoa',
 		'CZ' => 'Canal Zone',
-		'CM' => 'Commonwealth of the Northern Mariana Islands',
-		'FM' => 'Federated States of Micronesia',
 		'GU' => 'Guam',
 		'MH' => 'Marshall Islands',
 		'MP' => 'Northern Mariana Islands',
 		'PW' => 'Palau',
 		'PI' => 'Philippine Islands',
 		'PR' => 'Puerto Rico',
-		'TT' => 'Trust Territory of the Pacific Islands',
-		'VI' => 'Virgin Islands',
-		'AA' => 'Armed Forces - Americas',
-		'AE' => 'Armed Forces - Europe, Canada, Middle East, Africa',
-		'AP' => 'Armed Forces - Pacific'
+		'VI' => 'Virgin Islands'
 	);
 	return $states;
 }
