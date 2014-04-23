@@ -76,15 +76,15 @@ class SimpleDeskCustomerTable extends WP_List_Table{
 
     function column_title($item){
         //title
-        $title = '<a href="' . add_query_arg(array('sd_page' => 'edit_customer', 'cid' => absint($item['ID']))) . '">'. $item['title'] .'</a>';
+        $title = '<a href="' . add_query_arg(array('sd_page' => 'edit_customer', 'cid' => absint($item['ID'])), remove_query_arg('sd-message')) . '">'. $item['title'] .'</a>';
        
         //Build row actions
         $row_actions = array();
 
-        $row_actions['edit'] = '<a href="'. add_query_arg(array('sd_page' => 'edit_customer', 'cid' => absint($item['ID']))) . '">'. __('Edit', 'sd') .'</a>';
+        $row_actions['edit'] = '<a href="'. add_query_arg(array('sd_page' => 'edit_customer', 'cid' => absint($item['ID'])), remove_query_arg('sd-message')) . '">'. __('Edit', 'sd') .'</a>';
 
         if(current_user_can('delete_sd_customers')){
-             $row_actions['delete'] = '<a href="'. wp_nonce_url(add_query_arg(array('sd_action' => 'delete_customer', 'cid' => absint($item['ID']))), 'sd-delete-customer') . '">'. __('Delete', 'sd') .'</a>';
+             $row_actions['delete'] = '<a href="'. wp_nonce_url(add_query_arg(array('sd_action' => 'delete_customer', 'cid' => absint($item['ID'])), remove_query_arg('sd-message')), 'sd-delete-customer') . '">'. __('Delete', 'sd') .'</a>';
         }
 
         return stripslashes($title) . $this->row_actions($row_actions);

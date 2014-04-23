@@ -96,15 +96,15 @@ class SimpleDeskTicketTable extends WP_List_Table{
     }
 
     function column_issue($item){
-        $title = '<a href="' . add_query_arg(array('sd_page' => 'edit_ticket', 'tid' => absint($item['ID']))) . '">'. $item['issue'] .'</a>';
+        $title = '<a href="' . add_query_arg(array('sd_page' => 'edit_ticket', 'tid' => absint($item['ID'])), remove_query_arg('sd-message')) . '">'. $item['issue'] .'</a>';
        
         //Build row actions
         $row_actions = array();
 
-        $row_actions['edit'] = '<a href="'. add_query_arg(array('sd_page' => 'edit_ticket', 'tid' => absint($item['ID']))) . '">'. __('Edit', 'sd') .'</a>';
+        $row_actions['edit'] = '<a href="'. add_query_arg(array('sd_page' => 'edit_ticket', 'tid' => absint($item['ID'])), remove_query_arg('sd-message')) . '">'. __('Edit', 'sd') .'</a>';
 
         if(current_user_can('delete_sd_tickets')){
-             $row_actions['delete'] = '<a href="'. wp_nonce_url(add_query_arg(array('sd_action' => 'delete_ticket', 'tid' => absint($item['ID']))), 'sd-delete-ticket') . '">'. __('Delete', 'sd') .'</a>';
+             $row_actions['delete'] = '<a href="'. wp_nonce_url(add_query_arg(array('sd_action' => 'delete_ticket', 'tid' => absint($item['ID'])), remove_query_arg('sd-message')), 'sd-delete-ticket') . '">'. __('Delete', 'sd') .'</a>';
         }
 
         return stripslashes($title) . $this->row_actions($row_actions);
