@@ -36,14 +36,16 @@ function sd_modify_get_tickets_default($orderby){
 	return $orderby;
 }
 
-function sd_get_tickets_count( $status = 'new' ){
+function sd_get_tickets_count( $status = 'new', $cid = '' ){
 	$user = wp_get_current_user();
 	global $wpdb;
 
-	if($status == 'all'){
+	if($status == 'notresolved'){
 		$query = "SELECT count(post_status) FROM $wpdb->posts WHERE post_type = 'simple-desk-ticket' AND post_status != 'resolved';";
 	}elseif($status == 'mine'){
 		$query = "SELECT count(post_status) FROM $wpdb->posts LEFT JOIN $wpdb->postmeta ON $wpdb->posts.ID = $wpdb->postmeta.post_id WHERE $wpdb->posts.post_type = 'simple-desk-ticket' AND $wpdb->posts.post_status != 'resolved' AND $wpdb->postmeta.meta_key = '_sd_ticket_assign' AND $wpdb->postmeta.meta_value = '$user->ID';";
+	}elseif($status == 'all' && isset($cid)){
+		$query = "SELECT count(post_status) FROM $wpdb->posts LEFT JOIN $wpdb->postmeta ON $wpdb->posts.ID = $wpdb->postmeta.post_id WHERE $wpdb->posts.post_type = 'simple-desk-ticket' AND $wpdb->postmeta.meta_key = '_sd_ticket_customer' AND $wpdb->postmeta.meta_value = '".absint($cid)."';";
 	}else{
 		$query = "SELECT count(post_status) FROM $wpdb->posts WHERE post_type = 'simple-desk-ticket' AND post_status = '$status';";
 	}

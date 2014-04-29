@@ -90,12 +90,12 @@ function sd_render_edit_customer_meta(){
 	</p>
 	<p>
 		<span>
-			<strong>Open Tickets:</strong> <a href="#"><?php echo absint(sd_get_customer_ticket_count($customer_id)); ?></a>
+			<strong>Open Tickets:</strong>  <a href="<?php echo add_query_arg(array('cid' => absint($customer_id), 'status' => 'open'), admin_url( 'admin.php?page=simple-desk' )) ?>"><?php echo absint(sd_get_customer_ticket_count($customer_id)); ?></a>
 		</span>
 	</p>
 	<p>
 		<span>
-			<strong>Total Tickets:</strong> <a href="#">1</a>
+			<strong>Total Tickets:</strong> <a href="<?php echo add_query_arg(array('cid' => absint($customer_id), 'status' => 'all'), admin_url( 'admin.php?page=simple-desk' )) ?>"><?php echo absint(sd_get_tickets_count('all', $customer_id)); ?></a>
 		</span>
 	</p>
 <?php

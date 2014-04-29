@@ -66,7 +66,7 @@ class SimpleDeskTicketTable extends WP_List_Table{
         $base_url = admin_url('admin.php?page=simple-desk');
 
         $current = isset( $_GET['status'] ) ? $_GET['status'] : '';
-        $all_count = '&nbsp;<span class="count">(' . sd_get_tickets_count('all') . ')</span>';
+        $notresolved_count = '&nbsp;<span class="count">(' . sd_get_tickets_count('notresolved') . ')</span>';
         $mine_count = '&nbsp;<span class="count">(' . sd_get_tickets_count('mine') . ')</span>';
         $new_count = '&nbsp;<span class="count">(' . sd_get_tickets_count('new') . ')</span>';
         $inprogress_count = '&nbsp;<span class="count">(' . sd_get_tickets_count('inprogress') . ')</span>';
@@ -75,7 +75,7 @@ class SimpleDeskTicketTable extends WP_List_Table{
         $resovled_count = '&nbsp;<span class="count">(' . sd_get_tickets_count('resolved') . ')</span>';
 
         $views = array(
-            'all' => sprintf( '<a href="%s"%s>%s</a>', remove_query_arg( 'status', $base_url ), $current === 'all' || $current == '' ? ' class="current"' : '', __('All', 'sd') . $all_count ),
+            'all' => sprintf( '<a href="%s"%s>%s</a>', remove_query_arg( 'status', $base_url ), $current === 'all' || $current == '' ? ' class="current"' : '', __('All', 'sd') . $notresolved_count ),
             'mine' => sprintf( '<a href="%s"%s>%s</a>', add_query_arg( 'status', 'mine', $base_url ), $current === 'mine' ? ' class="current"' : '', __('Mine', 'sd') . $mine_count ),
             'new' => sprintf( '<a href="%s"%s>%s</a>', add_query_arg( 'status', 'new', $base_url ), $current === 'new' ? ' class="current"' : '', __('New', 'sd') . $new_count ),
             'inprogress' => sprintf( '<a href="%s"%s>%s</a>', add_query_arg( 'status', 'inprogress', $base_url ), $current === 'inprogress' ? ' class="current"' : '', __('In Progress', 'sd') . $inprogress_count ),
@@ -217,21 +217,39 @@ class SimpleDeskTicketTable extends WP_List_Table{
         $tickets_data = array();
         $per_page = 25;
         $current_user = wp_get_current_user();
+        $meta_key = '';
+        $meta_value = '';
 
         $status = isset( $_GET['status'] ) ? $_GET['status'] : array('new', 'inprogress', 'waitingonme', 'waitingoncustomer');
-        $search = isset( $_GET['s'] ) ? sanitize_text_field( $_GET['s'] ) : null;
+        $search = isset( $_GET['s'] ) ? sanitize_text_field( $_GET['s'] ) : '';
+        $customer = isset( $_GET['cid'] ) ? absint($_GET['cid']): '';
+
+        if($status == 'mine'){
+            $meta_key = '_sd_ticket_assign';
+            $meta_value = $current_user->ID;
+        }elseif($status == 'open' && isset($customer)){
+            $meta_key = '_sd_ticket_customer';
+            $meta_value = $customer;
+            $status = array('new', 'inprogress', 'waitingonme', 'waitingoncustomer');
+        }elseif($status == 'all' && isset($customer)){
+            $meta_key = '_sd_ticket_customer';
+            $meta_value = $customer;
+            $status = 'all';  
+        }
 
         $args = array(
             'post_type' => 'simple-desk-ticket',
             'paged' => isset( $_GET['paged'] ) ? $_GET['paged'] : 1,
-            'meta_key' => $status == 'mine' ? '_sd_ticket_assign' : '',
-            'meta_value' => $status == 'mine' ? $current_user->ID : '',
+            'meta_key' => $meta_key,
+            'meta_value' => $meta_value,
             'posts_per_page' => $per_page,
             'orderby' => $orderby,
-            'post_status' => $status == 'mine' ? array('new', 'inprogress', 'waitingonme', 'waitingoncustomer') : $status,
+            'post_status' => $status,
             'order' => $order,
             's' => $search
         );
+
+        print_r($args);
 
         add_filter('posts_orderby', 'sd_modify_get_tickets_default');
 

@@ -98,6 +98,12 @@ class SimpleDeskCustomerTable extends WP_List_Table{
         return sprintf('<a href="tel:%1$s">%1$s</a>', $item['phone']);
     }
 
+    function column_tickets($item){
+        $ticket_url = admin_url( 'admin.php?page=simple-desk' );
+        return '<a href="' . add_query_arg(array('cid' => absint($item['ID']), 'status' => 'open'), $ticket_url) . '">' . absint($item['tickets']) . '</a>';
+
+    }
+
     function column_created($item){
         $time_date_format = get_option('date_format') . ' ' . get_option('time_format');
         return mysql2date($time_date_format, $item['created']);
