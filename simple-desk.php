@@ -36,11 +36,6 @@ class SimpleDesk {
 
 	function __construct() {
 		$this->includes();
-
-		add_action('admin_init', array($this, 'sd_register_settings'));
-
-		register_activation_hook( __FILE__, array( $this, 'on_activation' ) );
-		register_deactivation_hook( __FILE__, array( $this, 'on_deactivation' ) );
 	}
 
 	function includes(){
@@ -75,41 +70,12 @@ class SimpleDesk {
 
 			//import and exports
 			require_once SIMPLEDESK_BASE_DIR . 'lib/admin/import/ui.php';
+
+			//settings
+			require_once SIMPLEDESK_BASE_DIR . 'lib/admin/settings/settings.php';
 		}
 
 		require_once SIMPLEDESK_BASE_DIR . 'lib/install.php';
-
-
-	}
-
-	//register out settings page
-	function sd_register_settings(){
-
-		//Our general section
-		add_settings_section(
-			'sd_general_settings',
-			'General Settings',
-			array('SimpleDeskAdmin', 'display_general_description'),
-			'simple-desk-settings-general'
-		);
-
-		add_settings_field(
-			'test_field',
-			'Test Field',
-			array('SimpleDeskAdmin', 'display_general_description'),
-			'simple-desk-settings-general',
-			'sd_general_settings',
-			array('this is a test')
-		);
-
-		register_setting('simple-desk-settings-general', 'test_field');
-	}
-
-	function on_activation() {
-
-	}
-
-	function on_deactivation() {
 	}
 
 }

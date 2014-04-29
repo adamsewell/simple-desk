@@ -16,7 +16,7 @@ function add_simple_desk_pages() {
 	add_submenu_page('simple-desk', 'Simple Desk', 'Tickets', 'read_sd_tickets', 'simple-desk', 'sd_display_tickets');
 	add_submenu_page('simple-desk', 'Customer', 'Customers', 'read_sd_customers', 'simple-desk-customer-page', 'sd_display_customers' );
 	add_submenu_page('simple-desk', 'Import/Export', 'Import/Export', 'edit_posts', 'simple-desk-import-export', 'sd_display_import_page');
-	add_submenu_page('simple-desk', 'Settings', 'Settings', 'edit_posts', 'simple-desk-settings-page', array( 'SimpleDeskAdmin', 'display_settings' ));
+	add_submenu_page('simple-desk', 'Settings', 'Settings', 'edit_posts', 'simple-desk-settings-page', 'sd_display_settings_page');
 }
 
 add_action( 'admin_menu', 'add_simple_desk_pages', 10 );
