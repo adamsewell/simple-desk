@@ -249,8 +249,6 @@ class SimpleDeskTicketTable extends WP_List_Table{
             's' => $search
         );
 
-        print_r($args);
-
         add_filter('posts_orderby', 'sd_modify_get_tickets_default');
 
         $tickets = sd_get_tickets($args);
