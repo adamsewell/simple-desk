@@ -20,6 +20,11 @@ function sd_get_tickets( $args = array() ){
 		'post_status' => array('new', 'inprogress', 'waitingonme', 'waitingoncustomer')
 	);
 
+	//check status to handle our custom post statuses - see also sd_get_tickets_count
+	if($args['post_status'] == 'mine'){
+		$args['post_status'] = $defaults['post_status'];
+	}
+
 	$args = wp_parse_args( $args, $defaults );
 
 	$tickets = new WP_Query( $args );
