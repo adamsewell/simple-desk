@@ -71,7 +71,7 @@ class SimpleDeskTicketTable extends WP_List_Table{
         $new_count = '&nbsp;<span class="count">(' . sd_get_tickets_count('new') . ')</span>';
         $inprogress_count = '&nbsp;<span class="count">(' . sd_get_tickets_count('inprogress') . ')</span>';
         $waitingonme_count = '&nbsp;<span class="count">(' . sd_get_tickets_count('waitingonme') . ')</span>';
-        $waitingoncustomer_count = '&nbsp;<span class="count">(' . sd_get_tickets_count('waitingonustomer') . ')</span>';
+        $waitingoncustomer_count = '&nbsp;<span class="count">(' . sd_get_tickets_count('waitingoncustomer') . ')</span>';
         $resovled_count = '&nbsp;<span class="count">(' . sd_get_tickets_count('resolved') . ')</span>';
 
         $views = array(
