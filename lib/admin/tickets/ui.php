@@ -32,9 +32,14 @@ function sd_display_tickets(){
                 <a href="<?php echo add_query_arg( array( 'sd_page' => 'add_ticket' ) ); ?>" class="add-new-h2">Add New</a>
             </h2>
             <form id="sd_search_form" method="get" action="<?php echo admin_url('admin.php'); ?>">
-                <!-- for some reason, adding page=simple-desk to the admin_url above was
-                    being stripped out. using a hidden input tag seems to have fixed the issue -->
+                <!-- the following hidden tag is needed to be placed on the right page -->
                 <input type="hidden" name="page" id="page" value="simple-desk" />
+
+                <!-- maintain status if present on search so we can search through the different statuses -->
+                <?php if(!empty($_GET['status'])): ?>
+                    <input type="hidden" name="status" id="status" value="<?php echo esc_attr($_GET['status']); ?>" />
+                <?php endif; ?>
+                
                 <?php $Tickets->search_box('Search', 'sd-tickets'); ?>
             </form>
             <form id="sd_ticket" method="get" action="">
