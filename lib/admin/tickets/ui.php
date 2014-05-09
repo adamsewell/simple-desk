@@ -29,7 +29,7 @@ function sd_display_tickets(){
             <div id="icon-edit-comments" class="icon32"></div>
             <h2>
                 <?php _e('Tickets'); ?> 
-                <a href="<?php echo add_query_arg( array( 'sd_page' => 'add_ticket' ) ); ?>" class="add-new-h2">Add New</a>
+                <a href="<?php echo add_query_arg( array( 'sd_page' => 'add_ticket' ), remove_query_arg('sd-message') ); ?>" class="add-new-h2">Add New</a>
             </h2>
             <form id="sd_search_form" method="get" action="<?php echo admin_url('admin.php'); ?>">
                 <!-- the following hidden tag is needed to be placed on the right page -->
@@ -39,7 +39,7 @@ function sd_display_tickets(){
                 <?php if(!empty($_GET['status'])): ?>
                     <input type="hidden" name="status" id="status" value="<?php echo esc_attr($_GET['status']); ?>" />
                 <?php endif; ?>
-                
+
                 <?php $Tickets->search_box('Search', 'sd-tickets'); ?>
             </form>
             <form id="sd_ticket" method="get" action="">
@@ -227,7 +227,9 @@ class SimpleDeskTicketTable extends WP_List_Table{
 
         $status = isset( $_GET['status'] ) ? $_GET['status'] : array('new', 'inprogress', 'waitingonme', 'waitingoncustomer');
         $search = isset( $_GET['s'] ) ? sanitize_text_field( $_GET['s'] ) : '';
-        $customer = isset( $_GET['cid'] ) ? absint($_GET['cid']): '';
+        $customer = isset( $_GET['cid'] ) ? absint($_GET['cid']) : '';
+        $orderby  = isset( $_GET['orderby'] ) ? $_GET['orderby'] : '';
+        $order  = isset( $_GET['order'] ) ? $_GET['order'] : '';
 
         if($status == 'mine'){
             $meta_key = '_sd_ticket_assign';

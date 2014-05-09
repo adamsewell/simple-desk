@@ -30,7 +30,7 @@ function sd_display_customers(){
         <div class="wrap">
             <h2>
                 <?php _e('Customers'); ?> 
-                <a href="<?php echo add_query_arg( array( 'sd_page' => 'add_customer' ) ); ?>" class="add-new-h2">Add New</a>
+                <a href="<?php echo add_query_arg( array( 'sd_page' => 'add_customer' ), remove_query_arg('sd-message') ); ?>" class="add-new-h2">Add New</a>
             </h2>
             <form id="sd_search_form" method="get" action="<?php echo admin_url('admin.php'); ?>">
                 <!-- for some reason, adding page=simple-desk to the admin_url above was

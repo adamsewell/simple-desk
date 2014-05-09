@@ -1,8 +1,6 @@
 <?php
 /***********************
-
 	Edit Ticket Page
-
 ***********************/
 
 // Exit if accessed directly
