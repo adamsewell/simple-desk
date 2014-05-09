@@ -31,7 +31,7 @@ add_action('sd_edit_customer', 'sd_edit_customer');
 function sd_delete_customer($data){
 	if(isset($data['_wpnonce']) && wp_verify_nonce($data['_wpnonce'], 'sd-delete-customer')){
 		if(!wp_delete_post( $data['cid'], true )){
-			wp_redirect( add_query_arg( 'sd-message', 'customer_deleted', $data['sd_url_redirect'] ) );
+			wp_redirect( add_query_arg( 'sd-message', 'customer_deleted', admin_url('admin.php?page=simple-desk-customer-page') ) );
 		}		
 	}
 }
