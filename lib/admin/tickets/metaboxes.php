@@ -133,16 +133,20 @@ function sd_render_customer_history(){
 		'posts_per_page' => 5
 	));
 ?>
-	<ol>
-		<?php foreach($customer_history as $history): ?>
-			<li>
-				<?php $url = add_query_arg( array('sd_page' => 'edit_ticket', 'tid' => $history->ID),  admin_url('admin.php?page=simple-desk')); ?>
-				<a href="<?php echo $url; ?>"><?php echo $history->post_title; ?></a> - 
-				<?php echo mysql2date(get_option('date_format'), $history->post_modified); ?>
-			</li>
+	<?php if(!empty($customer_history)): ?>
+		<ol>
+			<?php foreach($customer_history as $history): ?>
+				<li>
+					<?php $url = add_query_arg( array('sd_page' => 'edit_ticket', 'tid' => $history->ID),  admin_url('admin.php?page=simple-desk')); ?>
+					<a href="<?php echo $url; ?>"><?php echo $history->post_title; ?></a> - 
+					<?php echo mysql2date(get_option('date_format'), $history->post_modified); ?>
+				</li>
 
-		<?php endforeach; ?>
-	</ol>
+			<?php endforeach; ?>
+		</ol>
+	<?php else: ?>
+		<?php _e('No previous tickets found', 'sd'); ?>
+	<?php endif; ?>
 <?php
 }
 

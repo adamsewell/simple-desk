@@ -87,7 +87,7 @@ function sd_add_new_ticket( $ticket ){
 		}
 
 		//tech and customer notification
-		sd_email_new_ticket_notification($ticket_id);
+		//sd_email_new_ticket_notification($ticket_id);
 
 		return $ticket_id;
 	}
