@@ -21,18 +21,19 @@ $ticket = sd_get_ticket($ticket_id);
 	<div id="poststuff">
 		<div id="post-body" class="metabox-holder columns-<?php echo 1 == get_current_screen()->get_columns() ? '1' : '2'; ?>"> 
 			<div id="post-body-content">
-				<h3 class="section_header">
-					<?php _e('Your Response', 'sd'); ?> 
-					<img src="<?php echo admin_url('/images/wpspin_light.gif'); ?>" class="waiting" id="response-loading" style="display: none;" />
-				</h3>
-
-				<div class="ticket_reponse_box">
-					<textarea name="response[message]" id="response-message"></textarea>
-<!-- 					<div class="ticket_response_actions">
-						<label for="response-private"><input type="checkbox" name="reponse[private]" id="response-private" /><?php _e('Private?', 'sd')?></label>
-						<input type="button" name="response[submit]" id="response-submit" class="button-primary" value="Reply" />
-					</div> -->
-				</div>
+				<?php if($ticket->post_status != 'resolved'): ?>
+					<h3 class="section_header">
+						<?php _e('Your Response', 'sd'); ?> 
+						<img src="<?php echo admin_url('/images/wpspin_light.gif'); ?>" class="waiting" id="response-loading" style="display: none;" />
+					</h3>
+					<div class="ticket_reponse_box">
+						<textarea name="response[message]" id="response-message"></textarea>
+	<!-- 					<div class="ticket_response_actions">
+							<label for="response-private"><input type="checkbox" name="reponse[private]" id="response-private" /><?php _e('Private?', 'sd')?></label>
+							<input type="button" name="response[submit]" id="response-submit" class="button-primary" value="Reply" />
+						</div> -->
+					</div>
+				<?php endif; ?>
 
 				<h3 class="section_header"><?php _e('Ticket History', 'sd'); ?></h3>
 
