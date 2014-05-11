@@ -149,6 +149,7 @@ function sd_render_customer_history(){
 function sd_render_customer_information(){
 	$ticket_id = absint($_GET['tid']);
 	$customer_id = sd_get_ticket_customer($ticket_id);
+	$ticket_url = admin_url( 'admin.php?page=simple-desk' );
 ?>
 	<p>
 		<span>
@@ -157,7 +158,7 @@ function sd_render_customer_information(){
 	</p>
 	<p>
 		<span>
-			<strong>Open Tickets:</strong> <a href="#"><?php echo absint(sd_get_customer_ticket_count($customer_id)); ?></a>
+			<strong>Open Tickets:</strong> <a href="<?php echo add_query_arg(array('cid' => $customer_id, 'status' => 'open'), $ticket_url) ?>"><?php echo absint(sd_get_customer_ticket_count($customer_id)); ?></a>
 		</span>
 	</p>
 	<p>
