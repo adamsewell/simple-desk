@@ -21,17 +21,17 @@ function sd_email_new_ticket_notification( $ticket_id ){
 	}
 
 	$headers .= "Reply-To: ". get_option('admin_email') . "\r\n";
-	//$headers .= "Content-Type: text/html; charset=utf-8\r\n";
+	$headers .= "Content-Type: text/html; charset=utf-8\r\n";
 
 	//subject
 	$subject = '[#' . absint($ticket_id) .'] New Ticket Created - ' . wp_strip_all_tags(sd_get_email_subject($ticket_id), true);
 	
 	//message
-	//$message = sd_get_email_body_header();
-	$message = wp_strip_all_tags( sd_get_email_body( $ticket_id ), true);
-	//$message .= sd_get_email_body_footer();
+	$body = sd_get_email_body_header();
+	$body .= sd_get_email_body( $ticket_id );
+	$body .= sd_get_email_body_footer();
 
-	$mail = wp_mail($customer_email, $subject, $message, $headers);
+	$mail = wp_mail($customer_email, $subject, $body, $headers);
 
 	return $mail;
 }

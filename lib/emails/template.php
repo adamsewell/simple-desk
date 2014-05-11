@@ -9,11 +9,13 @@ if ( !defined( 'ABSPATH' ) ) exit;
 function sd_get_email_body_header() {
 	ob_start();
 ?>
-	<html>
+	<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+	<html xmlns="http://www.w3.org/1999/xhtml">
 			<head>
-				<style type="text/css">#outlook a { padding: 0; }</style>
+				<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+				<meta name="viewport" content="width=device-width"/>
 			</head>
-		<body>
+		 <body>
 <?php
 	return ob_get_clean();
 }
@@ -30,11 +32,11 @@ function sd_get_email_body_footer() {
 function sd_get_email_body( $ticket_id ){
 	$customer_id = sd_get_ticket_customer($ticket_id);
 
-	$body = 'A new ticket has been created by ' . html_entity_decode( sd_get_customer_display_name($customer_id), ENT_COMPAT, 'UTF-8' ) . "\n\n";
-	$body .= 'Issue: ' . html_entity_decode( sd_get_ticket_issue($ticket_id), ENT_COMPAT, 'UTF-8' ) . "\n\n";
-	$body .= 'Details: ';
+	ob_start();
+?>
 
-	return $body;
+<?php
+	return ob_get_clean();
 }
 
 function sd_get_email_subject($ticket_id){
