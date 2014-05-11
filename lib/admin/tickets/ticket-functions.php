@@ -122,7 +122,7 @@ function sd_edit_existing_ticket( $ticket, $response = ''){
 			}		
 		}
 
-		//add ticket response to history if present
+		//add ticket response to log if present
 		if(!empty($response['message'])){
 			sd_save_ticket_reply($ticket_id, $response['message'], $response['private']);
 		}
@@ -165,7 +165,7 @@ function sd_save_ticket_reply( $ticket_id, $reply, $private = false){
 	return false;
 }
 
-function sd_get_ticket_history( $ticket_id ){
+function sd_get_ticket_log( $ticket_id ){
 
 	$args = array(
 		'orderby' => 'comment_date',
@@ -187,9 +187,9 @@ function sd_get_ticket_history( $ticket_id ){
 	return false;
 }
 
-function sd_render_ticket_history ( $ticket_id ){
+function sd_render_ticket_log ( $ticket_id ){
 	if(!empty($ticket_id)){
-		$responses = sd_get_ticket_history($ticket_id);
+		$responses = sd_get_ticket_log($ticket_id);
 
 		if(empty($responses)) return false;
 		

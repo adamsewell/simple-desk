@@ -38,7 +38,7 @@ $ticket = sd_get_ticket($ticket_id);
 
 				<div id="ticket_history">
 					<!-- Ticket Responses -->
-					<?php $history = sd_render_ticket_history( $ticket_id ); ?>
+					<?php $history = sd_render_ticket_log( $ticket_id ); ?>
 					<?php echo $history; ?>
 				</div>
 
