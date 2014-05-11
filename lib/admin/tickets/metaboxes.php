@@ -136,8 +136,8 @@ function sd_render_customer_history(){
 	<ol>
 		<?php foreach($customer_history as $history): ?>
 			<li>
-				<?php //echo '#' . absint($history->ID) .': '; ?>
-				<a href="#"><?php echo $history->post_title; ?></a> - 
+				<?php $url = add_query_arg( array('sd_page' => 'edit_ticket', 'tid' => $history->ID),  admin_url('admin.php?page=simple-desk')); ?>
+				<a href="<?php echo $url; ?>"><?php echo $history->post_title; ?></a> - 
 				<?php echo mysql2date(get_option('date_format'), $history->post_modified); ?>
 			</li>
 
