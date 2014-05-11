@@ -19,6 +19,8 @@ function sd_add_ticket_meta_boxes(){
 	//view/edit ticket page
 	add_meta_box('sd_ticket_edit_meta', __('Ticket Actions', 'sd'), 'sd_render_edit_ticket_actions', 'sd_edit-ticket-page', 'side', 'core');
 	add_meta_box('sd_ticket_edit_customer_info', __('Customer Information', 'sd'), 'sd_render_customer_information', 'sd_edit-ticket-page', 'side', 'core');
+	add_meta_box('sd_ticket_customer_history', __('Customer History', 'sd'), 'sd_render_customer_history', 'sd_edit-ticket-page', 'side', 'core');
+
 }
 add_action('load-toplevel_page_simple-desk', 'sd_add_ticket_meta_boxes');
 
@@ -116,6 +118,31 @@ function sd_render_edit_ticket_actions(){
 			</span>
 		</p>
 	</div>
+<?php
+}
+
+function sd_render_customer_history(){
+	$ticket_id = absint($_GET['tid']);
+	$customer_id = sd_get_ticket_customer($ticket_id);
+	$customer_history = sd_get_tickets(array(
+		'post_status' => 'resolved', 
+		'meta_key' => '_sd_ticket_customer', 
+		'meta_value' => $customer_id, 
+		'orderby' => 'post_modified', 
+		'order' => 'DESC',
+		'posts_per_page' => 5
+	));
+?>
+	<ol>
+		<?php foreach($customer_history as $history): ?>
+			<li>
+				<?php //echo '#' . absint($history->ID) .': '; ?>
+				<a href="#"><?php echo $history->post_title; ?></a> - 
+				<?php echo mysql2date(get_option('date_format'), $history->post_modified); ?>
+			</li>
+
+		<?php endforeach; ?>
+	</ol>
 <?php
 }
 
