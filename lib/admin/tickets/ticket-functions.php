@@ -155,7 +155,6 @@ function sd_save_ticket_reply( $ticket_id, $reply, $private = false){
 				update_comment_meta($reply_id, '_sd_reply_private', 'true');
 			}else{
 				//send ticket update notification
-				sd_send_email($ticket_id, 'update');
 			}
 		}
 
