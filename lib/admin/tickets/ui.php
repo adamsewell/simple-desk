@@ -132,8 +132,13 @@ class SimpleDeskTicketTable extends WP_List_Table{
     }
 
     function column_modified($item){
-        $time_date_format = get_option('date_format') . ' ' . get_option('time_format');
-        return mysql2date($time_date_format, $item['modified']);
+        if(strtotime($item['modified']) > strtotime('-2 weeks')){
+            return human_time_diff( strtotime($item['modified']), current_time('timestamp')) . ' ago';
+        }else{
+            $time_date_format = get_option('date_format') . ' ' . get_option('time_format');
+            return mysql2date($time_date_format, $item['modified']);        
+        }
+
     }
 
     function column_assign($item){
