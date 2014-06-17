@@ -106,10 +106,16 @@ function sd_edit_existing_ticket( $ticket, $response = ''){
 	if(is_array($ticket)){
 		//grab the current status to check and see if it has changed later
 		$current_ticket_status = sd_get_ticket_status($ticket['id']);
+		$current_assigned_tech = sd_get_ticket_tech($ticket['id']);
 
 		//if the current status has changed, log it. 
 		if($current_ticket_status != $ticket['status']){
 			sd_log_status_change($ticket['id'], sanitize_text_field($ticket['status']));
+		}
+
+		//if the assigned tech has changed, log it. 
+		if($current_assigned_tech != $ticket['assign']){
+			sd_log_tech_change($ticket['id'], $ticket['assign']);
 		}
 
 		//update the ticket general information. 
@@ -259,8 +265,10 @@ function sd_log_status_change($ticket_id, $status){
 	return sd_save_ticket_reply($ticket_id, $message, true);
 }
 
-function sd_log_tech_change($ticket_id, $tech){
-
+function sd_log_tech_change($ticket_id, $tech_id){
+	$tech_data = get_userdata($tech_id);
+	$message = __('The assigned technician has changed. The new technician is: ' . $tech_data->display_name);
+	return sd_save_ticket_reply($ticket_id, $message, true);
 }
 
 function sd_get_technicians($list = false, $email = false){
