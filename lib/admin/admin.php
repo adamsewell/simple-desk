@@ -19,9 +19,7 @@ class SimpleDeskAdmin extends SimpleDesk{
     }
 
     private static function includes(){
-        var_dump('test');
         require_once SIMPLEDESK_BASE_DIR . 'views/customers/customer-actions.php';
-
     }
 
     /*

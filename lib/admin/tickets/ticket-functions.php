@@ -86,8 +86,11 @@ function sd_add_new_ticket( $ticket ){
 			sd_log_status_change($ticket_id, $ticket_status);
 		}
 
-		//tech and customer notification
-		//sd_email_new_ticket_notification($ticket_id);
+		//notify technician(s)
+		sd_new_ticket_notification_techs($ticket_id);
+
+		//notify customer
+		//
 
 		return $ticket_id;
 	}
