@@ -132,7 +132,7 @@ class SimpleDeskTicketTable extends WP_List_Table{
     }
 
     function column_modified($item){
-        if(strtotime($item['modified']) > strtotime('-2 weeks')){
+        if(strtotime($item['modified']) > strtotime('-1 week')){
             return human_time_diff( strtotime($item['modified']), current_time('timestamp')) . ' ago';
         }else{
             $time_date_format = get_option('date_format') . ' ' . get_option('time_format');

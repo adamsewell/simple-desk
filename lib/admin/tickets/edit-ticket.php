@@ -52,8 +52,12 @@ $ticket = sd_get_ticket($ticket_id);
 									<?php echo esc_attr(get_the_author_meta('display_name', $ticket->post_author)); ?> submitted this issue.
 								</span>
 								<span class="issue-meta">
-									<?php $time_date_format = get_option('date_format') . ' ' . get_option('time_format'); ?>
-									<?php echo mysql2date($time_date_format, $ticket->post_date); ?>
+									<?php if(strtotime($ticket->post_date) > strtotime('-1 week')): ?>
+										<?php echo human_time_diff( strtotime($item['modified']), current_time('timestamp')) . ' ago'; ?>
+									<?php else: ?>
+										<?php $time_date_format = get_option('date_format') . ' ' . get_option('time_format'); ?>
+										<?php echo mysql2date($time_date_format, $ticket->post_date); ?>
+									<?php endif; ?>
 								</span>
 							</p>
 							<p class="issue-message">
