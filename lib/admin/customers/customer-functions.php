@@ -48,8 +48,17 @@ function sd_save_customer( $customer ){
 
 function sd_update_customer( $customer ){
 	if(is_array($customer)){
+
+		//update the customer display name
+		if(sd_get_customer_type($customer['id']) == 'commercial'){
+			$display_name = $customer['company'];
+		}else{
+			$display_name = $customer['fname'] . ' ' . $customer['lname'];
+		}
+
 		$customer_id = wp_update_post(array(
 			'ID' => absint($customer['id']),
+			'post_title' => $display_name
 		));
 
 		if(is_int($customer_id)){
