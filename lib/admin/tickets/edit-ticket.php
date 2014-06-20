@@ -39,8 +39,36 @@ $ticket = sd_get_ticket($ticket_id);
 
 				<div id="ticket_history">
 					<!-- Ticket Responses -->
-					<?php $history = sd_render_ticket_log( $ticket_id ); ?>
-					<?php echo $history; ?>
+					<?php
+						$responses = sd_get_ticket_log($ticket_id);
+						if(empty($responses)) return false;
+						ob_start();
+						foreach($responses as $response):
+					?>
+							<div class="issue-response-wrap <?php echo (empty($response->private) ? '' : 'private-reply'); ?>">
+								<div class="issue-response">
+									<p class="issue-header">
+										<span class="issue-response-author">
+											<?php echo esc_attr($response->comment_author); ?> updated this ticket.
+										</span>
+										<span class="issue-meta">
+											<?php echo (empty($response->private) ? '' : '[Private Reply]'); ?>
+											<?php if(strtotime($ticket->post_date) > strtotime('-1 week')): ?>
+												<?php echo human_time_diff( strtotime($ticket->post_date), current_time('timestamp')) . ' ago'; ?>
+											<?php else: ?>
+												<?php $time_date_format = get_option('date_format') . ' ' . get_option('time_format'); ?>
+												<?php echo mysql2date($time_date_format, $ticket->post_date); ?>
+											<?php endif; ?>
+										</span>
+									</p>
+									<p class="issue-message">
+										<?php echo sanitize_text_field($response->comment_content); ?>
+									</p>
+								</div>
+							</div>
+					<?php endforeach; ?>
+
+					<?php echo ob_get_clean(); ?>
 				</div>
 
 				<div id="original_ticket">
@@ -53,7 +81,7 @@ $ticket = sd_get_ticket($ticket_id);
 								</span>
 								<span class="issue-meta">
 									<?php if(strtotime($ticket->post_date) > strtotime('-1 week')): ?>
-										<?php echo human_time_diff( strtotime($item['modified']), current_time('timestamp')) . ' ago'; ?>
+										<?php echo human_time_diff( strtotime($ticket->post_date), current_time('timestamp')) . ' ago'; ?>
 									<?php else: ?>
 										<?php $time_date_format = get_option('date_format') . ' ' . get_option('time_format'); ?>
 										<?php echo mysql2date($time_date_format, $ticket->post_date); ?>

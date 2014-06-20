@@ -195,43 +195,6 @@ function sd_get_ticket_log( $ticket_id ){
 	return false;
 }
 
-function sd_render_ticket_log ( $ticket_id ){
-	if(!empty($ticket_id)){
-		$responses = sd_get_ticket_log($ticket_id);
-
-		if(empty($responses)) return false;
-		
-		ob_start();
-		foreach($responses as $response){
-?>
-			<div class="issue-response-wrap <?php echo (empty($response->private) ? '' : 'private-reply'); ?>">
-				<div class="issue-response">
-					<p class="issue-header">
-						<span class="issue-response-author">
-							<?php echo esc_attr($response->comment_author); ?> updated this ticket.
-						</span>
-						<span class="issue-meta">
-							<?php echo (empty($response->private) ? '' : '[Private Reply]'); ?>
-							<?php $time_date_format = get_option('date_format') . ' ' . get_option('time_format'); ?>
-							<?php echo mysql2date($time_date_format, $response->comment_date); ?>
-						</span>
-					</p>
-					<p class="issue-message">
-						<?php echo sanitize_text_field($response->comment_content); ?>
-					</p>
-				</div>
-			</div>
-<?php
-		}
-
-		$output = ob_get_clean();
-		return $output;	
-	}
-
-	return false;
-
-}
-
 function sd_get_ticket( $ticket_id ){
 	$ticket = get_post( $ticket_id );
 
