@@ -53,11 +53,11 @@ $ticket = sd_get_ticket($ticket_id);
 										</span>
 										<span class="issue-meta">
 											<?php echo (empty($response->private) ? '' : '[Private Reply]'); ?>
-											<?php if(strtotime($ticket->post_date) > strtotime('-1 week')): ?>
-												<?php echo human_time_diff( strtotime($ticket->post_date), current_time('timestamp')) . ' ago'; ?>
+											<?php if(strtotime($response->comment_date) > strtotime('-1 week')): ?>
+												<?php echo human_time_diff( strtotime($response->comment_date), current_time('timestamp')) . ' ago'; ?>
 											<?php else: ?>
 												<?php $time_date_format = get_option('date_format') . ' ' . get_option('time_format'); ?>
-												<?php echo mysql2date($time_date_format, $ticket->post_date); ?>
+												<?php echo mysql2date($time_date_format, $response->comment_date); ?>
 											<?php endif; ?>
 										</span>
 									</p>
