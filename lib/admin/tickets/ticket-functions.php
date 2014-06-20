@@ -41,6 +41,10 @@ function sd_modify_get_tickets_default($orderby){
 	return $orderby;
 }
 
+function sd_get_ticket_link($ticket_id){
+
+}
+
 function sd_get_tickets_count( $status = 'new', $cid = '' ){
 	$user = wp_get_current_user();
 	global $wpdb;
@@ -90,7 +94,7 @@ function sd_add_new_ticket( $ticket ){
 		sd_new_ticket_notification_techs($ticket_id);
 
 		//notify customer
-		//
+		sd_new_ticket_notification_customer($ticket_id);
 
 		return $ticket_id;
 	}
@@ -133,7 +137,7 @@ function sd_edit_existing_ticket( $ticket, $response = ''){
 
 		//add ticket response to log if present
 		if(!empty($response['message'])){
-			sd_save_ticket_reply($ticket_id, $response['message'], $response['private']);
+			$reply_id = sd_save_ticket_reply($ticket_id, $response['message'], $response['private']);
 		}
 
 		return true;
@@ -164,6 +168,7 @@ function sd_save_ticket_reply( $ticket_id, $reply, $private = false){
 				update_comment_meta($reply_id, '_sd_reply_private', 'true');
 			}else{
 				//send ticket update notification
+				sd_updated_ticket_notification_customer($ticket_id, $reply_id);
 			}
 		}
 
@@ -205,12 +210,22 @@ function sd_get_ticket( $ticket_id ){
 	return $ticket;
 }
 
+function sd_get_ticket_reply( $reply_id ){
+	$reply = get_comment($reply_id);
+	return $reply->comment_content;
+}
+
 function sd_get_ticket_status($ticket_id){
 	return get_post_status($ticket_id);
 }
 
 function sd_get_ticket_customer($ticket_id){
 	return get_post_meta($ticket_id, '_sd_ticket_customer', true);
+}
+
+function sd_get_ticket_creator($ticket_id){
+	$ticket = get_post(absint($ticket_id));
+	return $ticket->post_author;
 }
 
 function sd_get_ticket_issue($ticket_id){
@@ -262,6 +277,11 @@ function sd_get_technicians($list = false, $email = false){
 	}
 
 	return $techs;
+}
+
+function sd_get_tech_display_name($tech_id){
+	$tech = get_userdata($tech_id);
+	return $tech->display_name;
 }
 
 function sd_get_ticket_tech($ticket_id){
