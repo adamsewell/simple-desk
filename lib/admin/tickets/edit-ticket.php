@@ -41,32 +41,36 @@ $ticket = sd_get_ticket($ticket_id);
 					<!-- Ticket Responses -->
 					<?php
 						$responses = sd_get_ticket_log($ticket_id);
-						if(empty($responses)) return false;
-						ob_start();
-						foreach($responses as $response):
-					?>
-							<div class="issue-response-wrap <?php echo (empty($response->private) ? '' : 'private-reply'); ?>">
-								<div class="issue-response">
-									<p class="issue-header">
-										<span class="issue-response-author">
-											<?php echo esc_attr($response->comment_author); ?> updated this ticket.
-										</span>
-										<span class="issue-meta">
-											<?php echo (empty($response->private) ? '' : '[Private Reply]'); ?>
-											<?php if(strtotime($response->comment_date) > strtotime('-1 week')): ?>
-												<?php echo human_time_diff( strtotime($response->comment_date), current_time('timestamp')) . ' ago'; ?>
-											<?php else: ?>
-												<?php $time_date_format = get_option('date_format') . ' ' . get_option('time_format'); ?>
-												<?php echo mysql2date($time_date_format, $response->comment_date); ?>
-											<?php endif; ?>
-										</span>
-									</p>
-									<p class="issue-message">
-										<?php echo sanitize_text_field($response->comment_content); ?>
-									</p>
+						if($responses):
+							ob_start();
+							foreach($responses as $response):
+						?>
+								<div class="issue-response-wrap <?php echo (empty($response->private) ? '' : 'private-reply'); ?>">
+									<div class="issue-response">
+										<p class="issue-header">
+											<span class="issue-response-author">
+												<?php echo esc_attr($response->comment_author); ?> updated this ticket.
+											</span>
+											<span class="issue-meta">
+												<?php echo (empty($response->private) ? '' : '[Private Reply]'); ?>
+												<?php if(strtotime($response->comment_date) > strtotime('-1 week')): ?>
+													<?php echo human_time_diff( strtotime($response->comment_date), current_time('timestamp')) . ' ago'; ?>
+												<?php else: ?>
+													<?php $time_date_format = get_option('date_format') . ' ' . get_option('time_format'); ?>
+													<?php echo mysql2date($time_date_format, $response->comment_date); ?>
+												<?php endif; ?>
+											</span>
+										</p>
+										<p class="issue-message">
+											<?php echo sanitize_text_field($response->comment_content); ?>
+										</p>
+									</div>
 								</div>
-							</div>
-					<?php endforeach; ?>
+						<?php 
+							endforeach; 
+						endif;
+
+						?>
 
 					<?php echo ob_get_clean(); ?>
 				</div>
