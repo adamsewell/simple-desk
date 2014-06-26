@@ -81,7 +81,7 @@ function sd_updated_ticket_notification_customer($ticket_id, $reply_id){
 
 	$subject = '[#' . absint($ticket_id) .']: Updated - ' . wp_strip_all_tags(sd_get_email_subject($ticket_id), true);
 
-	$body = 'Ticket updated by: ' . sd_get_tech_display_name(sd_get_ticket_creator($ticket_id)) . "\r\n";
+	$body = 'Ticket updated by: ' . sd_get_tech_display_name(sd_get_ticket_reply_author($reply_id)) . "\r\n";
 	$body .= 'Status: ' . $statuses[sd_get_ticket_status($ticket_id)] . "\r\n";
 	$body .= "\r\n";
 	$body .= '------------------------------------' . "\r\n";

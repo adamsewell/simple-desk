@@ -228,6 +228,11 @@ function sd_get_ticket_creator($ticket_id){
 	return $ticket->post_author;
 }
 
+function sd_get_ticket_reply_author($reply_id){
+	$comment = get_comment(absint($reply_id));
+	return $comment->user_id;
+}
+
 function sd_get_ticket_issue($ticket_id){
 	return get_post_meta($ticket_id, '_sd_ticket_issue', true);
 }
