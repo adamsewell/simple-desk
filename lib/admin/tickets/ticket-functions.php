@@ -21,7 +21,7 @@ function sd_get_tickets( $args = array() ){
 	);
 
 	//check status to handle our custom post statuses - see also sd_get_tickets_count
-	if($args['post_status'] == 'mine'){
+	if(in_array($args['post_status'], array('mine', 'unassigned', 'open', 'all'))){
 		$args['post_status'] = $defaults['post_status'];
 	}
 
