@@ -78,18 +78,40 @@ class SimpleDeskTicketTable extends WP_List_Table{
         $waitingonme_count = '&nbsp;<span class="count">(' . sd_get_tickets_count('waitingonme') . ')</span>';
         $waitingoncustomer_count = '&nbsp;<span class="count">(' . sd_get_tickets_count('waitingoncustomer') . ')</span>';
         $resovled_count = '&nbsp;<span class="count">(' . sd_get_tickets_count('resolved') . ')</span>';
+        $unassigned_count = '&nbsp;<span class="count">(' . sd_get_tickets_count('unassigned') . ')</span>';
+
+        // $views = array(
+        //     'all' => sprintf( '<a href="%s"%s>%s</a>', remove_query_arg( 'status', $base_url ), $current === 'all' || $current == '' ? ' class="current"' : '', __('All', 'sd') . $notresolved_count ),
+        //     'mine' => sprintf( '<a href="%s"%s>%s</a>', add_query_arg( 'status', 'mine', $base_url ), $current === 'mine' ? ' class="current"' : '', __('Mine', 'sd') . $mine_count ),
+        //     'new' => sprintf( '<a href="%s"%s>%s</a>', add_query_arg( 'status', 'new', $base_url ), $current === 'new' ? ' class="current"' : '', __('New', 'sd') . $new_count ),
+        //     'inprogress' => sprintf( '<a href="%s"%s>%s</a>', add_query_arg( 'status', 'inprogress', $base_url ), $current === 'inprogress' ? ' class="current"' : '', __('In Progress', 'sd') . $inprogress_count ),
+        //     'waitingonme' => sprintf( '<a href="%s"%s>%s</a>', add_query_arg( 'status', 'waitingonme', $base_url ), $current === 'waitingonme' ? ' class="current"' : '', __('Waiting On Me', 'sd') . $waitingonme_count ),
+        //     'waitingoncustomer' => sprintf( '<a href="%s"%s>%s</a>', add_query_arg( 'status', 'waitingoncustomer', $base_url ), $current === 'waitingoncustomer' ? ' class="current"' : '', __('Waiting On Customer', 'sd') . $waitingoncustomer_count ),
+        //     'resolved' => sprintf( '<a href="%s"%s>%s</a>', add_query_arg( 'status', 'resolved', $base_url ), $current === 'resolved' ? ' class="current"' : '', __('Resolved', 'sd') . $resovled_count ),
+        // );
 
         $views = array(
-            'all' => sprintf( '<a href="%s"%s>%s</a>', remove_query_arg( 'status', $base_url ), $current === 'all' || $current == '' ? ' class="current"' : '', __('All', 'sd') . $notresolved_count ),
-            'mine' => sprintf( '<a href="%s"%s>%s</a>', add_query_arg( 'status', 'mine', $base_url ), $current === 'mine' ? ' class="current"' : '', __('Mine', 'sd') . $mine_count ),
-            'new' => sprintf( '<a href="%s"%s>%s</a>', add_query_arg( 'status', 'new', $base_url ), $current === 'new' ? ' class="current"' : '', __('New', 'sd') . $new_count ),
-            'inprogress' => sprintf( '<a href="%s"%s>%s</a>', add_query_arg( 'status', 'inprogress', $base_url ), $current === 'inprogress' ? ' class="current"' : '', __('In Progress', 'sd') . $inprogress_count ),
-            'waitingonme' => sprintf( '<a href="%s"%s>%s</a>', add_query_arg( 'status', 'waitingonme', $base_url ), $current === 'waitingonme' ? ' class="current"' : '', __('Waiting On Me', 'sd') . $waitingonme_count ),
-            'waitingoncustomer' => sprintf( '<a href="%s"%s>%s</a>', add_query_arg( 'status', 'waitingoncustomer', $base_url ), $current === 'waitingoncustomer' ? ' class="current"' : '', __('Waiting On Customer', 'sd') . $waitingoncustomer_count ),
+            'mine' => sprintf( '<a href="%s"%s>%s</a>', remove_query_arg( 'status', $base_url ), $current === 'mine' || $current == '' ? ' class="current"' : '', __('Mine', 'sd') . $mine_count ),
+            'unassigned' => sprintf('<a href="%s"%s>%s</a>', add_query_arg('status', 'unassigned', $base_url), $current === 'unassigned' ? ' class="current"' : '', __('Unassigned', 'sd') . $unassigned_count), 
+            'all' => sprintf( '<a href="%s"%s>%s</a>', add_query_arg( 'status', 'all', $base_url ), $current === 'all' ? ' class="current"' : '', __('All', 'sd') . $notresolved_count ),
             'resolved' => sprintf( '<a href="%s"%s>%s</a>', add_query_arg( 'status', 'resolved', $base_url ), $current === 'resolved' ? ' class="current"' : '', __('Resolved', 'sd') . $resovled_count ),
         );
 
         return $views;
+    }
+
+    function extra_tablenav($which){
+        if($which === 'top'){
+?>
+            <div class="alignleft actions">
+                <select>
+                    <option>Status</option>
+                </select>
+
+                <input type="submit" class="button" value="<?php _e('Filter', 'sd'); ?>" />
+            </div>
+<?php
+        }
     }
 
     function column_default($item, $column_name){
@@ -116,10 +138,10 @@ class SimpleDeskTicketTable extends WP_List_Table{
     }
 
     function column_customer($item){
-        return sprintf('<a href="?page=%1$s&sd_page=%2$s&cid=%3$s">%4$s</a>',
-            'simple-desk-customer-page',
-            'edit_customer',
+        return sprintf('<a href="?page=%1$s&cid=%2$s&status=%3$s">%4$s</a>',
+            'simple-desk',
             $item['customer'],
+            'open',
             sd_get_customer_display_name($item['customer'])
         );
     }
@@ -230,23 +252,30 @@ class SimpleDeskTicketTable extends WP_List_Table{
         $meta_key = '';
         $meta_value = '';
 
-        $status = isset( $_GET['status'] ) ? $_GET['status'] : array('new', 'inprogress', 'waitingonme', 'waitingoncustomer');
+        //$status = isset( $_GET['status'] ) ? $_GET['status'] : array('new', 'inprogress', 'waitingonme', 'waitingoncustomer');
+        $status = isset( $_GET['status'] ) ? $_GET['status'] : 'mine';
         $search = isset( $_GET['s'] ) ? sanitize_text_field( $_GET['s'] ) : '';
         $customer = isset( $_GET['cid'] ) ? absint($_GET['cid']) : '';
         $orderby  = isset( $_GET['orderby'] ) ? $_GET['orderby'] : '';
         $order  = isset( $_GET['order'] ) ? $_GET['order'] : '';
 
+
         if($status == 'mine'){
             $meta_key = '_sd_ticket_assign';
             $meta_value = $current_user->ID;
+        }elseif($status == 'unassigned'){
+            $meta_key = '_sd_ticket_assign';
+            $meta_value = '0';
         }elseif($status == 'open' && isset($customer)){
             $meta_key = '_sd_ticket_customer';
             $meta_value = $customer;
             $status = array('new', 'inprogress', 'waitingonme', 'waitingoncustomer');
-        }elseif($status == 'all' && isset($customer)){
+        }elseif($status == 'all'){
+            $status = array('new', 'inprogress', 'waitingonme', 'waitingoncustomer');
+        }elseif($status == 'all' && isset($customer)){ //all tickets for customer
             $meta_key = '_sd_ticket_customer';
             $meta_value = $customer;
-            $status = 'all';  
+            $status = array('new', 'inprogress', 'waitingonme', 'waitingoncustomer');
         }
 
         $args = array(
