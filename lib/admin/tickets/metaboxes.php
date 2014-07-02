@@ -157,29 +157,28 @@ function sd_render_customer_information(){
 ?>
 	<p>
 		<span>
-			<strong>Name:</strong> <?php echo sanitize_text_field(sd_get_customer_display_name($customer_id)); ?>
+			<strong>Name:</strong> <?php echo sanitize_text_field(sd_get_ticket_contact_name($ticket_id)); ?>
 		</span>
 	</p>
 	<p>
 		<span>
-			<strong>Open Tickets:</strong> <a href="<?php echo add_query_arg(array('cid' => $customer_id, 'status' => 'open'), $ticket_url) ?>"><?php echo absint(sd_get_customer_ticket_count($customer_id)); ?></a>
+			<strong>Contact Number:</strong> <a href="tel:<?php echo esc_attr(sd_get_ticket_contact_phone($ticket_id));?>"><?php echo sanitize_text_field(sd_get_ticket_contact_phone($ticket_id)); ?></a>
 		</span>
 	</p>
 	<p>
 		<span>
-			<strong>Contact Number:</strong> <a href="tel:<?php echo esc_attr(sd_get_customer_phone($customer_id));?>"><?php echo sanitize_text_field(sd_get_customer_phone($customer_id)); ?></a>
-		</span>
-	</p>
-	<p>
-		<span>
-			<strong>Email Address:</strong> <a href="mailto:<?php echo esc_attr(sd_get_customer_email($customer_id)); ?>"><?php echo sanitize_email(sd_get_customer_email($customer_id)); ?></a>
+			<strong>Email Address:</strong> <a href="mailto:<?php echo esc_attr(sd_get_customer_email($ticket_id)); ?>"><?php echo sanitize_email(sd_get_ticket_contact_email($ticket_id)); ?></a>
 		</span>
 	</p>
 	<p>
 		<span>
 			<?php $address = sd_get_customer_address($customer_id) . ' ' . sd_get_customer_xaddress($customer_id) . ' ' . sd_get_customer_city($customer_id) . ', ' . sd_get_customer_state($customer_id) . ' ' . sd_get_customer_zip($customer_id); ?>
 			<strong>Address:</strong> <a target="_blank" href="http://maps.google.com/maps?f=q&amp;source=s_q&amp;hl=en&amp;geocode=&amp;q=<?php echo urlencode($address); ?>"><?php echo esc_attr($address); ?></a>
-
+		</span>
+	</p>
+	<p>
+		<span>
+			<strong>Open Tickets:</strong> <a href="<?php echo add_query_arg(array('cid' => $customer_id, 'status' => 'open'), $ticket_url) ?>"><?php echo absint(sd_get_customer_ticket_count($customer_id)); ?></a>
 		</span>
 	</p>
 

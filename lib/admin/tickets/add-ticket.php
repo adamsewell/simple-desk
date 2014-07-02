@@ -17,6 +17,7 @@ $customer_id = absint($_GET['cid']);
 <form id="sd-ticket" action="" method="POST">
 	<?php wp_nonce_field( 'meta-box-order', 'meta-box-order-nonce', false ); ?>
 	<?php wp_nonce_field( 'closedpostboxes', 'closedpostboxesnonce', false ); ?>
+	<?php wp_nonce_field( 'sd_add_customer', 'sd_add_customer_nonce' ); ?>
 
 	<div id="poststuff">
 		<div id="post-body" class="metabox-holder columns-<?php echo 1 == get_current_screen()->get_columns() ? '1' : '2'; ?>"> 
@@ -30,10 +31,16 @@ $customer_id = absint($_GET['cid']);
 						<?php $customers = sd_get_customers(array('posts_per_page' => '-1'), true); ?>
 						<?php if(!empty($customer_id)) $selected = $customer_id; ?>
 						<select name="ticket[customer]" id="ticket-customer" required>
-							<option><?php _e('Select Customer'); ?></option>
+							<option><?php _e('--- Select Customer ---', 'sd'); ?></option>
 							<?php echo sd_menuoptions($customers, $selected, true); ?>
 						</select>
+						<img src="<?php echo admin_url('/images/wpspin_light.gif'); ?>" class="waiting" id="response-loading" style="display: none;" />
 					</span>
+				</p>
+				<p class="ticket_perferred_contact">
+					<input class="medium" type="text" id="ticket[cname]" name="ticket[cname]" placeholder="<?php _e('Contact Name'); ?>" value="" />
+					<input class="medium" type="text" id="ticket[cemail]" name="ticket[cemail]" placeholder="<?php _e('Contact Email'); ?>" value="" />
+					<input class="medium" type="text" id="ticket[cphone]" name="ticket[cphone]" placeholder="<?php _e('Contact Phone'); ?>" value="" />
 				</p>
 			</div>
 
@@ -52,11 +59,6 @@ $customer_id = absint($_GET['cid']);
 				<p>
 					<span>
 						<textarea name="ticket[details]" id="ticket-details" class="xlarge" placeholder="A detailed description of the issue." required></textarea>
-					</span>
-				</p>
-				<p>
-					<span>
-						<input type="text" name="ticket[tags]" id="ticket-tags" class="xlarge" placeholder="Tags (Comma Separated)"/>
 					</span>
 				</p>
 			</div>

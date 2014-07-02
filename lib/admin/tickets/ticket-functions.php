@@ -37,7 +37,7 @@ function sd_get_tickets( $args = array() ){
 }
 
 function sd_modify_get_tickets_default($orderby){
-	$orderby = "FIELD(post_status, 'waitingonme', 'inprogress', 'new', 'waitingoncustomer'), post_date";
+	$orderby = "FIELD(post_status, 'waitingonme', 'inprogress', 'new', 'waitingoncustomer', 'resolved'), post_date";
 	return $orderby;
 }
 
@@ -223,6 +223,30 @@ function sd_get_ticket_status($ticket_id){
 
 function sd_get_ticket_customer($ticket_id){
 	return get_post_meta($ticket_id, '_sd_ticket_customer', true);
+}
+
+function sd_get_ticket_contact_name($ticket_id){
+	$contact_name = get_post_meta($ticket_id, '_sd_ticket_cname', true);
+	if(!empty($contact_name)){
+		return $contact_name;
+	}
+	return sd_get_customer_display_name(sd_get_ticket_customer($ticket_id));
+}
+
+function sd_get_ticket_contact_phone($ticket_id){
+	$contact_phone = get_post_meta($ticket_id, '_sd_ticket_cphone', true);
+	if(!empty($contact_phone)){
+		return $contact_phone;
+	}
+	return sd_get_customer_phone(sd_get_ticket_customer($ticket_id));
+}
+
+function sd_get_ticket_contact_email($ticket_id){
+	$contact_email = get_post_meta($ticket_id, '_sd_ticket_cemail', true);
+	if(!empty($contact_email)){
+		return $contact_email;
+	}
+	return sd_get_customer_email(sd_get_ticket_customer($ticket_id));	
 }
 
 function sd_get_ticket_creator($ticket_id){
