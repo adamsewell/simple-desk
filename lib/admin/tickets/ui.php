@@ -269,7 +269,7 @@ class SimpleDeskTicketTable extends WP_List_Table{
         }elseif($status == 'open' && isset($customer)){
             $meta_key = '_sd_ticket_customer';
             $meta_value = $customer;
-        }elseif($status == 'all' && isset($customer)){ //all tickets for customer
+        }elseif($status == 'history' && isset($customer)){ //all tickets for customer
             $meta_key = '_sd_ticket_customer';
             $meta_value = $customer;
         }
