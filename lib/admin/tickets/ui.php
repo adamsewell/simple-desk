@@ -124,7 +124,7 @@ class SimpleDeskTicketTable extends WP_List_Table{
     }
 
     function column_customer($item){
-        return '<a href="' . add_query_arg(array('sd_page' => 'view_customer', 'cid' => absint($item['customer'])), remove_query_arg('sd-message')) . '">'. sd_get_ticket_contact_name($item['ID']) .'</a>';
+        return '<a href="' . add_query_arg(array('sd_page' => 'view_customer', 'cid' => absint($item['customer'])), admin_url('admin.php?page=simple-desk-customer-page')) . '">'. sd_get_ticket_contact_name($item['ID']) .'</a>';
     }
 
     function column_status($item){

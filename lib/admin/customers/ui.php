@@ -18,7 +18,6 @@ if ( ! class_exists( 'WP_List_Table' ) ) {
 }
 
 function sd_display_customers(){
-	
     if(isset($_GET['sd_page']) && $_GET['sd_page'] == 'add_customer'){
         require_once(SIMPLEDESK_BASE_DIR . 'lib/admin/customers/add-customer.php');
     }elseif(isset($_GET['sd_page']) && $_GET['sd_page'] == 'edit_customer'){
