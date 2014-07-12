@@ -160,6 +160,13 @@ function sd_render_customer_information(){
 			<strong>Name:</strong> <?php echo sanitize_text_field(sd_get_ticket_contact_name($ticket_id)); ?>
 		</span>
 	</p>
+	<?php if(sd_get_customer_type($customer_id) == 'commercial'): ?>
+		<p>
+			<span>
+				<strong>Company:</strong> <?php echo sanitize_text_field(sd_get_customer_company($customer_id)); ?>
+			</span>
+		</p>
+	<?php endif; ?>
 	<p>
 		<span>
 			<strong>Contact Number:</strong> <a href="tel:<?php echo esc_attr(sd_get_ticket_contact_phone($ticket_id));?>"><?php echo sanitize_text_field(sd_get_ticket_contact_phone($ticket_id)); ?></a>
