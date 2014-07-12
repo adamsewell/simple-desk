@@ -49,6 +49,11 @@ $customer = sd_get_customer($customer_id);
 						<input type="text" name="customer[mobile]" id="customer-mobile" class="large" placeholder="Mobile Number" value="<?php echo esc_attr(sd_get_customer_mobile($customer_id)); ?>" />
 					</span>
 				</p>
+				<p>
+					<span>
+						<input type="text" name="customer[website]" id="customer-website" class="large" placeholder="Website" value="<?php echo esc_attr(sd_get_customer_website($customer_id)); ?>" />
+					</span>
+				</p>
 			</div>
 
 			<h3 class="section_header"><?php _e('Details', 'sd'); ?></h3>
@@ -96,10 +101,10 @@ $customer = sd_get_customer($customer_id);
 				</p>
 			</div>
 
-			<h3 class="section_header"><?php _e('Notes', 'sd'); ?></h3>
+<!-- 			<h3 class="section_header"><?php _e('Notes', 'sd'); ?></h3>
 			<div class="customer_other">
 				<textarea name="customer[notes]" id="customer-notes" class="xlarge"><?php echo esc_textarea(sd_get_customer_notes($customer_id)); ?></textarea>
-			</div>
+			</div> -->
 		  </div>    
 
 		  <div id="postbox-container-1" class="postbox-container">
@@ -107,8 +112,8 @@ $customer = sd_get_customer($customer_id);
 		  </div>    
 
 		  <div id="postbox-container-2" class="postbox-container">
-		  		<?php do_meta_boxes('sd_edit-customer-page','normal',null);  ?>
-		        <?php do_meta_boxes('sd_edit-customer-page','advanced',null); ?>
+		  		<?php do_meta_boxes('sd_edit-customer-page','normal', null);  ?>
+		        <?php do_meta_boxes('sd_edit-customer-page','advanced', null); ?>
 		  </div>	     					
 
 		</div> <!-- #post-body -->
