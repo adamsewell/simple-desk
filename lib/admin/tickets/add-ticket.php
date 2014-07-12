@@ -23,7 +23,10 @@ $customer_id = absint($_GET['cid']);
 		<div id="post-body" class="metabox-holder columns-<?php echo 1 == get_current_screen()->get_columns() ? '1' : '2'; ?>"> 
 
 		<div id="post-body-content">
-			<h3 class="section_header"><?php _e('Contact Information', 'sd'); ?></h3>
+			<h3 class="section_header">
+				<?php _e('Customer Information', 'sd'); ?>
+				<img src="<?php echo admin_url('/images/wpspin_light.gif'); ?>" class="waiting" id="response-loading" style="display: none;" />
+			</h3>
 
 			<div class="ticket_contact">
 				<p>
@@ -34,13 +37,18 @@ $customer_id = absint($_GET['cid']);
 							<option><?php _e('--- Select Customer ---', 'sd'); ?></option>
 							<?php echo sd_menuoptions($customers, $selected, true); ?>
 						</select>
-						<img src="<?php echo admin_url('/images/wpspin_light.gif'); ?>" class="waiting" id="response-loading" style="display: none;" />
 					</span>
 				</p>
+			</div>
+
+			<h3 class="section_header ticket_perferred_contact"><?php _e('Contact Information', 'sd'); ?></h3>
+			<div class="ticket_contact">
 				<p class="ticket_perferred_contact">
-					<input class="medium" type="text" id="ticket[cname]" name="ticket[cname]" placeholder="<?php _e('Contact Name'); ?>" value="" />
-					<input class="medium" type="text" id="ticket[cemail]" name="ticket[cemail]" placeholder="<?php _e('Contact Email'); ?>" value="" />
-					<input class="medium" type="text" id="ticket[cphone]" name="ticket[cphone]" placeholder="<?php _e('Contact Phone'); ?>" value="" />
+					<span>
+						<input class="medium" type="text" id="ticket[cname]" name="ticket[cname]" placeholder="<?php _e('Contact Name'); ?>" value="" />
+						<input class="medium" type="text" id="ticket[cemail]" name="ticket[cemail]" placeholder="<?php _e('Contact Email'); ?>" value="" />
+						<input class="medium" type="text" id="ticket[cphone]" name="ticket[cphone]" placeholder="<?php _e('Contact Phone'); ?>" value="" />
+					</span>
 				</p>
 			</div>
 

@@ -87,11 +87,11 @@ function sd_get_customers( $args = array(''), $list = false ){
 
 	$customers = get_posts( $args );
 
+	//defaults to return all customers in array format
 	if($customers && !$list){ 
 		return $customers; 
 	}elseif($customers && $list){
 		$simple_list = array();
-
 		foreach($customers as $customer){
 			$simple_list[$customer->ID] = $customer->post_title;
 		}
@@ -113,17 +113,7 @@ function sd_get_customer($customer_id){
 }
 
 function sd_get_customer_display_name($customer_id){
-	$customer_type = sd_get_customer_type($customer_id);
-
-	if($customer_type == 'residential'){
-		return sd_get_customer_fname($customer_id) . ' ' . sd_get_customer_lname($customer_id);
-	}
-
-	if($customer_type == 'commercial'){
-		return sd_get_customer_company($customer_id);
-	}
-
-	return false;
+	return sd_get_customer_fname($customer_id) . ' ' . sd_get_customer_lname($customer_id);
 }
 
 function sd_get_customer_fname($customer_id){
@@ -135,7 +125,7 @@ function sd_get_customer_lname($customer_id){
 }
 
 function sd_get_customer_email($customer_id){
-	return get_post_meta($customer_id, '_sd_customer_email', true);
+	return sanitize_email(get_post_meta($customer_id, '_sd_customer_email', true));
 }
 
 function sd_customer_has_email($customer_id){
@@ -145,6 +135,10 @@ function sd_customer_has_email($customer_id){
 	}
 
 	return false;
+}
+
+function sd_get_customer_website($customer_id){
+	return get_post_meta($customer_id, '_sd_customer_website', true);
 }
 
 function sd_get_customer_phone($customer_id){

@@ -61,7 +61,7 @@ function sd_new_ticket_notification_customer( $ticket_id ){
 	$body .= wp_kses_post(sd_get_ticket_details($ticket_id)) . "\r\n";
 	$body .= '------------------------------------' . "\r\n";
 
-	$to = sd_get_customer_email($customer);
+	$to = sd_get_ticket_contact_email($customer);
 
 	$mail = wp_mail($to, $subject, $body, $headers);
 	return $mail;
@@ -88,7 +88,7 @@ function sd_updated_ticket_notification_customer($ticket_id, $reply_id){
 	$body .= wp_kses_post(sd_get_ticket_reply($reply_id)) . "\r\n";
 	$body .= '------------------------------------' . "\r\n";
 
-	$to = sd_get_customer_email($customer);
+	$to = sd_get_ticket_contact_email($ticket_id);
 
 	$mail = wp_mail($to, $subject, $body, $headers);
 	return $mail;

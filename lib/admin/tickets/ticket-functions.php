@@ -65,6 +65,7 @@ function sd_get_tickets_count( $status = 'new', $cid = '' ){
 }
 
 function sd_add_new_ticket( $ticket ){
+
 	if(is_array($ticket)){
 		$ticket = array_map('sanitize_text_field', $ticket);
 
@@ -72,6 +73,13 @@ function sd_add_new_ticket( $ticket ){
 			$ticket_status = $ticket['status'];
 		}else{
 			$ticket_status = 'new';
+		}
+
+		//add the default contact information if commercial client and none are present
+		if((sd_get_customer_type($ticket['customer']) == 'commercial' )){
+			if(empty($ticket['cname'])) $ticket['cname'] = sd_get_customer_display_name($ticket['customer']);
+			if(empty($ticket['cphone'])) $ticket['cphone'] = sd_get_customer_phone($ticket['customer']);
+			if(empty($ticket['cemail'])) $ticket['cemail'] = sd_get_customer_email($ticket['customer']);
 		}
 
 		$ticket_id = wp_insert_post(array(

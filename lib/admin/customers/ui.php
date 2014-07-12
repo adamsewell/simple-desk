@@ -23,6 +23,8 @@ function sd_display_customers(){
         require_once(SIMPLEDESK_BASE_DIR . 'lib/admin/customers/add-customer.php');
     }elseif(isset($_GET['sd_page']) && $_GET['sd_page'] == 'edit_customer'){
         require_once(SIMPLEDESK_BASE_DIR . 'lib/admin/customers/edit-customer.php');
+    }elseif(isset($_GET['sd_page']) && $_GET['sd_page'] == 'view_customer'){
+        require_once(SIMPLEDESK_BASE_DIR . 'lib/admin/customers/view-customer.php');
     }else{
         $Customers = new SimpleDeskCustomerTable();
         $Customers->prepare_items();
@@ -76,7 +78,7 @@ class SimpleDeskCustomerTable extends WP_List_Table{
 
     function column_title($item){
         //title
-        $title = '<a href="' . add_query_arg(array('sd_page' => 'edit_customer', 'cid' => absint($item['ID'])), remove_query_arg('sd-message')) . '">'. $item['title'] .'</a>';
+        $title = '<a href="' . add_query_arg(array('sd_page' => 'view_customer', 'cid' => absint($item['ID'])), remove_query_arg('sd-message')) . '">'. $item['title'] .'</a>';
        
         //Build row actions
         $row_actions = array();

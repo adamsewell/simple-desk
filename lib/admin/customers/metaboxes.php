@@ -19,12 +19,20 @@ function sd_add_customer_meta_boxes(){
 	//edit customer page
 	add_meta_box('sd_customer_edit_save_meta', __('Customer Actions', 'sd'), 'sd_render_edit_customer_actions', 'sd_edit-customer-page', 'side', 'core');
 	add_meta_box('sd_customer_edit_meta', __('Customer Meta', 'sd'), 'sd_render_edit_customer_meta', 'sd_edit-customer-page', 'side', 'core');
-	//add_meta_box('sd_customer_edit_history', __('Customer History', 'sd'), 'sd_render_edit_customer_history', 'simple-desk_page_simple-desk-edit-customer-page', 'normal', 'core');
+
+	add_meta_box('sd_customer_view_meta', __('Customer Meta', 'sd'), 'sd_render_view_customer_meta', 'sd_view-customer-page', 'side', 'core');
+	add_meta_box('sd_customer_view_customer', __('Customer', 'sd'), 'sd_render_view_customer', 'sd_view-customer-page', 'normal', 'core');
 
 }
-
 add_action('load-simple-desk_page_simple-desk-customer-page', 'sd_add_customer_meta_boxes');
 
+function sd_render_view_customer_meta(){
+	echo 'test';
+}
+
+function sd_render_view_customer(){
+	echo 'test center';
+}
 
 function sd_render_add_customer_actions(){
 ?>
@@ -95,17 +103,9 @@ function sd_render_edit_customer_meta(){
 	</p>
 	<p>
 		<span>
-			<strong>Total Tickets:</strong> <a href="<?php echo add_query_arg(array('cid' => absint($customer_id), 'status' => 'all'), admin_url( 'admin.php?page=simple-desk' )) ?>"><?php echo absint(sd_get_tickets_count('all', $customer_id)); ?></a>
+			<strong>Total Tickets:</strong> <a href="<?php echo add_query_arg(array('cid' => absint($customer_id), 'status' => 'history'), admin_url( 'admin.php?page=simple-desk' )) ?>"><?php echo absint(sd_get_tickets_count('all', $customer_id)); ?></a>
 		</span>
 	</p>
-<?php
-}
-
-function sd_render_edit_customer_history(){
-	$customer_id = absint($_GET['cid']);
-	$customer = sd_get_customer($customer_id);
-?>
-	This is a test
 <?php
 }
 

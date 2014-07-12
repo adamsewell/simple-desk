@@ -11,7 +11,7 @@ $ticket_id = absint($_GET['tid']);
 $ticket = sd_get_ticket($ticket_id);
 ?>
 
-<h2><?php echo 'Viewing Ticket #'. $ticket_id .': ' . esc_attr(sd_get_ticket_issue($ticket_id)) . ' for ' . esc_attr(sd_get_customer_display_name(sd_get_ticket_customer($ticket_id))); ?>
+<h2><?php echo 'Viewing Ticket #'. $ticket_id .': ' . esc_attr(sd_get_ticket_issue($ticket_id)); ?>
 </h2>
 
 <form id="sd-ticket" action="" method="post">

@@ -18,7 +18,7 @@ function sd_add_ticket_meta_boxes(){
 
 	//view/edit ticket page
 	add_meta_box('sd_ticket_edit_meta', __('Ticket Actions', 'sd'), 'sd_render_edit_ticket_actions', 'sd_edit-ticket-page', 'side', 'core');
-	add_meta_box('sd_ticket_edit_customer_info', __('Customer Information', 'sd'), 'sd_render_customer_information', 'sd_edit-ticket-page', 'side', 'core');
+	add_meta_box('sd_ticket_edit_customer_info', __('Contact Information', 'sd'), 'sd_render_customer_information', 'sd_edit-ticket-page', 'side', 'core');
 	add_meta_box('sd_ticket_customer_history', __('Customer History', 'sd'), 'sd_render_customer_history', 'sd_edit-ticket-page', 'side', 'core');
 
 }
@@ -167,7 +167,7 @@ function sd_render_customer_information(){
 	</p>
 	<p>
 		<span>
-			<strong>Email Address:</strong> <a href="mailto:<?php echo esc_attr(sd_get_customer_email($ticket_id)); ?>"><?php echo sanitize_email(sd_get_ticket_contact_email($ticket_id)); ?></a>
+			<strong>Email Address:</strong> <a href="mailto:<?php echo esc_attr(sd_get_ticket_contact_email($ticket_id)); ?>"><?php echo sanitize_email(sd_get_ticket_contact_email($ticket_id)); ?></a>
 		</span>
 	</p>
 	<p>

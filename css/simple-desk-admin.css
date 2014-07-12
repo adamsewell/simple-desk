@@ -5,10 +5,12 @@ input[type="text"].medium,
 textarea.medium{
 	width: 200px;
 }
+
 input[type="text"].large,
 textarea.large{
 	width: 300px;
 }
+
 input[type="text"].xlarge,
 textarea.xlarge{
 	width: 612px;
@@ -40,6 +42,33 @@ textarea{
 #sd-customer .error{
 	font-weight: bold;
 	border-color: #FF9494;
+}
+
+#sd-ticket .ticket_perferred_contact{
+	display: none;
+}
+/*************
+	View Customer
+*************/
+.view-customer{
+
+}
+
+.view-customer .primary-avatar{
+	float: left;
+	width: 20%;
+}
+
+.view-customer .primary-meta{
+	float: left;
+	width: 40%;
+	margin-top: 20px;
+}
+
+.view-customer .primary-address{
+	float: left;
+	width: 40%;
+	margin-top: 20px;
 }
 
 /*************

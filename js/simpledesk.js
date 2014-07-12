@@ -26,7 +26,11 @@ jQuery(document).ready(function($){
 
 		$.post(ajaxurl, customer_data, function(response){
 			var r = $.parseJSON(response);
-			if(r == 'commercial'){
+			console.log(r);
+			if(r.type == 'commercial'){
+				$('#ticket\\[cname\\]').attr('placeholder', r.name);
+				$('#ticket\\[cemail\\]').attr('placeholder', r.email);
+				$('#ticket\\[cphone\\]').attr('placeholder', r.phone);
 				$('.ticket_perferred_contact').slideDown();
 			}else{
 				$('.ticket_perferred_contact').slideUp();
