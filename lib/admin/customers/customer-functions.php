@@ -180,8 +180,19 @@ function sd_get_customer_zip($customer_id){
 function sd_get_customer_notes($customer_id){
 	return get_post_meta($customer_id, '_sd_customer_notes', true);
 }
+
 function sd_get_customer_type($customer_id){
 	return get_post_meta($customer_id, '_sd_customer_type', true);
+}
+
+function sd_get_customer_created($customer_id){
+	$customer = sd_get_customer($customer_id);
+	return mysql2date('n/j/y g:ia', $customer->post_date);
+}
+
+function sd_get_customer_modified($customer_id){
+	$customer = sd_get_customer($customer_id);
+	return mysql2date('n/j/y g:ia', $customer->post_modified);
 }
 
 function sd_get_customer_ticket_count($customer_id){

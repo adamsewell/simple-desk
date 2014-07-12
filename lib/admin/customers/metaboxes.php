@@ -21,7 +21,8 @@ function sd_add_customer_meta_boxes(){
 	add_meta_box('sd_customer_edit_meta', __('Customer Meta', 'sd'), 'sd_render_edit_customer_meta', 'sd_edit-customer-page', 'side', 'core');
 
 	add_meta_box('sd_customer_view_meta', __('Customer Meta', 'sd'), 'sd_render_view_customer_meta', 'sd_view-customer-page', 'side', 'core');
-	add_meta_box('sd_customer_view_customer', __('Customer', 'sd'), 'sd_render_view_customer', 'sd_view-customer-page', 'normal', 'core');
+	add_meta_box('sd_customer_view_customer', __('Primary Contact', 'sd'), 'sd_render_view_customer', 'sd_view-customer-page', 'normal', 'core');
+	add_meta_box('sd_customer_view_customer_stats', __('Statistics', 'sd'), 'sd_render_view_customer_stats', 'sd_view-customer-page', 'normal', 'core');
 
 }
 add_action('load-simple-desk_page_simple-desk-customer-page', 'sd_add_customer_meta_boxes');
@@ -31,7 +32,32 @@ function sd_render_view_customer_meta(){
 }
 
 function sd_render_view_customer(){
-	echo 'test center';
+	$customer_id = absint($_GET['cid']);
+	$customer_email = sd_get_customer_email($customer_id);
+?>
+	<div class="view-customer">
+		<div class="avatar">
+			<?php echo get_avatar($customer_email, 128); ?>
+		</div>
+		<div class="primary-meta">
+			<span class="view-customer-phone"><?php esc_attr_e(sd_get_customer_phone($customer_id)); ?></span>
+			<span class="view-customer-name"><?php esc_attr_e(sd_get_customer_display_name($customer_id)); ?></span>
+			<span class="view-customer-company"><?php if(sd_get_customer_type($customer_id) == 'commercial') esc_attr_e(sd_get_customer_company($customer_id)); ?></span>
+		</div>
+		<div class="primary-contact">
+			<span class="view-customer-created"><?php _e('Since: ', 'sd'); esc_attr_e(sd_get_customer_created($customer_id)); ?></span>
+			<span class="view-customer-modified"><?php _e('Modified: ', 'sd'); esc_attr_e(sd_get_customer_modified($customer_id)); ?></span>
+
+			<span class="view-customer-street"><?php esc_attr_e(sd_get_customer_address($customer_id)); ?></span>
+			<span class="view-customer-xstreet"><?php esc_attr_e(sd_get_customer_xaddress($customer_id)); ?></span>
+			<span class="view-customer-citystate"><?php echo esc_attr(sd_get_customer_city($customer_id)) . ', ' . esc_attr(sd_get_customer_state($customer_id)) . ' ' . esc_attr(sd_get_customer_zip($customer_id)); ?></span>
+			<span class="view-customer-website"><a href="<?php echo esc_attr(sd_get_customer_website($customer_id)); ?>" target="_blank"><?php echo esc_attr(sd_get_customer_website($customer_id)); ?></a></span>
+
+		</div>
+	</div>
+
+	<div class="clear"></div>
+<?php
 }
 
 function sd_render_add_customer_actions(){

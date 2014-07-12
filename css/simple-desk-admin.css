@@ -51,24 +51,58 @@ textarea{
 	View Customer
 *************/
 .view-customer{
-
+	display: inline;
 }
 
-.view-customer .primary-avatar{
+.view-customer .avatar{
 	float: left;
-	width: 20%;
+	margin-right: 10px;
 }
 
 .view-customer .primary-meta{
 	float: left;
-	width: 40%;
-	margin-top: 20px;
+	width: 70%;
+	border-bottom: 1px #e3e3e3 solid;
 }
 
-.view-customer .primary-address{
+.view-customer .primary-meta .view-customer-name{
+	display: block;
+	font-size: 2em;
+	margin-top: .5em;
+	font-weight: bold;
+}
+
+.view-customer .primary-meta .view-customer-company{
+	display: block;
+	font-size: 1em;
+	margin-top: .5em;
+}
+
+.view-customer .primary-meta .view-customer-phone{
+	float: right;
+	margin-top: .75em;
+	font-size: 1.75em;
+}
+
+.view-customer .primary-contact .view-customer-created{
+	display: block;
+	float: right;
+}
+
+.view-customer .primary-contact .view-customer-modified{
+	display: block;
+	float: right;
+	clear: right;
+}
+
+.view-customer .primary-contact{
 	float: left;
-	width: 40%;
-	margin-top: 20px;
+	width: 70%;
+	padding-top: .5em;
+}
+
+.view-customer .primary-contact .view-customer-street{
+	display: block;
 }
 
 /*************
