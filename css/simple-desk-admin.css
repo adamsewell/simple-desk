@@ -94,6 +94,9 @@ textarea{
 	float: right;
 	clear: right;
 }
+.view-customer .primary-contact .view-customer-citystate{
+	display: block;
+}
 
 .view-customer .primary-contact{
 	float: left;
@@ -263,10 +266,9 @@ textarea{
 	font-size: 11px;
 }
 #sd-ticket .issue-response-wrap .issue-response .issue-message{
-	clear: both;
 	width: 100%;
 	line-height: 1.3em;
 	word-wrap: break-word;
-	font-size: 1.2em;
+	font-size: 12px;
 }
 

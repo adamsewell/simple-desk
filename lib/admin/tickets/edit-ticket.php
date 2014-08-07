@@ -44,7 +44,7 @@ $ticket = sd_get_ticket($ticket_id);
 						if($responses):
 							ob_start();
 							foreach($responses as $response):
-						?>
+					?>
 								<div class="issue-response-wrap <?php echo (empty($response->private) ? '' : 'private-reply'); ?>">
 									<div class="issue-response">
 										<p class="issue-header">
@@ -62,16 +62,14 @@ $ticket = sd_get_ticket($ticket_id);
 											</span>
 										</p>
 										<p class="issue-message">
-											<?php echo sanitize_text_field($response->comment_content); ?>
+											<?php echo nl2br(wp_kses(trim($response->comment_content), array())); ?>
 										</p>
 									</div>
 								</div>
 						<?php 
 							endforeach; 
-						endif;
-
-						?>
-
+						endif
+;						?>
 					<?php echo ob_get_clean(); ?>
 				</div>
 
@@ -93,7 +91,7 @@ $ticket = sd_get_ticket($ticket_id);
 								</span>
 							</p>
 							<p class="issue-message">
-								<?php echo sanitize_text_field($ticket->post_content); ?>
+								<?php echo nl2br(wp_kses(trim($ticket->post_content), array())); ?>
 							</p>
 						</div>
 					</div>
