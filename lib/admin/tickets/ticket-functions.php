@@ -27,8 +27,12 @@ function sd_get_tickets( $args = array() ){
 
 	$args = wp_parse_args( $args, $defaults );
 
-	$tickets = new WP_Query( $args );
+	if(empty($args['orderby'])) add_filter('posts_orderby', 'sd_modify_get_tickets_default');
 
+	$tickets = new WP_Query( $args );
+	
+	if(empty($args['orderby'])) remove_filter('posts_orderby', 'sd_modify_get_tickets_default');
+	
 	if(!empty($tickets->posts)){ 
 		return $tickets->posts; 
 	}
@@ -65,10 +69,7 @@ function sd_get_tickets_count( $status = 'new', $cid = '' ){
 }
 
 function sd_add_new_ticket( $ticket ){
-
 	if(is_array($ticket)){
-		$ticket = array_map('sanitize_text_field', $ticket);
-
 		if(!empty($ticket['status']) && array_key_exists($ticket['status'], sd_get_ticket_statuses())){
 			$ticket_status = $ticket['status'];
 		}else{

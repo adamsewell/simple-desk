@@ -51,7 +51,6 @@ function sd_display_tickets(){
     }
 }
 
-
 /*
 * Ticket List Table 
 */
@@ -249,7 +248,8 @@ class SimpleDeskTicketTable extends WP_List_Table{
         }elseif($status == 'open' && isset($customer)){
             $meta_key = '_sd_ticket_customer';
             $meta_value = $customer;
-        }elseif($status == 'history' && isset($customer)){ //all tickets for customer
+        }elseif($status == 'history' && isset($customer)){ 
+            //all tickets for customer
             $meta_key = '_sd_ticket_customer';
             $meta_value = $customer;
         }
@@ -264,13 +264,9 @@ class SimpleDeskTicketTable extends WP_List_Table{
             'post_status' => $status,
             'order' => $order,
             's' => $search
-        );
-
-        add_filter('posts_orderby', 'sd_modify_get_tickets_default');
+        );        
 
         $tickets = sd_get_tickets($args);
-
-        remove_filter('posts_orderby', 'sd_modify_get_tickets_default');
 
         if(is_array($tickets)){
             foreach($tickets as $ticket){
