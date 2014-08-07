@@ -12,7 +12,7 @@ function sd_new_ticket_notification_techs( $ticket_id ){
 
 	$subject = '[#' . absint($ticket_id) .']: ' . wp_strip_all_tags(sd_get_email_subject($ticket_id), true);
 
-	$body = 'A new ticket has been created for: ' . sd_get_customer_display_name($customer) . "\r\n";
+	$body = 'A new ticket has been created for: ' . sd_get_ticket_contact_name($ticket_id) . "\r\n";
 	$body .= 'Created By: ' . sd_get_tech_display_name(sd_get_ticket_creator($ticket_id)) . "\r\n";
 	$body .= 'Status: ' . sd_get_ticket_status($ticket_id) . "\r\n";
 	$body .= "\r\n";
@@ -58,7 +58,7 @@ function sd_new_ticket_notification_customer( $ticket_id ){
 	$body .= 'Status: ' . $statuses[sd_get_ticket_status($ticket_id)] . "\r\n";
 	$body .= "\r\n";
 	$body .= '------------------------------------' . "\r\n";
-	$body .= wp_kses_post(sd_get_ticket_details($ticket_id)) . "\r\n";
+	$body .= wp_kses(sd_get_ticket_details($ticket_id), array()) . "\r\n";
 	$body .= '------------------------------------' . "\r\n";
 
 	$to = sd_get_ticket_contact_email($customer);
@@ -85,7 +85,7 @@ function sd_updated_ticket_notification_customer($ticket_id, $reply_id){
 	$body .= 'Status: ' . $statuses[sd_get_ticket_status($ticket_id)] . "\r\n";
 	$body .= "\r\n";
 	$body .= '------------------------------------' . "\r\n";
-	$body .= wp_kses_post(sd_get_ticket_reply($reply_id)) . "\r\n";
+	$body .= wp_kses(sd_get_ticket_reply($reply_id), array()) . "\r\n";
 	$body .= '------------------------------------' . "\r\n";
 
 	$to = sd_get_ticket_contact_email($ticket_id);
