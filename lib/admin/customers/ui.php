@@ -33,13 +33,12 @@ function sd_display_customers(){
                 <?php _e('Customers'); ?> 
                 <a href="<?php echo add_query_arg( array( 'sd_page' => 'add_customer' ), remove_query_arg('sd-message') ); ?>" class="add-new-h2">Add New</a>
             </h2>
-            <form id="sd_search_form" method="get" action="<?php echo admin_url('admin.php'); ?>">
-                <!-- for some reason, adding page=simple-desk to the admin_url above was
-                    being stripped out. using a hidden input tag seems to have fixed the issue -->
-                <input type="hidden" name="page" id="page" value="simple-desk-customer-page" />
+            <form id="sd_search_form" method="get">
+                <input type="hidden" name="page" value="<?php echo $_REQUEST['page'] ?>" />
                 <?php $Customers->search_box('Search', 'sd-customers'); ?>
             </form>
-            <form id="sd_ticket" method="get" action="">
+            <form id="sd_ticket" method="get">
+                <input type="hidden" name="page" value="<?php echo $_REQUEST['page'] ?>" />
                 <?php $Customers->views(); ?>
                 <?php $Customers->display(); ?>
             </form>
@@ -138,7 +137,8 @@ class SimpleDeskCustomerTable extends WP_List_Table{
     function get_sortable_columns() {
         $sortable_columns = array(
             'title'     => array('title',true),     //true means it's already sorted
-            'created'  => array('created',false)
+            'created'  => array('created', false),
+            'tickets' => array('tickets', false)
         );
         return $sortable_columns;
     }

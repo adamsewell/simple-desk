@@ -31,9 +31,8 @@ function sd_display_tickets(){
                 <?php _e('Tickets'); ?> 
                 <a href="<?php echo add_query_arg( array( 'sd_page' => 'add_ticket' ), remove_query_arg('sd-message') ); ?>" class="add-new-h2">Add New</a>
             </h2>
-            <form id="sd_search_form" method="get" action="<?php echo admin_url('admin.php'); ?>">
-                <!-- the following hidden tag is needed to be placed on the right page -->
-                <input type="hidden" name="page" id="page" value="simple-desk" />
+            <form id="sd_search_form" method="get">
+                <input type="hidden" name="page" value="<?php echo $_REQUEST['page'] ?>" />
 
                 <!-- maintain status if present on search so we can search through the different statuses -->
                 <?php if(!empty($_GET['status'])): ?>
@@ -42,7 +41,8 @@ function sd_display_tickets(){
 
                 <?php $Tickets->search_box('Search', 'sd-tickets'); ?>
             </form>
-            <form id="sd_ticket" method="get" action="">
+            <form id="sd_ticket" method="get">
+                <input type="hidden" name="page" value="<?php echo $_REQUEST['page'] ?>" />
                 <?php $Tickets->views(); ?>
                 <?php $Tickets->display(); ?>
             </form>
@@ -189,15 +189,19 @@ class SimpleDeskTicketTable extends WP_List_Table{
 
     function get_bulk_actions() {
         $actions = array(
-            'delete'    => 'Delete'
+            'delete' => __('Delete', 'sd')
         );
         return $actions;
     }
 
-    function process_bulk_action() {   
-        //Detect when a bulk action is being triggered...
-        if( 'delete' === $this->current_action() ) {
-            wp_die('Items deleted (or they would be if we had items to delete)!');
+    function process_bulk_action() {
+        $ids = isset( $_GET['ticket'] ) ? $_GET['ticket'] : false;
+
+        foreach($ids as $id){
+            //Detect when a bulk action is being triggered...
+            if( 'delete' === $this->current_action() ) {
+                sd_remove_ticket($ids);
+            }
         }
     }
 
@@ -208,6 +212,7 @@ class SimpleDeskTicketTable extends WP_List_Table{
         $hidden = array();
         $sortable = $this->get_sortable_columns();
         $this->_column_headers = array($columns, $hidden, $sortable);
+        $this->process_bulk_action();
 
         $data = $this->table_data();
         $this->items = $data;

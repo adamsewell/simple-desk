@@ -223,6 +223,14 @@ function sd_get_ticket_log( $ticket_id ){
 	return false;
 }
 
+function sd_remove_ticket($ticket_id){
+	if(current_user_can('delete_sd_customers')){
+		return wp_delete_post($ticket_id, true);
+	}
+
+	return false;
+}
+
 function sd_get_ticket( $ticket_id ){
 	$ticket = get_post( $ticket_id );
 

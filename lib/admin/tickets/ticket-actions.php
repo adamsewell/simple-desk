@@ -29,7 +29,7 @@ add_action('sd_edit_ticket', 'sd_edit_ticket');
 
 function sd_delete_ticket($data){
 	if(isset($data['_wpnonce']) && wp_verify_nonce($data['_wpnonce'], 'sd-delete-ticket')){
-		if(wp_delete_post( $data['tid'], true )){
+		if(sd_remove_ticket( $data['tid'] )){
 			wp_redirect( add_query_arg( 'sd-message', 'ticket_deleted', admin_url('admin.php?page=simple-desk')));
 		}
 	}
