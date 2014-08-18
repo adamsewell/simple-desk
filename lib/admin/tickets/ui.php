@@ -45,6 +45,7 @@ function sd_display_tickets(){
                 <input type="hidden" name="page" value="<?php echo esc_attr($_REQUEST['page']) ?>" />
                 <!-- used to retain view when filtering -->
                 <input type="hidden" name="view" value="<?php echo sanitize_text_field($_GET['view']) ?>" /> 
+
                 <?php $Tickets->views(); ?>
                 <?php $Tickets->display(); ?>
             </form>
@@ -93,13 +94,14 @@ class SimpleDeskTicketTable extends WP_List_Table{
             <div class="alignleft actions">
                 <?php $statuses = sd_get_ticket_statuses(); ?>
                 <?php if(array_key_exists($_GET['status'], sd_get_ticket_statuses())) $selected = $_GET['status']; ?>
-
                 <select name="status">
                     <option value=""><?php _e('Status', 'sd'); ?></option>
                     <?php echo sd_menuoptions($statuses, $selected, true); ?>
                 </select>
+
                 <?php $techs = sd_get_technicians(true); ?>
-                <select name="filter_tech">>
+                <?php if(array_key_exists($_GET['tech'], sd_get_technicians(true))) $selected = $_GET['tech']; ?>
+                <select name="tech">>
                     <option value=""><?php _e('Tech', 'sd'); ?></option>
                     <?php echo sd_menuoptions($techs, $selected, true); ?>
                 </select>
@@ -257,6 +259,7 @@ class SimpleDeskTicketTable extends WP_List_Table{
         $customer = isset( $_GET['cid'] ) ? absint($_GET['cid']) : '';
         $orderby  = isset( $_GET['orderby'] ) ? $_GET['orderby'] : '';
         $order  = isset( $_GET['order'] ) ? $_GET['order'] : '';
+        $tech  = isset( $_GET['tech'] ) ? $_GET['tech'] : '';
 
         //set views - my queue, unassigned queue and all open (notresolved)
         if($view == 'mine'){
@@ -280,6 +283,15 @@ class SimpleDeskTicketTable extends WP_List_Table{
             $meta_query[] = array(
                 'key' => '_sd_ticket_customer',
                 'value' => $customer,
+                'compare' => '=' 
+            );
+        }
+
+        //add filter for technition 
+        if(!empty($tech)){
+            $meta_query[] = array(
+                'key' => '_sd_ticket_assign',
+                'value' => $tech,
                 'compare' => '=' 
             );
         }
