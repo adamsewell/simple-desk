@@ -42,7 +42,9 @@ function sd_display_tickets(){
                 <?php $Tickets->search_box('Search', 'sd-tickets'); ?>
             </form>
             <form id="sd_ticket" method="get">
-                <input type="hidden" name="page" value="<?php echo $_REQUEST['page'] ?>" />
+                <input type="hidden" name="page" value="<?php echo esc_attr($_REQUEST['page']) ?>" />
+                <!-- used to retain view when filtering -->
+                <input type="hidden" name="view" value="<?php echo sanitize_text_field($_GET['view']) ?>" /> 
                 <?php $Tickets->views(); ?>
                 <?php $Tickets->display(); ?>
             </form>
