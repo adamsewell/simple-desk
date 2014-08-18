@@ -245,14 +245,7 @@ class SimpleDeskTicketTable extends WP_List_Table{
         }elseif($status == 'unassigned'){
             $meta_key = '_sd_ticket_assign';
             $meta_value = '0';
-        }elseif($status == 'open' && isset($customer)){
-            $meta_key = '_sd_ticket_customer';
-            $meta_value = $customer;
-        }elseif($status == 'all' && isset($customer)){
-            $meta_key = '_sd_ticket_customer';
-            $meta_value = $customer;     
-        }elseif($status == 'history' && isset($customer)){ 
-            //all tickets for customer
+        }elseif(isset($customer)){
             $meta_key = '_sd_ticket_customer';
             $meta_value = $customer;
         }
