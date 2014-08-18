@@ -101,7 +101,7 @@ class SimpleDeskCustomerTable extends WP_List_Table{
 
     function column_tickets($item){
         $ticket_url = admin_url( 'admin.php?page=simple-desk' );
-        return '<a href="' . add_query_arg(array('cid' => absint($item['ID']), 'status' => 'open'), $ticket_url) . '">' . absint($item['tickets']) . '</a>';
+        return '<a href="' . add_query_arg(array('cid' => absint($item['ID']), 'status' => 'notresolved'), $ticket_url) . '">' . absint($item['tickets']) . '</a>';
 
     }
 
