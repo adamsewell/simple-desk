@@ -69,17 +69,17 @@ class SimpleDeskTicketTable extends WP_List_Table{
     function get_views(){
         $base_url = admin_url('admin.php?page=simple-desk');
 
-        $current = isset( $_GET['status'] ) ? $_GET['status'] : '';
+        $current = isset( $_GET['view'] ) ? $_GET['view'] : '';
         $notresolved_count = '&nbsp;<span class="count">(' . sd_get_tickets_count('notresolved') . ')</span>';
         $mine_count = '&nbsp;<span class="count">(' . sd_get_tickets_count('mine') . ')</span>';
         $resovled_count = '&nbsp;<span class="count">(' . sd_get_tickets_count('resolved') . ')</span>';
         $unassigned_count = '&nbsp;<span class="count">(' . sd_get_tickets_count('unassigned') . ')</span>';
 
         $views = array(
-            'mine' => sprintf( '<a href="%s"%s>%s</a>', remove_query_arg( 'status', $base_url ), $current === 'mine' || $current == '' ? ' class="current"' : '', __('Mine', 'sd') . $mine_count ),
-            'unassigned' => sprintf('<a href="%s"%s>%s</a>', add_query_arg('status', 'unassigned', $base_url), $current === 'unassigned' ? ' class="current"' : '', __('Unassigned', 'sd') . $unassigned_count), 
-            'all_open' => sprintf( '<a href="%s"%s>%s</a>', add_query_arg( 'status', 'notresolved', $base_url ), $current === 'all_open' ? ' class="current"' : '', __('All Open', 'sd') . $notresolved_count ),
-            'resolved' => sprintf( '<a href="%s"%s>%s</a>', add_query_arg( 'status', 'resolved', $base_url ), $current === 'resolved' ? ' class="current"' : '', __('Resolved', 'sd') . $resovled_count ),
+            'mine' => sprintf( '<a href="%s"%s>%s</a>', remove_query_arg( 'view', $base_url ), $current === 'mine' || $current == '' ? ' class="current"' : '', __('My Queue', 'sd') . $mine_count ),
+            'unassigned' => sprintf('<a href="%s"%s>%s</a>', add_query_arg('view', 'unassigned', $base_url), $current === 'unassigned' ? ' class="current"' : '', __('Unassigned', 'sd') . $unassigned_count), 
+            'all_open' => sprintf( '<a href="%s"%s>%s</a>', add_query_arg( 'view', 'notresolved', $base_url ), $current === 'all_open' ? ' class="current"' : '', __('All Open', 'sd') . $notresolved_count ),
+            //'resolved' => sprintf( '<a href="%s"%s>%s</a>', add_query_arg( 'status', 'resolved', $base_url ), $current === 'resolved' ? ' class="current"' : '', __('Resolved', 'sd') . $resovled_count ),
         );
 
         return $views;
@@ -89,8 +89,17 @@ class SimpleDeskTicketTable extends WP_List_Table{
         if($which === 'top'){
 ?>
             <div class="alignleft actions">
-                <select>
-                    <option>Status</option>
+                <?php $statuses = sd_get_ticket_statuses(); ?>
+                <?php if(array_key_exists($_GET['filter_status'], sd_get_ticket_statuses())) $selected = $_GET['filter_status']; ?>
+
+                <select name="filter_status">
+                    <option value=""><?php _e('Status', 'sd'); ?></option>
+                    <?php echo sd_menuoptions($statuses, $selected, true); ?>
+                </select>
+                <?php $techs = sd_get_technicians(true); ?>
+                <select name="filter_tech">>
+                    <option value=""><?php _e('Tech', 'sd'); ?></option>
+                    <?php echo sd_menuoptions($techs, $selected, true); ?>
                 </select>
 
                 <input type="submit" class="button" value="<?php _e('Filter', 'sd'); ?>" />
@@ -235,32 +244,45 @@ class SimpleDeskTicketTable extends WP_List_Table{
         $tickets_data = array();
         $per_page = 25;
         $current_user = wp_get_current_user();
-        $meta_key = '';
-        $meta_value = '';
+        $meta_query = array();
 
-        $status = isset( $_GET['status'] ) ? $_GET['status'] : 'mine';
+        $status = isset( $_GET['status'] ) ? $_GET['status'] : '';
+        $view = isset( $_GET['view'] ) ? $_GET['view'] : 'mine';
         $search = isset( $_GET['s'] ) ? sanitize_text_field( $_GET['s'] ) : '';
         $customer = isset( $_GET['cid'] ) ? absint($_GET['cid']) : '';
         $orderby  = isset( $_GET['orderby'] ) ? $_GET['orderby'] : '';
         $order  = isset( $_GET['order'] ) ? $_GET['order'] : '';
 
+        //set views - my queue, unassigned queue and all open (notresolved)
+        if($view == 'mine'){
+            $meta_query[] = array(
+                'key' => '_sd_ticket_assign',
+                'value' => $current_user->ID,
+                'compare' => '=' 
+            );
+        }elseif($view == 'unassigned'){
+            $meta_query[] = array(
+                'key' => '_sd_ticket_assign',
+                'value' => 0,
+                'compare' => '=' 
+            );
+        }elseif($view == 'custom'){
+            $meta_query[] = array();
+        }
 
-        if($status == 'mine'){
-            $meta_key = '_sd_ticket_assign';
-            $meta_value = $current_user->ID;
-        }elseif($status == 'unassigned'){
-            $meta_key = '_sd_ticket_assign';
-            $meta_value = '0';
-        }elseif(isset($customer)){
-            $meta_key = '_sd_ticket_customer';
-            $meta_value = $customer;
+        //filter based on customer if present - in addition to view above
+        if(!empty($customer)){
+            $meta_query[] = array(
+                'key' => '_sd_ticket_customer',
+                'value' => $customer,
+                'compare' => '=' 
+            );
         }
 
         $args = array(
             'post_type' => 'simple-desk-ticket',
             'paged' => isset( $_GET['paged'] ) ? $_GET['paged'] : 1,
-            'meta_key' => $meta_key,
-            'meta_value' => $meta_value,
+            'meta_query' => $meta_query,
             'posts_per_page' => $per_page,
             'orderby' => $orderby,
             'post_status' => $status,

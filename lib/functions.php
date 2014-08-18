@@ -378,14 +378,3 @@ function sd_get_ip() {
 	return apply_filters( 'sd_get_ip', $ip );
 }
 
-function sd_get_ticket_statuses() {
-	$ticket_statuses = array(
-		'new'   => __( 'New', 'sd' ),
-		'inprogress'   => __( 'In Progress', 'sd' ),
-		'waitingonme'  => __( 'Waiting on Me', 'sd' ),
-		'waitingoncustomer'    => __( 'Waiting on Customer', 'sd' ),
-		'resolved' => __( 'Resolved', 'sd' )
-	);
-
-	return $ticket_statuses;
-}

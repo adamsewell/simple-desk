@@ -347,3 +347,15 @@ function sd_get_tech_display_name($tech_id){
 function sd_get_ticket_tech($ticket_id){
 	return get_post_meta($ticket_id, '_sd_ticket_assign', true);
 }
+
+function sd_get_ticket_statuses() {
+	$ticket_statuses = array(
+		'new'   => __( 'New', 'sd' ),
+		'inprogress'   => __( 'In Progress', 'sd' ),
+		'waitingonme'  => __( 'Waiting on Me', 'sd' ),
+		'waitingoncustomer'    => __( 'Waiting on Customer', 'sd' ),
+		'resolved' => __( 'Resolved', 'sd' )
+	);
+
+	return $ticket_statuses;
+}

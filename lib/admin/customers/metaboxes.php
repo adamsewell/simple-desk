@@ -82,19 +82,19 @@ function sd_render_view_customer_stats(){
 		<ul>
 			<li>
 				<div id="ticket_history_week">
-					<a href="<?php echo add_query_arg(array('cid' => $customer, 'status' => 'open', 'w' => date('W')), $ticket_url) ?>"><?php echo absint(sd_get_tickets_count('lastweek', $customer)); ?></a>
+					<a href="<?php echo add_query_arg(array('cid' => $customer, 'status' => 'open', 'view' => 'custom', 'w' => date('W')), $ticket_url) ?>"><?php echo absint(sd_get_tickets_count('lastweek', $customer)); ?></a>
 					<p class="stats-meta"><?php _e('Past Week', 'sd'); ?></p>
 				</div>
 			</li>
 			<li>
 				<div id="ticket_history_open">
-					<a href="<?php echo add_query_arg(array('cid' => $customer, 'status' => 'open'), $ticket_url) ?>"><?php echo absint(sd_get_tickets_count('notresolved', $customer)); ?></a>
+					<a href="<?php echo add_query_arg(array('cid' => $customer, 'status' => 'notresolved', 'view' => 'custom'), $ticket_url) ?>"><?php echo absint(sd_get_tickets_count('notresolved', $customer)); ?></a>
 					<p class="stats-meta"><?php _e('Open Tickets', 'sd'); ?></p>
 				</div>
 			</li>
 			<li>
 				<div id="ticket_history_resolved">
-					<a href="<?php echo add_query_arg(array('cid' => $customer, 'status' => 'resolved'), $ticket_url) ?>"><?php echo absint(sd_get_tickets_count('resolved', $customer)); ?></a>
+					<a href="<?php echo add_query_arg(array('cid' => $customer, 'status' => 'resolved', 'view' => 'custom'), $ticket_url) ?>"><?php echo absint(sd_get_tickets_count('resolved', $customer)); ?></a>
 					<p class="stats-meta"><?php _e('Resolved Tickets', 'sd'); ?></p>
 				</div>
 			</li>
