@@ -185,7 +185,7 @@ function sd_render_customer_information(){
 	</p>
 	<p>
 		<span>
-			<strong>Open Tickets:</strong> <a href="<?php echo add_query_arg(array('cid' => $customer_id, 'status' => 'open'), $ticket_url) ?>"><?php echo absint(sd_get_customer_ticket_count($customer_id)); ?></a>
+			<strong>Open Tickets:</strong> <a href="<?php echo add_query_arg(array('cid' => $customer_id, 'status' => 'open'), $ticket_url) ?>"><?php echo absint(sd_get_tickets_count('notresolved', $customer_id)); ?></a>
 		</span>
 	</p>
 

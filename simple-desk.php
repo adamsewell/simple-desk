@@ -68,8 +68,8 @@ class SimpleDesk {
 			require_once SIMPLEDESK_BASE_DIR . 'lib/emails/template.php';
 			require_once SIMPLEDESK_BASE_DIR . 'lib/emails/functions.php';
 
-			//import and exports
-			require_once SIMPLEDESK_BASE_DIR . 'lib/admin/import/ui.php';
+			//tools
+			require_once SIMPLEDESK_BASE_DIR . 'lib/admin/tools/ui.php';
 
 			//settings
 			require_once SIMPLEDESK_BASE_DIR . 'lib/admin/settings/settings.php';

@@ -78,7 +78,7 @@ class SimpleDeskTicketTable extends WP_List_Table{
         $views = array(
             'mine' => sprintf( '<a href="%s"%s>%s</a>', remove_query_arg( 'status', $base_url ), $current === 'mine' || $current == '' ? ' class="current"' : '', __('Mine', 'sd') . $mine_count ),
             'unassigned' => sprintf('<a href="%s"%s>%s</a>', add_query_arg('status', 'unassigned', $base_url), $current === 'unassigned' ? ' class="current"' : '', __('Unassigned', 'sd') . $unassigned_count), 
-            'all' => sprintf( '<a href="%s"%s>%s</a>', add_query_arg( 'status', 'all', $base_url ), $current === 'all' ? ' class="current"' : '', __('All', 'sd') . $notresolved_count ),
+            'all_open' => sprintf( '<a href="%s"%s>%s</a>', add_query_arg( 'status', 'notresolved', $base_url ), $current === 'all_open' ? ' class="current"' : '', __('All Open', 'sd') . $notresolved_count ),
             'resolved' => sprintf( '<a href="%s"%s>%s</a>', add_query_arg( 'status', 'resolved', $base_url ), $current === 'resolved' ? ' class="current"' : '', __('Resolved', 'sd') . $resovled_count ),
         );
 
@@ -215,7 +215,7 @@ class SimpleDeskTicketTable extends WP_List_Table{
         //Pagination
         $current_page = $this->get_pagenum();
 
-        $status = isset( $_GET['status'] ) ? $_GET['status'] : 'all';
+        $status = isset( $_GET['status'] ) ? $_GET['status'] : 'mine';
         $total_items = sd_get_tickets_count($status);
 
         $this->set_pagination_args( array(
@@ -248,6 +248,9 @@ class SimpleDeskTicketTable extends WP_List_Table{
         }elseif($status == 'open' && isset($customer)){
             $meta_key = '_sd_ticket_customer';
             $meta_value = $customer;
+        }elseif($status == 'all' && isset($customer)){
+            $meta_key = '_sd_ticket_customer';
+            $meta_value = $customer;     
         }elseif($status == 'history' && isset($customer)){ 
             //all tickets for customer
             $meta_key = '_sd_ticket_customer';

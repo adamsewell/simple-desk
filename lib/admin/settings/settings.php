@@ -12,14 +12,11 @@ function sd_display_settings_page(){
 		<div class="wrap">
 			<h2 class="nav-tab-wrapper">
 				<a href="<?php echo add_query_arg('tab', 'general', remove_query_arg('settings-updated')); ?>" class="nav-tab <?php echo $active_tab == 'general' ? 'nav-tab-active' : ''; ?>"><?php _e('General', 'sd'); ?></a>
-				<a href="<?php echo add_query_arg('tab', 'email', remove_query_arg('settings-updated')); ?>" class="nav-tab <?php echo $active_tab == 'email' ? 'nav-tab-active' : ''; ?>"><?php _e('Emails', 'sd'); ?></a>
 			</h2>
 			<div id="tab_container">
 				<form method="post" action="options.php">
 					<?php if ( $active_tab == 'general' ): ?>
 						test
-					<?php elseif( $active_tab == 'email' ): ?>
-						afdasdf
 					<?php endif; ?>
 
 

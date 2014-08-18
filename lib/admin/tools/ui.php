@@ -11,7 +11,7 @@
 // Exit if accessed directly
 if ( ! defined( 'ABSPATH' ) ) exit;
 
-function sd_display_import_page(){
+function sd_display_tools_page(){
 ?>  
         <div class="wrap">
             <div id="icon-edit-comments" class="icon32"></div>

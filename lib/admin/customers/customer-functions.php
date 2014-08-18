@@ -195,13 +195,6 @@ function sd_get_customer_modified($customer_id){
 	return mysql2date('n/j/y g:ia', $customer->post_modified);
 }
 
-function sd_get_customer_ticket_count($customer_id){
-	global $wpdb;
-
-	$query = "SELECT count(DISTINCT pm.post_id) FROM $wpdb->postmeta AS pm JOIN $wpdb->posts AS p ON (p.ID = pm.post_id) WHERE pm.meta_key = '_sd_ticket_customer' AND pm.meta_value = '$customer_id' AND p.post_type = 'simple-desk-ticket' AND p.post_status != 'resolved'";
-	return $wpdb->get_var($query);
-}
-
 function sd_get_customers_count(){
 	global $wpdb;
 

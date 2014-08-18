@@ -207,7 +207,7 @@ class SimpleDeskCustomerTable extends WP_List_Table{
                     'title' => get_the_title($customer->ID),
                     'email' => sd_get_customer_email($customer->ID),
                     'phone' => sd_get_customer_phone($customer->ID),
-                    'tickets' => sd_get_customer_ticket_count($customer->ID),
+                    'tickets' => sd_get_tickets_count('notresolved', $customer->ID),
                     'created' => $customer->post_date
                 );
             }

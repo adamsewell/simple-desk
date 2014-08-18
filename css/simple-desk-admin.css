@@ -108,6 +108,34 @@ textarea{
 	display: block;
 }
 
+.customer-stats ul{
+	margin: 0;
+	padding: 0;
+}
+
+.customer-stats ul li {
+	display: inline-block;
+	width: 32%;
+	text-align: center;
+	margin-top: 1.5em;
+	border-right: 1px solid #e3e3e3;
+
+}
+
+.customer-stats ul li:last-child{
+	border-right: none;
+}
+
+.customer-stats ul li a{
+	font-size: 3em;  
+	text-decoration: none;
+}
+
+.customer-stats ul li div p.stats-meta{
+	font-size: 1.2em;
+	font-weight: bold;
+}
+
 /*************
 	Edit Customer
 *************/

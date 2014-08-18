@@ -28,7 +28,21 @@ function sd_add_customer_meta_boxes(){
 add_action('load-simple-desk_page_simple-desk-customer-page', 'sd_add_customer_meta_boxes');
 
 function sd_render_view_customer_meta(){
-	echo 'test';
+	$customer_id = absint($_GET['cid']);
+?>
+	<div id="customer_actions">
+		<p>
+			<span>
+				<a class="button-secondary" href="<?php echo add_query_arg( array( 'sd_page' => 'add_ticket', 'cid' => $customer_id ), admin_url() . 'admin.php?page=simple-desk' ); ?>" title="New Ticket">New Ticket</a>
+			</span>
+		</p>
+		<p>
+			<span>
+				<a class="button-primary" href="<?php echo add_query_arg( array( 'sd_page' => 'edit_customer', 'cid' => $customer_id ), admin_url() . 'admin.php?page=simple-desk-customer-page' ); ?>" title="Edit Customer">Edit Customer</a>
+			</span>
+		</p>
+	</div>
+<?php
 }
 
 function sd_render_view_customer(){
@@ -60,6 +74,35 @@ function sd_render_view_customer(){
 <?php
 }
 
+function sd_render_view_customer_stats(){
+	$customer = absint($_GET['cid']);
+	$ticket_url = admin_url( 'admin.php?page=simple-desk' );
+?>
+	<div class="customer-stats">
+		<ul>
+			<li>
+				<div id="ticket_history_week">
+					<a href="<?php echo add_query_arg(array('cid' => $customer, 'status' => 'open', 'w' => date('W')), $ticket_url) ?>"><?php echo absint(sd_get_tickets_count('lastweek', $customer)); ?></a>
+					<p class="stats-meta"><?php _e('Past Week', 'sd'); ?></p>
+				</div>
+			</li>
+			<li>
+				<div id="ticket_history_open">
+					<a href="<?php echo add_query_arg(array('cid' => $customer, 'status' => 'open'), $ticket_url) ?>"><?php echo absint(sd_get_tickets_count('notresolved', $customer)); ?></a>
+					<p class="stats-meta"><?php _e('Open Tickets', 'sd'); ?></p>
+				</div>
+			</li>
+			<li>
+				<div id="ticket_history_resolved">
+					<a href="<?php echo add_query_arg(array('cid' => $customer, 'status' => 'resolved'), $ticket_url) ?>"><?php echo absint(sd_get_tickets_count('resolved', $customer)); ?></a>
+					<p class="stats-meta"><?php _e('Resolved Tickets', 'sd'); ?></p>
+				</div>
+			</li>
+		</ul>
+	</div>
+<?php
+}
+
 function sd_render_add_customer_actions(){
 ?>
 	<p>
@@ -78,11 +121,6 @@ function sd_render_edit_customer_actions(){
 	$customer = sd_get_customer($customer_id);
 ?>
 	<div id="customer_actions">
-		<p>
-			<span>
-				<a class="button-secondary" href="<?php echo add_query_arg( array( 'sd_page' => 'add_ticket', 'cid' => $customer_id ), admin_url() . 'admin.php?page=simple-desk' ); ?>" title="New Ticket">New Ticket</a>
-			</span>
-		</p>
 		<?php if(current_user_can('delete_sd_customers')): ?>
 			<p>
 				<span>
@@ -124,7 +162,7 @@ function sd_render_edit_customer_meta(){
 	</p>
 	<p>
 		<span>
-			<strong>Open Tickets:</strong>  <a href="<?php echo add_query_arg(array('cid' => absint($customer_id), 'status' => 'open'), admin_url( 'admin.php?page=simple-desk' )) ?>"><?php echo absint(sd_get_customer_ticket_count($customer_id)); ?></a>
+			<strong>Open Tickets:</strong>  <a href="<?php echo add_query_arg(array('cid' => absint($customer_id), 'status' => 'open'), admin_url( 'admin.php?page=simple-desk' )) ?>"><?php echo absint(sd_get_tickets_count('notresolved', $customer_id)); ?></a>
 		</span>
 	</p>
 	<p>

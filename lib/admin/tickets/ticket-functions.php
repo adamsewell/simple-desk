@@ -49,21 +49,52 @@ function sd_get_ticket_link($ticket_id){
 
 }
 
-function sd_get_tickets_count( $status = 'new', $cid = '' ){
+function sd_get_tickets_count( $status = '', $cid = '' ){
 	$user = wp_get_current_user();
 	global $wpdb;
 
-	if($status == 'notresolved'){
+	$all_ticket_queries = array(
+		'notresolved' => "SELECT count(post_status) FROM $wpdb->posts WHERE post_type = 'simple-desk-ticket' AND post_status != 'resolved';",
+		'unassigned' => "SELECT count(post_status) FROM $wpdb->posts LEFT JOIN $wpdb->postmeta ON $wpdb->posts.ID = $wpdb->postmeta.post_id WHERE $wpdb->posts.post_type = 'simple-desk-ticket' AND $wpdb->posts.post_status != 'resolved' AND $wpdb->postmeta.meta_key = '_sd_ticket_assign' AND $wpdb->postmeta.meta_value = '0';",
+		'mine' => "SELECT count(post_status) FROM $wpdb->posts LEFT JOIN $wpdb->postmeta ON $wpdb->posts.ID = $wpdb->postmeta.post_id WHERE $wpdb->posts.post_type = 'simple-desk-ticket' AND $wpdb->posts.post_status != 'resolved' AND $wpdb->postmeta.meta_key = '_sd_ticket_assign' AND $wpdb->postmeta.meta_value = '$user->ID';",
+		'default' => "SELECT count(post_status) FROM $wpdb->posts WHERE post_type = 'simple-desk-ticket' AND post_status = '$status';",
+		'all' => "SELECT count(post_status) FROM $wpdb->posts WHERE post_type = 'simple-desk-ticket';",
+		'resolved' => "SELECT count(post_status) FROM $wpdb->posts WHERE post_type = 'simple-desk-ticket' AND post_status = 'resolved';"
+	);
+
+	$customer_ticket_queries = array(
+		'all' => "SELECT count(post_status) FROM $wpdb->posts LEFT JOIN $wpdb->postmeta ON $wpdb->posts.ID = $wpdb->postmeta.post_id WHERE $wpdb->posts.post_type = 'simple-desk-ticket' AND $wpdb->postmeta.meta_key = '_sd_ticket_customer' AND $wpdb->postmeta.meta_value = '".absint($cid)."';",
+		'lastweek' => "SELECT count(post_status) FROM $wpdb->posts LEFT JOIN $wpdb->postmeta ON $wpdb->posts.ID = $wpdb->postmeta.post_id WHERE $wpdb->posts.post_type = 'simple-desk-ticket' AND $wpdb->postmeta.meta_key = '_sd_ticket_customer' AND $wpdb->postmeta.meta_value = '".absint($cid)."' AND $wpdb->posts.post_date BETWEEN CURDATE() - INTERVAL 7 DAY AND CURDATE();",
+		'resolved' => "SELECT count(post_status) FROM $wpdb->posts LEFT JOIN $wpdb->postmeta ON $wpdb->posts.ID = $wpdb->postmeta.post_id WHERE $wpdb->posts.post_type = 'simple-desk-ticket' AND $wpdb->postmeta.meta_key = '_sd_ticket_customer' AND $wpdb->postmeta.meta_value = '".absint($cid)."' AND $wpdb->posts.post_status = 'resolved'",
+	);
+
+	if(empty($status)){
+		$query = $all_ticket_queries['all'];
+	}elseif(!empty($status) && empty($cid)){
+		$query = $all_ticket_queries[$status];
+	}elseif(!empty($status) && !empty($cid)){
+		$query = $customer_ticket_queries[$status];
+	}
+
+/*
+	if($status == 'notresolved' && empty($cid)){ //all not resolved and no customer
 		$query = "SELECT count(post_status) FROM $wpdb->posts WHERE post_type = 'simple-desk-ticket' AND post_status != 'resolved';";
-	}elseif($status == 'unassigned'){
+	}elseif($status == 'unassigned'){ //all that are not resolved and not assigned
 		$query = "SELECT count(post_status) FROM $wpdb->posts LEFT JOIN $wpdb->postmeta ON $wpdb->posts.ID = $wpdb->postmeta.post_id WHERE $wpdb->posts.post_type = 'simple-desk-ticket' AND $wpdb->posts.post_status != 'resolved' AND $wpdb->postmeta.meta_key = '_sd_ticket_assign' AND $wpdb->postmeta.meta_value = '0';";
-	}elseif($status == 'mine'){
+	}elseif($status == 'mine'){ //all that are currently assigned to current user
 		$query = "SELECT count(post_status) FROM $wpdb->posts LEFT JOIN $wpdb->postmeta ON $wpdb->posts.ID = $wpdb->postmeta.post_id WHERE $wpdb->posts.post_type = 'simple-desk-ticket' AND $wpdb->posts.post_status != 'resolved' AND $wpdb->postmeta.meta_key = '_sd_ticket_assign' AND $wpdb->postmeta.meta_value = '$user->ID';";
 	}elseif($status == 'all' && isset($cid)){
 		$query = "SELECT count(post_status) FROM $wpdb->posts LEFT JOIN $wpdb->postmeta ON $wpdb->posts.ID = $wpdb->postmeta.post_id WHERE $wpdb->posts.post_type = 'simple-desk-ticket' AND $wpdb->postmeta.meta_key = '_sd_ticket_customer' AND $wpdb->postmeta.meta_value = '".absint($cid)."';";
+	}elseif($status == 'lastweek' && isset($cid)){
+		$query = "SELECT count(post_status) FROM $wpdb->posts LEFT JOIN $wpdb->postmeta ON $wpdb->posts.ID = $wpdb->postmeta.post_id WHERE $wpdb->posts.post_type = 'simple-desk-ticket' AND $wpdb->postmeta.meta_key = '_sd_ticket_customer' AND $wpdb->postmeta.meta_value = '".absint($cid)."' AND $wpdb->posts.post_date BETWEEN CURDATE() - INTERVAL 7 DAY AND CURDATE();";
+	}elseif($status == 'resolved' && isset($cid)){
+		$query = "SELECT count(post_status) FROM $wpdb->posts LEFT JOIN $wpdb->postmeta ON $wpdb->posts.ID = $wpdb->postmeta.post_id WHERE $wpdb->posts.post_type = 'simple-desk-ticket' AND $wpdb->postmeta.meta_key = '_sd_ticket_customer' AND $wpdb->postmeta.meta_value = '".absint($cid)."' AND $wpdb->posts.post_status = 'resolved'";
+	}elseif($status == 'notresolved' && isset($cid)){
+		$query = "SELECT count(post_status) FROM $wpdb->posts LEFT JOIN $wpdb->postmeta ON $wpdb->posts.ID = $wpdb->postmeta.post_id WHERE $wpdb->posts.post_type = 'simple-desk-ticket' AND $wpdb->postmeta.meta_key = '_sd_ticket_customer' AND $wpdb->postmeta.meta_value = '".absint($cid)."' AND $wpdb->posts.post_status != 'resolved'";
 	}else{
 		$query = "SELECT count(post_status) FROM $wpdb->posts WHERE post_type = 'simple-desk-ticket' AND post_status = '$status';";
 	}
+*/
 
 	return $wpdb->get_var($query);
 }
