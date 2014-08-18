@@ -78,7 +78,7 @@ class SimpleDeskTicketTable extends WP_List_Table{
         $views = array(
             'mine' => sprintf( '<a href="%s"%s>%s</a>', remove_query_arg( 'view', $base_url ), $current === 'mine' || $current == '' ? ' class="current"' : '', __('My Queue', 'sd') . $mine_count ),
             'unassigned' => sprintf('<a href="%s"%s>%s</a>', add_query_arg('view', 'unassigned', $base_url), $current === 'unassigned' ? ' class="current"' : '', __('Unassigned', 'sd') . $unassigned_count), 
-            'all_open' => sprintf( '<a href="%s"%s>%s</a>', add_query_arg( 'view', 'notresolved', $base_url ), $current === 'all_open' ? ' class="current"' : '', __('All Open', 'sd') . $notresolved_count ),
+            'all_open' => sprintf( '<a href="%s"%s>%s</a>', add_query_arg( 'view', 'notresolved', $base_url ), $current === 'notresolved' ? ' class="current"' : '', __('All Open', 'sd') . $notresolved_count ),
             //'resolved' => sprintf( '<a href="%s"%s>%s</a>', add_query_arg( 'status', 'resolved', $base_url ), $current === 'resolved' ? ' class="current"' : '', __('Resolved', 'sd') . $resovled_count ),
         );
 
@@ -90,9 +90,9 @@ class SimpleDeskTicketTable extends WP_List_Table{
 ?>
             <div class="alignleft actions">
                 <?php $statuses = sd_get_ticket_statuses(); ?>
-                <?php if(array_key_exists($_GET['filter_status'], sd_get_ticket_statuses())) $selected = $_GET['filter_status']; ?>
+                <?php if(array_key_exists($_GET['status'], sd_get_ticket_statuses())) $selected = $_GET['status']; ?>
 
-                <select name="filter_status">
+                <select name="status">
                     <option value=""><?php _e('Status', 'sd'); ?></option>
                     <?php echo sd_menuoptions($statuses, $selected, true); ?>
                 </select>
@@ -206,6 +206,9 @@ class SimpleDeskTicketTable extends WP_List_Table{
     function process_bulk_action() {
         $ids = isset( $_GET['ticket'] ) ? $_GET['ticket'] : false;
 
+        if ( ! is_array( $ids ) )
+            $ids = array( $ids );
+
         foreach($ids as $id){
             //Detect when a bulk action is being triggered...
             if( 'delete' === $this->current_action() ) {
@@ -229,9 +232,9 @@ class SimpleDeskTicketTable extends WP_List_Table{
         //Pagination
         $current_page = $this->get_pagenum();
 
-        $status = isset( $_GET['status'] ) ? $_GET['status'] : 'mine';
+        $view = isset( $_GET['view'] ) ? $_GET['view'] : 'mine';
         $cid = isset( $_GET['cid'] ) ? absint($_GET['cid']) : '';
-        $total_items = sd_get_tickets_count($status, $cid);
+        $total_items = sd_get_tickets_count($view, $cid);
 
         $this->set_pagination_args( array(
             'total_items' => $total_items,                  //WE have to calculate the total number of items
@@ -266,7 +269,7 @@ class SimpleDeskTicketTable extends WP_List_Table{
                 'value' => 0,
                 'compare' => '=' 
             );
-        }elseif($view == 'custom'){
+        }elseif($view == 'custom'){ //if view is custom, show all queues
             $meta_query[] = array();
         }
 
