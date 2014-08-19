@@ -236,9 +236,9 @@ class SimpleDeskTicketTable extends WP_List_Table{
         //Pagination
         $current_page = $this->get_pagenum();
 
-        $view = isset( $_GET['view'] ) ? $_GET['view'] : 'mine';
+        $status = isset( $_GET['status'] ) ? $_GET['status'] : 'mine';
         $cid = isset( $_GET['cid'] ) ? absint($_GET['cid']) : '';
-        $total_items = sd_get_tickets_count($view, $cid);
+        $total_items = sd_get_tickets_count($status, $cid);
 
         $this->set_pagination_args( array(
             'total_items' => $total_items,                  //WE have to calculate the total number of items
