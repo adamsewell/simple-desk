@@ -16,7 +16,7 @@ function sd_display_settings_page(){
 			<div id="tab_container">
 				<form method="post" action="options.php">
 					<?php if ( $active_tab == 'general' ): ?>
-						test
+						
 					<?php endif; ?>
 
 

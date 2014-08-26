@@ -82,7 +82,7 @@ function sd_render_view_customer_stats(){
 		<ul>
 			<li>
 				<div id="ticket_history_week">
-					<a href="<?php echo add_query_arg(array('cid' => $customer, 'status' => 'open', 'view' => 'custom', 'w' => date('W')), $ticket_url) ?>"><?php echo absint(sd_get_tickets_count('lastweek', $customer)); ?></a>
+					<a href="<?php echo add_query_arg(array('cid' => $customer, 'view' => 'custom', 'status' => 'all', 'date' => 'lastweek'), $ticket_url) ?>"><?php echo absint(sd_get_tickets_count('lastweek', $customer)); ?></a>
 					<p class="stats-meta"><?php _e('Past Week', 'sd'); ?></p>
 				</div>
 			</li>

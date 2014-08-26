@@ -81,8 +81,7 @@ class SimpleDeskTicketTable extends WP_List_Table{
         $views = array(
             'mine' => sprintf( '<a href="%s"%s>%s</a>', remove_query_arg( 'view', $base_url ), $current === 'mine' || $current == '' ? ' class="current"' : '', __('My Queue', 'sd') . $mine_count ),
             'unassigned' => sprintf('<a href="%s"%s>%s</a>', add_query_arg('view', 'unassigned', $base_url), $current === 'unassigned' ? ' class="current"' : '', __('Unassigned', 'sd') . $unassigned_count), 
-            'all_open' => sprintf( '<a href="%s"%s>%s</a>', add_query_arg( 'view', 'notresolved', $base_url ), $current === 'notresolved' ? ' class="current"' : '', __('All Open', 'sd') . $notresolved_count ),
-            //'resolved' => sprintf( '<a href="%s"%s>%s</a>', add_query_arg( 'status', 'resolved', $base_url ), $current === 'resolved' ? ' class="current"' : '', __('Resolved', 'sd') . $resovled_count ),
+            'all_open' => sprintf( '<a href="%s"%s>%s</a>', add_query_arg( 'view', 'notresolved', $base_url ), $current === 'notresolved' ? ' class="current"' : '', __('All Open', 'sd') . $notresolved_count )
         );
 
         return $views;
@@ -260,6 +259,7 @@ class SimpleDeskTicketTable extends WP_List_Table{
         $orderby  = isset( $_GET['orderby'] ) ? $_GET['orderby'] : '';
         $order  = isset( $_GET['order'] ) ? $_GET['order'] : '';
         $tech  = isset( $_GET['tech'] ) ? $_GET['tech'] : '';
+        $date = isset( $_GET['date'] ) ? $_GET['date'] : '';
 
         //set views - my queue, unassigned queue and all open (notresolved)
         if($view == 'mine'){
@@ -275,7 +275,7 @@ class SimpleDeskTicketTable extends WP_List_Table{
                 'compare' => '=' 
             );
         }elseif($view == 'custom'){ //if view is custom, show all queues
-            $meta_query[] = array();
+            //do nothing
         }
 
         //filter based on customer if present - in addition to view above
@@ -287,12 +287,19 @@ class SimpleDeskTicketTable extends WP_List_Table{
             );
         }
 
-        //add filter for technition 
+        //add filter for technician 
         if(!empty($tech)){
             $meta_query[] = array(
                 'key' => '_sd_ticket_assign',
                 'value' => $tech,
                 'compare' => '=' 
+            );
+        }
+
+        //date_query
+        if(!empty($date)){
+            $date_query = array(
+                'after' => '-7 days'
             );
         }
 
@@ -304,7 +311,8 @@ class SimpleDeskTicketTable extends WP_List_Table{
             'orderby' => $orderby,
             'post_status' => $status,
             'order' => $order,
-            's' => $search
+            's' => $search,
+            'date_query' => $date_query
         );        
 
         $tickets = sd_get_tickets($args);
