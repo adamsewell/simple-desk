@@ -114,7 +114,7 @@ function sd_get_customer($customer_id){
 
 function sd_get_customer_id($email){
 	global $wpdb;
-	$cid = $wpdb->get_var("SELECT post_id FROM $wpdb->postmeta WHERE meta_key = '_sd_customer_email' AND meta_value = '$email'");
+	$cid = $wpdb->get_var($wpdb->prepare("SELECT post_id FROM $wpdb->postmeta WHERE meta_key = '_sd_customer_email' AND meta_value = %s", $email));
 	if($cid){
 		return $cid;
 	}

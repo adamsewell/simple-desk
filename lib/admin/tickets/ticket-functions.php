@@ -341,7 +341,11 @@ function sd_get_technicians($list = false, $email = false){
 
 function sd_get_tech_display_name($tech_id){
 	$tech = get_userdata($tech_id);
-	return $tech->display_name;
+	if(is_object($tech)){
+		return $tech->display_name;
+	}
+
+	return false;
 }
 
 function sd_get_ticket_tech($ticket_id){

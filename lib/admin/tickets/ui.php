@@ -298,7 +298,7 @@ class SimpleDeskTicketTable extends WP_List_Table{
 
         //date_query
         if(!empty($date)){
-            $date_query = array(
+            $date = array(
                 'after' => '-7 days'
             );
         }
@@ -312,7 +312,7 @@ class SimpleDeskTicketTable extends WP_List_Table{
             'post_status' => $status,
             'order' => $order,
             's' => $search,
-            'date_query' => $date_query
+            'date_query' => $date
         );        
 
         $tickets = sd_get_tickets($args);
