@@ -112,6 +112,13 @@ function sd_get_customer($customer_id){
 	return $customer;
 }
 
+function sd_get_customer_id($email){
+	var_dump($email);
+	exit();
+	global $wpdb;
+	$cid = $wpdb->get_var("SELECT post_id FROM $wpdb->postmeta WHERE meta_key = '_sd_customer_email' AND meta_value = $email");
+}
+
 function sd_get_customer_display_name($customer_id){
 	return sd_get_customer_fname($customer_id) . ' ' . sd_get_customer_lname($customer_id);
 }

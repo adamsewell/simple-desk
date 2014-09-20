@@ -43,7 +43,7 @@ class SimpleDesk {
 		require_once SIMPLEDESK_BASE_DIR . 'lib/custom-statuses.php';
 
 
-		if(is_admin()){
+		if(is_admin() || defined('SHORTINIT')){
 			//general
 			require_once SIMPLEDESK_BASE_DIR . 'lib/scripts.php';
 			require_once SIMPLEDESK_BASE_DIR . 'lib/admin/ajax.php';

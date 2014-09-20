@@ -127,7 +127,7 @@ function sd_add_new_ticket( $ticket ){
 
 function sd_edit_existing_ticket( $ticket, $response = ''){
 	/*
-		General ticket information is stored in $ticket while reponse information will be in
+		General ticket information is stored in $ticket while response information will be in
 		$response.
 	*/
 	if(is_array($ticket)){
