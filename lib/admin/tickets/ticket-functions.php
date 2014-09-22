@@ -82,6 +82,8 @@ function sd_get_tickets_count( $status = '', $cid = '' ){
 
 function sd_add_new_ticket( $ticket ){
 	if(is_array($ticket)){
+
+		//sets our status if found, otherwise assume it's new
 		if(!empty($ticket['status']) && array_key_exists($ticket['status'], sd_get_ticket_statuses())){
 			$ticket_status = $ticket['status'];
 		}else{
@@ -89,23 +91,27 @@ function sd_add_new_ticket( $ticket ){
 		}
 
 		//add the default contact information if commercial client and none are present
-		if((sd_get_customer_type($ticket['customer']) == 'commercial' )){
+		if(sd_get_customer_type($ticket['customer']) == 'commercial' && !empty($ticket['customer'])){
 			if(empty($ticket['cname'])) $ticket['cname'] = sd_get_customer_display_name($ticket['customer']);
 			if(empty($ticket['cphone'])) $ticket['cphone'] = sd_get_customer_phone($ticket['customer']);
 			if(empty($ticket['cemail'])) $ticket['cemail'] = sd_get_customer_email($ticket['customer']);
 		}
+
+		//if customer is empty use default
 
 		$ticket_id = wp_insert_post(array(
 			'post_type' => 'simple-desk-ticket',
 			'post_title' => $ticket['issue'],
 			'post_status' => $ticket_status,
 			'post_content' => $ticket['details']
-		));
+		), true);
 
-		if(is_int($ticket_id)){
+		if(!is_wp_error($ticket_id)){
 			foreach($ticket as $key => $value){
 				update_post_meta( $ticket_id, '_sd_ticket_' . $key, $value );
 			}			
+		}else{
+			return false;
 		}
 
 		//log ticket status change
