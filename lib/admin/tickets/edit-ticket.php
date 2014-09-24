@@ -28,10 +28,6 @@ $ticket = sd_get_ticket($ticket_id);
 					</h3>
 					<div class="ticket_reponse_box">
 						<textarea name="response[message]" id="response-message"></textarea>
-	<!-- 					<div class="ticket_response_actions">
-							<label for="response-private"><input type="checkbox" name="reponse[private]" id="response-private" /><?php _e('Private?', 'sd')?></label>
-							<input type="button" name="response[submit]" id="response-submit" class="button-primary" value="Reply" />
-						</div> -->
 					</div>
 				<?php endif; ?>
 
@@ -79,7 +75,7 @@ $ticket = sd_get_ticket($ticket_id);
 						<div class="issue-response">
 							<p class="issue-header">
 								<span class="issue-response-author">
-									<?php echo esc_attr(get_the_author_meta('display_name', $ticket->post_author)); ?> submitted this issue.
+									<?php echo esc_attr(sd_get_ticket_contact_name($ticket_id)); ?> <?php _e('submitted this issue.', 'sd'); ?>
 								</span>
 								<span class="issue-meta">
 									<?php if(strtotime($ticket->post_date) > strtotime('-1 week')): ?>
