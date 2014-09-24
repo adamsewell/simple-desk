@@ -167,7 +167,7 @@ function sd_edit_existing_ticket( $ticket, $response = ''){
 
 		//add ticket response to log if present
 		if(!empty($response['message'])){
-			$reply_id = sd_save_ticket_reply($ticket_id, $response['message'], $response['private']);
+			$reply_id = sd_save_ticket_reply($ticket_id, $response, $response['private']);
 		}
 
 		return true;
@@ -182,11 +182,13 @@ function sd_save_ticket_reply( $ticket_id, $reply, $private = false){
 		if(is_user_logged_in()){
 			$current_user = wp_get_current_user();
 			$reply_author = $current_user->display_name;
+		}else{
+			$reply_author = $reply['display_name'];
 		}
 
 		$reply_id = wp_insert_comment(array(
 			'comment_post_ID' => absint($ticket_id),
-			'comment_content' => $reply,
+			'comment_content' => $reply['message'],
 			'user_id' => get_current_user_id(),
 			'comment_author_IP' => sd_get_ip(),
 			'comment_author' => $reply_author //needs to be the display name of the user or email
@@ -313,13 +315,13 @@ function sd_get_ticket_details($ticket_id){
 
 function sd_log_status_change($ticket_id, $status){
 	$statuses = sd_get_ticket_statuses();
-	$message = __('The ticket status has changed. The new status is: ' . $statuses[$status]);
+	$message['message'] = __('The ticket status has changed. The new status is: ' . $statuses[$status]);
 	return sd_save_ticket_reply($ticket_id, $message, true);
 }
 
 function sd_log_tech_change($ticket_id, $tech_id){
 	$tech_data = get_userdata($tech_id);
-	$message = __('The assigned technician has changed. The new technician is: ' . $tech_data->display_name);
+	$message['message'] = __('The assigned technician has changed. The new technician is: ' . $tech_data->display_name);
 	return sd_save_ticket_reply($ticket_id, $message, true);
 }
 
