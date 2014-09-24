@@ -1,7 +1,7 @@
 <?php
 /*
 Plugin Name: Simple Desk
-Version: 0.0.3
+Version: 0.0.4
 Description: Simple Desk is a simple ticket and customer management system for WordPress.
 Plugin URI: http://simpledesk.io
 Author: Adam Sewell
@@ -39,6 +39,7 @@ class SimpleDesk {
 	}
 
 	function includes(){
+		require_once SIMPLEDESK_BASE_DIR . 'lib/WP_Logging.php';
 		require_once SIMPLEDESK_BASE_DIR . 'lib/custom-post-types.php';
 		require_once SIMPLEDESK_BASE_DIR . 'lib/custom-statuses.php';
 

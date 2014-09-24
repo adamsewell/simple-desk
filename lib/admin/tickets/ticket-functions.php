@@ -103,7 +103,8 @@ function sd_add_new_ticket( $ticket ){
 			'post_type' => 'simple-desk-ticket',
 			'post_title' => $ticket['issue'],
 			'post_status' => $ticket_status,
-			'post_content' => $ticket['details']
+			'post_content' => $ticket['details'],
+			'post_author' => $ticket['customer']
 		), true);
 
 		if(!is_wp_error($ticket_id)){
