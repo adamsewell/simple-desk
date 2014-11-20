@@ -104,7 +104,7 @@ function sd_render_edit_ticket_actions(){
 		<?php if(current_user_can('delete_sd_tickets')): ?>
 			<p>
 				<span>
-					<a class="button-delete" href="<?php echo add_query_arg( array( 'sd_action' => 'delete_ticket', 'cid' => $ticket_id ), admin_url() . 'admin.php?page=simple-desk-customer-page' ); ?>" title="Delete Ticket">Delete Ticket</a>
+					<a class="button-delete" href="<?php echo wp_nonce_url(add_query_arg( array( 'sd_action' => 'delete_ticket', 'tid' => $ticket_id ), admin_url() . 'admin.php?page=simple-desk'), 'sd-delete-ticket'); ?>" title="Delete Ticket">Delete Ticket</a>
 				</span>
 			</p>
 		<?php endif; ?>
