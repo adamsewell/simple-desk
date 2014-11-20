@@ -143,12 +143,12 @@ function sd_edit_existing_ticket( $ticket, $response = ''){
 		$current_assigned_tech = sd_get_ticket_tech($ticket['id']);
 
 		//if the current status has changed, log it. 
-		if($current_ticket_status != $ticket['status']){
+		if(!empty($ticket['status']) && $current_ticket_status != $ticket['status']){
 			sd_log_status_change($ticket['id'], sanitize_text_field($ticket['status']));
 		}
 
 		//if the assigned tech has changed, log it. 
-		if($current_assigned_tech != $ticket['assign']){
+		if(!empty($ticket['assign']) && $current_assigned_tech != $ticket['assign']){
 			sd_log_tech_change($ticket['id'], $ticket['assign']);
 		}
 
