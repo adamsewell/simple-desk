@@ -150,6 +150,7 @@ function sd_edit_existing_ticket( $ticket, $response = ''){
 		//if the assigned tech has changed, log it. 
 		if(!empty($ticket['assign']) && $current_assigned_tech != $ticket['assign']){
 			sd_log_tech_change($ticket['id'], $ticket['assign']);
+			sd_assign_change_tech($ticket['id'], $ticket['assign']);
 		}
 
 		//update the ticket general information. 
