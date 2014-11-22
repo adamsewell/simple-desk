@@ -40,7 +40,7 @@ function sd_new_ticket_notification_techs( $ticket_id ){
 	return $mail;
 }
 
-function sd_assign_change_tech( $ticket_id, $new_tech_email ){
+function sd_assigned_tech_notify( $ticket_id, $new_tech_email ){
 	if(!filter_var($new_tech_email, FILTER_VALIDATE_EMAIL)){
 		return false;
 	}
@@ -116,4 +116,3 @@ function sd_updated_ticket_notification_customer($ticket_id, $reply_id){
 	$mail = wp_mail($to, $subject, $body, $headers);
 	return $mail;
 }
-

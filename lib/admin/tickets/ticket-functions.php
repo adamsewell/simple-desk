@@ -32,9 +32,9 @@ function sd_get_tickets( $args = array() ){
 	$tickets = new WP_Query( $args );
 
 	if(empty($args['orderby'])) remove_filter('posts_orderby', 'sd_modify_get_tickets_default');
-	
-	if(!empty($tickets->posts)){ 
-		return $tickets->posts; 
+
+	if(!empty($tickets->posts)){
+		return $tickets->posts;
 	}
 
 	return false;
@@ -110,7 +110,7 @@ function sd_add_new_ticket( $ticket ){
 		if(!is_wp_error($ticket_id)){
 			foreach($ticket as $key => $value){
 				update_post_meta( $ticket_id, '_sd_ticket_' . $key, $value );
-			}			
+			}
 		}else{
 			return false;
 		}
@@ -142,28 +142,28 @@ function sd_edit_existing_ticket( $ticket, $response = ''){
 		$current_ticket_status = sd_get_ticket_status($ticket['id']);
 		$current_assigned_tech = sd_get_ticket_tech($ticket['id']);
 
-		//if the current status has changed, log it. 
+		//if the current status has changed, log it.
 		if(!empty($ticket['status']) && $current_ticket_status != $ticket['status']){
 			sd_log_status_change($ticket['id'], sanitize_text_field($ticket['status']));
 		}
 
-		//if the assigned tech has changed, log it. 
+		//if the assigned tech has changed, log it.
 		if(!empty($ticket['assign']) && $current_assigned_tech != $ticket['assign']){
 			sd_log_tech_change($ticket['id'], $ticket['assign']);
-			sd_assign_change_tech($ticket['id'], $ticket['assign']);
+			sd_assigned_tech_notify($ticket['id'], $ticket['assign']);
 		}
 
-		//update the ticket general information. 
+		//update the ticket general information.
 		$ticket_id = wp_update_post(array(
 			'ID' => absint($ticket['id']),
 			'post_status' => sanitize_text_field($ticket['status'])
-		));		
+		));
 
 		//if ticket update was successful, update all meta data
 		if(is_int($ticket_id)){
 			foreach($ticket as $key => $value){
 				update_post_meta( $ticket_id, '_sd_ticket_' . $key, $value );
-			}		
+			}
 		}
 
 		//add ticket response to log if present
@@ -194,7 +194,7 @@ function sd_save_ticket_reply( $ticket_id, $reply, $private = false){
 			'comment_author_IP' => sd_get_ip(),
 			'comment_author' => $reply_author //needs to be the display name of the user or email
 		));
-		
+
 		if(is_int($reply_id)){
 			//if private save the meta tag and DON'T email
 			if('on' == $private){
@@ -292,7 +292,7 @@ function sd_get_ticket_contact_email($ticket_id){
 	if(!empty($contact_email)){
 		return $contact_email;
 	}
-	return sd_get_customer_email(sd_get_ticket_customer($ticket_id));	
+	return sd_get_customer_email(sd_get_ticket_customer($ticket_id));
 }
 
 function sd_get_ticket_creator($ticket_id){
@@ -305,7 +305,7 @@ function sd_get_ticket_reply_author($reply_id){
 	return $comment->user_id;
 }
 
-function sd_get_ticket_issue($ticket_id){
+function sd_get_ticket_title($ticket_id){
 	return get_post_meta($ticket_id, '_sd_ticket_issue', true);
 }
 

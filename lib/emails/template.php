@@ -40,6 +40,6 @@ function sd_get_email_body( $ticket_id ){
 }
 
 function sd_get_email_subject($ticket_id){
-	$subject = sd_get_ticket_issue($ticket_id);
+	$subject = sd_get_ticket_title($ticket_id);
 	return $subject;
 }

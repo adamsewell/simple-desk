@@ -11,7 +11,7 @@ $ticket_id = absint($_GET['tid']);
 $ticket = sd_get_ticket($ticket_id);
 ?>
 
-<h2><?php echo 'Viewing Ticket #'. $ticket_id .': ' . esc_attr(sd_get_ticket_issue($ticket_id)); ?>
+<h2><?php echo 'Viewing Ticket #'. $ticket_id .': ' . esc_attr(sd_get_ticket_title($ticket_id)); ?>
 </h2>
 
 <form id="sd-ticket" action="" method="post">
@@ -19,11 +19,11 @@ $ticket = sd_get_ticket($ticket_id);
 	<?php wp_nonce_field( 'closedpostboxes', 'closedpostboxesnonce', false ); ?>
 
 	<div id="poststuff">
-		<div id="post-body" class="metabox-holder columns-<?php echo 1 == get_current_screen()->get_columns() ? '1' : '2'; ?>"> 
+		<div id="post-body" class="metabox-holder columns-<?php echo 1 == get_current_screen()->get_columns() ? '1' : '2'; ?>">
 			<div id="post-body-content">
 				<?php if($ticket->post_status != 'resolved'): ?>
 					<h3 class="section_header">
-						<?php _e('Your Response', 'sd'); ?> 
+						<?php _e('Your Response', 'sd'); ?>
 						<img src="<?php echo admin_url('/images/wpspin_light.gif'); ?>" class="waiting" id="response-loading" style="display: none;" />
 					</h3>
 					<div class="ticket_reponse_box">
@@ -62,8 +62,8 @@ $ticket = sd_get_ticket($ticket_id);
 										</p>
 									</div>
 								</div>
-						<?php 
-							endforeach; 
+						<?php
+							endforeach;
 						endif
 ;						?>
 					<?php echo ob_get_clean(); ?>
@@ -96,7 +96,7 @@ $ticket = sd_get_ticket($ticket_id);
 
 			<div id="postbox-container-1" class="postbox-container">
 		        <?php do_meta_boxes('sd_edit-ticket-page', 'side', null); ?>
-		  </div>    
+		  </div>
 
 		  <div id="postbox-container-2" class="postbox-container">
 		  		<?php do_meta_boxes('','normal',null);  ?>
@@ -105,13 +105,3 @@ $ticket = sd_get_ticket($ticket_id);
 		</div><!-- end post-body -->
 	</div>
 </form>
-
-
-
-
-
-
-
-
-
-

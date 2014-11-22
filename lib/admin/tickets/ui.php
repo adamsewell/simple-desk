@@ -24,11 +24,11 @@ function sd_display_tickets(){
     }else{
         $Tickets = new SimpleDeskTicketTable();
         $Tickets->prepare_items();
-?>  
+?>
         <div class="wrap">
             <div id="icon-edit-comments" class="icon32"></div>
             <h2>
-                <?php _e('Tickets'); ?> 
+                <?php _e('Tickets'); ?>
                 <a href="<?php echo add_query_arg( array( 'sd_page' => 'add_ticket' ), remove_query_arg('sd-message') ); ?>" class="add-new-h2">Add New</a>
             </h2>
             <form id="sd_search_form" method="get">
@@ -44,7 +44,7 @@ function sd_display_tickets(){
             <form id="sd_ticket" method="get">
                 <input type="hidden" name="page" value="<?php echo esc_attr($_REQUEST['page']) ?>" />
                 <!-- used to retain view when filtering -->
-                <input type="hidden" name="view" value="<?php echo sanitize_text_field($_GET['view']) ?>" /> 
+                <input type="hidden" name="view" value="<?php echo sanitize_text_field($_GET['view']) ?>" />
 
                 <?php $Tickets->views(); ?>
                 <?php $Tickets->display(); ?>
@@ -55,7 +55,7 @@ function sd_display_tickets(){
 }
 
 /*
-* Ticket List Table 
+* Ticket List Table
 */
 class SimpleDeskTicketTable extends WP_List_Table{
 
@@ -80,7 +80,7 @@ class SimpleDeskTicketTable extends WP_List_Table{
 
         $views = array(
             'mine' => sprintf( '<a href="%s"%s>%s</a>', remove_query_arg( 'view', $base_url ), $current === 'mine' || $current == '' ? ' class="current"' : '', __('My Queue', 'sd') . $mine_count ),
-            'unassigned' => sprintf('<a href="%s"%s>%s</a>', add_query_arg('view', 'unassigned', $base_url), $current === 'unassigned' ? ' class="current"' : '', __('Unassigned', 'sd') . $unassigned_count), 
+            'unassigned' => sprintf('<a href="%s"%s>%s</a>', add_query_arg('view', 'unassigned', $base_url), $current === 'unassigned' ? ' class="current"' : '', __('Unassigned', 'sd') . $unassigned_count),
             'all_open' => sprintf( '<a href="%s"%s>%s</a>', add_query_arg( 'view', 'notresolved', $base_url ), $current === 'notresolved' ? ' class="current"' : '', __('All Open', 'sd') . $notresolved_count )
         );
 
@@ -112,7 +112,7 @@ class SimpleDeskTicketTable extends WP_List_Table{
     }
 
     function column_default($item, $column_name){
-        
+
         switch($column_name){
             default:
                 return $item[$column_name];
@@ -121,7 +121,7 @@ class SimpleDeskTicketTable extends WP_List_Table{
 
     function column_issue($item){
         $title = '<a href="' . add_query_arg(array('sd_page' => 'edit_ticket', 'tid' => absint($item['ID'])), remove_query_arg('sd-message')) . '">'. $item['issue'] .'</a>';
-       
+
         //Build row actions
         $row_actions = array();
 
@@ -150,7 +150,7 @@ class SimpleDeskTicketTable extends WP_List_Table{
             return human_time_diff( strtotime($item['modified']), current_time('timestamp')) . ' ago';
         }else{
             $time_date_format = get_option('date_format') . ' ' . get_option('time_format');
-            return mysql2date($time_date_format, $item['modified']);        
+            return mysql2date($time_date_format, $item['modified']);
         }
 
     }
@@ -168,7 +168,7 @@ class SimpleDeskTicketTable extends WP_List_Table{
     function column_cb($item){
         return sprintf(
             '<input type="checkbox" name="%1$s[]" value="%2$s" />',
-            /*$1%s*/ $this->_args['singular'], 
+            /*$1%s*/ $this->_args['singular'],
             /*$2%s*/ $item['ID']
         );
     }
@@ -266,13 +266,13 @@ class SimpleDeskTicketTable extends WP_List_Table{
             $meta_query[] = array(
                 'key' => '_sd_ticket_assign',
                 'value' => $current_user->ID,
-                'compare' => '=' 
+                'compare' => '='
             );
         }elseif($view == 'unassigned'){
             $meta_query[] = array(
                 'key' => '_sd_ticket_assign',
                 'value' => 0,
-                'compare' => '=' 
+                'compare' => '='
             );
         }elseif($view == 'custom'){ //if view is custom, show all queues
             //do nothing
@@ -283,16 +283,16 @@ class SimpleDeskTicketTable extends WP_List_Table{
             $meta_query[] = array(
                 'key' => '_sd_ticket_customer',
                 'value' => $customer,
-                'compare' => '=' 
+                'compare' => '='
             );
         }
 
-        //add filter for technician 
+        //add filter for technician
         if(!empty($tech)){
             $meta_query[] = array(
                 'key' => '_sd_ticket_assign',
                 'value' => $tech,
-                'compare' => '=' 
+                'compare' => '='
             );
         }
 
@@ -313,14 +313,14 @@ class SimpleDeskTicketTable extends WP_List_Table{
             'order' => $order,
             's' => $search,
             'date_query' => $date
-        );        
+        );
 
         $tickets = sd_get_tickets($args);
 
         if(is_array($tickets)){
             foreach($tickets as $ticket){
                 $tickets_data[] = array(
-                    'issue' => sd_get_ticket_issue($ticket->ID),
+                    'issue' => sd_get_ticket_title($ticket->ID),
                     'ID' => $ticket->ID,
                     'status' => get_post_status($ticket->ID),
                     'customer' => sd_get_ticket_customer($ticket->ID),
