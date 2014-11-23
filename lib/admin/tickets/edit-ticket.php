@@ -49,7 +49,7 @@ $ticket = sd_get_ticket($ticket_id);
 										<?php echo $reply->comment_author; ?>
 									</div>
 									<div class="time">
-										<?php if(strtotime($reply->comment_date) > strtotime('-1 week')): ?>
+										<?php if(strtotime($reply->comment_date) > strtotime('-24 hours')): ?>
 											<?php echo human_time_diff( strtotime($reply->comment_date), current_time('timestamp')) . ' ago'; ?>
 										<?php else: ?>
 											<?php $time_date_format = get_option('date_format') . ' ' . get_option('time_format'); ?>
@@ -81,7 +81,7 @@ $ticket = sd_get_ticket($ticket_id);
 								<?php echo sd_get_ticket_contact_name($ticket_id); ?>
 							</div>
 							<div class="time">
-								<?php if(strtotime($ticket->post_date) > strtotime('-1 week')): ?>
+								<?php if(strtotime($ticket->post_date) > strtotime('-24 hours')): ?>
 									<?php echo human_time_diff( strtotime($ticket->post_date), current_time('timestamp')) . ' ago'; ?>
 								<?php else: ?>
 									<?php $time_date_format = get_option('date_format') . ' ' . get_option('time_format'); ?>
