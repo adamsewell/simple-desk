@@ -183,8 +183,10 @@ function sd_save_ticket_reply( $ticket_id, $reply, $private = false){
 		if(is_user_logged_in()){
 			$current_user = wp_get_current_user();
 			$reply_author = $current_user->display_name;
+			$author_email = $current_user->user_email;
 		}else{
 			$reply_author = $reply['display_name'];
+			$author_email = $reply['email'];
 		}
 
 		$reply_id = wp_insert_comment(array(
@@ -192,7 +194,8 @@ function sd_save_ticket_reply( $ticket_id, $reply, $private = false){
 			'comment_content' => $reply['message'],
 			'user_id' => get_current_user_id(),
 			'comment_author_IP' => sd_get_ip(),
-			'comment_author' => $reply_author //needs to be the display name of the user or email
+			'comment_author' => $reply_author, //needs to be the display name of the user or email
+			'comment_author_email' => $author_email
 		));
 
 		if(is_int($reply_id)){
@@ -206,28 +209,6 @@ function sd_save_ticket_reply( $ticket_id, $reply, $private = false){
 		}
 
 		return $reply_id;
-	}
-
-	return false;
-}
-
-function sd_get_ticket_log( $ticket_id ){
-
-	$args = array(
-		'orderby' => 'comment_date',
-		'order' => 'desc',
-		'post_id' => absint($ticket_id),
-		'status' => 'approve'
-	);
-
-	$replies = get_comments($args);
-
-	foreach($replies as $reply){
-		$reply->private = get_comment_meta($reply->comment_ID, '_sd_reply_private', true);
-	}
-
-	if(count($replies) > 0){
-		return $replies;
 	}
 
 	return false;
@@ -249,11 +230,33 @@ function sd_remove_ticket($ticket_id){
 }
 
 function sd_get_ticket( $ticket_id ){
-	$ticket = get_post( $ticket_id );
-
 	if ( get_post_type( $ticket_id ) != 'simple-desk-ticket' ) {
 		return false;
 	}
+
+	//get the post
+	$ticket = get_post( $ticket_id );
+
+	//get all comments
+	$args = array(
+		'orderby' => 'comment_date',
+		'order' => 'desc',
+		'post_id' => absint($ticket_id),
+		'status' => 'approve'
+	);
+
+	$comments = get_comments($args);
+
+	foreach($comments as $comment){
+		//set private reply
+		$comment->private = get_comment_meta($comment->comment_ID, '_sd_reply_private', true);
+
+		//check email address
+
+	}
+
+	//merge
+	$ticket->replies = $comments;
 
 	return $ticket;
 }

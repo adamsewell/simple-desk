@@ -127,7 +127,7 @@ textarea{
 }
 
 .customer-stats ul li a{
-	font-size: 3em;  
+	font-size: 3em;
 	text-decoration: none;
 }
 
@@ -156,7 +156,7 @@ textarea{
 	white-space: nowrap;
 	-webkit-box-sizing: border-box;
 	-moz-box-sizing: border-box;
-	box-sizing: border-box;	
+	box-sizing: border-box;
 
 	background: #d9534f;
 	border-color: #d43f3a;
@@ -265,38 +265,51 @@ textarea{
 }
 
 #sd-ticket .issue-response-wrap{
-	margin: 0 17px 1em;
+	margin: 0 .5em 1em;
 	border: 1px solid #e1e1e1;
 	position: relative;
 	background: #fff;
+	overflow: auto;
 }
 #sd-ticket .private-reply{
 	background: #FFFACD;
 }
 
-#sd-ticket .issue-response-wrap .issue-response{
-	padding: 0 20px 0 20px;
-}
-
-#sd-ticket .issue-response-wrap .issue-response .issue-header{
-	padding-bottom: 15px;
-}
-
-#sd-ticket .issue-response-wrap .issue-response .issue-header .issue-response-author{
+#sd-ticket .issue-response-wrap .user-meta{
 	float: left;
-	max-width: 70%;
+	padding: .5em;
 }
 
-#sd-ticket .issue-response-wrap .issue-response .issue-header .issue-meta{
-	float: right;
-	text-align: right;
-	color: #999;
-	font-size: 11px;
+#sd-ticket .issue-response-wrap .user-meta .user-gravatar{
+	text-align: center;
 }
-#sd-ticket .issue-response-wrap .issue-response .issue-message{
+
+#sd-ticket .issue-response-wrap .user-meta .user-gravatar img{
+	border: 3px solid #ddd;
+	margin: 0 0 0 2px;
+}
+
+#sd-ticket .issue-response-wrap .user-meta .user-name{
+	text-align: center;
+}
+#sd-ticket .issue-response-wrap .user-meta .time{
+	font-size: 11px;
+	color: #999;
+	text-align: center;
+}
+
+#sd-ticket .issue-response-wrap .issue-response{
+	margin: 1em 0 0 8.5em;
+}
+
+#sd-ticket .issue-response-wrap .issue-response p{
 	width: 100%;
 	line-height: 1.3em;
 	word-wrap: break-word;
 	font-size: 12px;
 }
 
+
+#sd-ticket .issue-response-wrap .issue-response .issue-header{
+	padding-bottom: 15px;
+}
