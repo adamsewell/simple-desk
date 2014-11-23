@@ -61,11 +61,6 @@ $ticket = sd_get_ticket($ticket_id);
 									<p>
 										<?php echo nl2br(wp_kses(trim($reply->comment_content), array())); ?>
 									</p>
-									<pre>
-
-										<?php print_r(sd_get_ticket($ticket_id)); ?>
-
-									</pre>
 							</div>
 						</div>
 						<?php
