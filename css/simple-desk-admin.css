@@ -291,10 +291,11 @@ textarea{
 #sd-ticket .issue-response-wrap .user-meta .user-name{
 	text-align: center;
 }
-#sd-ticket .issue-response-wrap .user-meta .time{
+#sd-ticket .issue-response-wrap .time{
+	float: right;
 	font-size: 11px;
 	color: #999;
-	text-align: center;
+	padding: .5em;
 }
 
 #sd-ticket .issue-response-wrap .issue-response{

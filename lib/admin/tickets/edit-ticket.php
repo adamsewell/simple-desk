@@ -48,20 +48,20 @@ $ticket = sd_get_ticket($ticket_id);
 									<div class="user-name">
 										<?php echo $reply->comment_author; ?>
 									</div>
-									<div class="time">
-										<?php if(strtotime($reply->comment_date) > strtotime('-24 hours')): ?>
-											<?php echo human_time_diff( strtotime($reply->comment_date), current_time('timestamp')) . ' ago'; ?>
-										<?php else: ?>
-											<?php $time_date_format = get_option('date_format') . ' ' . get_option('time_format'); ?>
-											<?php echo mysql2date($time_date_format, $reply->comment_date); ?>
-										<?php endif; ?>
-									</div>
+								</div>
+								<div class="time">
+									<?php if(strtotime($reply->comment_date) > strtotime('-24 hours')): ?>
+										<?php echo human_time_diff( strtotime($reply->comment_date), current_time('timestamp')) . ' ago'; ?>
+									<?php else: ?>
+										<?php $time_date_format = get_option('date_format') . ' ' . get_option('time_format'); ?>
+										<?php echo mysql2date($time_date_format, $reply->comment_date); ?>
+									<?php endif; ?>
 								</div>
 								<div class="issue-response">
 									<p>
 										<?php echo nl2br(wp_kses(trim($reply->comment_content), array())); ?>
 									</p>
-							</div>
+								</div>
 						</div>
 						<?php
 							endforeach;
@@ -80,14 +80,14 @@ $ticket = sd_get_ticket($ticket_id);
 							<div class="user-name">
 								<?php echo sd_get_ticket_contact_name($ticket_id); ?>
 							</div>
-							<div class="time">
-								<?php if(strtotime($ticket->post_date) > strtotime('-24 hours')): ?>
-									<?php echo human_time_diff( strtotime($ticket->post_date), current_time('timestamp')) . ' ago'; ?>
-								<?php else: ?>
-									<?php $time_date_format = get_option('date_format') . ' ' . get_option('time_format'); ?>
-									<?php echo mysql2date($time_date_format, $ticket->post_date); ?>
-								<?php endif; ?>
-							</div>
+						</div>
+						<div class="time">
+							<?php if(strtotime($ticket->post_date) > strtotime('-24 hours')): ?>
+								<?php echo human_time_diff( strtotime($ticket->post_date), current_time('timestamp')) . ' ago'; ?>
+							<?php else: ?>
+								<?php $time_date_format = get_option('date_format') . ' ' . get_option('time_format'); ?>
+								<?php echo mysql2date($time_date_format, $ticket->post_date); ?>
+							<?php endif; ?>
 						</div>
 						<div class="issue-response">
 							<p>
