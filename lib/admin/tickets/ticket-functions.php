@@ -52,7 +52,7 @@ function sd_get_ticket_link($ticket_id){
 function sd_get_tickets_count( $status = '', $cid = '' ){
 	$user = wp_get_current_user();
 	global $wpdb;
-
+		
 	$all_ticket_queries = array(
 		'notresolved' => "SELECT count(post_status) FROM $wpdb->posts WHERE post_type = 'simple-desk-ticket' AND post_status != 'resolved';",
 		'unassigned' => "SELECT count(post_status) FROM $wpdb->posts LEFT JOIN $wpdb->postmeta ON $wpdb->posts.ID = $wpdb->postmeta.post_id WHERE $wpdb->posts.post_type = 'simple-desk-ticket' AND $wpdb->posts.post_status != 'resolved' AND $wpdb->postmeta.meta_key = '_sd_ticket_assign' AND $wpdb->postmeta.meta_value = '0';",

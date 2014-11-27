@@ -17,7 +17,7 @@ textarea.xlarge{
 }
 
 textarea{
-	height: 120px;
+	height: 8em;
 }
 
 /*************
@@ -249,8 +249,12 @@ textarea{
 /*************
 	Edit Ticket
 *************/
+#sd-ticket .ticket_history{
+	margin: 0 1em 1em;
+}
+
 #sd-ticket .ticket_reponse_box{
-	margin: 0 17px 1em;
+	margin: 0 1em 1em;
 	position: relative;
 }
 
@@ -264,7 +268,7 @@ textarea{
 }
 
 #sd-ticket .issue-response-wrap{
-	margin: 0 .5em 1em;
+	margin: 0 0 1em;
 	border: 1px solid #e1e1e1;
 	position: relative;
 	background: #fff;

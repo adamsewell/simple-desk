@@ -33,7 +33,7 @@ $ticket = sd_get_ticket($ticket_id);
 
 				<h3 class="section_header"><?php _e('Ticket History', 'sd'); ?></h3>
 
-				<div id="ticket_history">
+				<div class="ticket_history">
 					<!-- Ticket Responses -->
 					<?php
 						if(is_array($ticket->replies) && !empty($ticket->replies)):
@@ -68,10 +68,8 @@ $ticket = sd_get_ticket($ticket_id);
 						endif;
 						?>
 					<?php echo ob_get_clean(); ?>
-				</div>
 
-				<div id="original_ticket">
-				<!-- Original Ticket Issue -->
+					<!-- Original Ticket Issue -->
 					<div class="issue-response-wrap">
 						<div class="user-meta">
 							<div class="user-gravatar">
