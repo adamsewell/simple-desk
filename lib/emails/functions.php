@@ -67,10 +67,6 @@ function sd_new_ticket_notification_customer( $ticket_id ){
 	$customer = sd_get_ticket_customer($ticket_id);
 	$statuses = sd_get_ticket_statuses();
 
-	if(!sd_customer_has_email($customer)){
-		return false;
-	}
-
 	//headers
 	$headers = "From: " . stripslashes_deep( html_entity_decode( get_bloginfo('name'), ENT_COMPAT, 'UTF-8' ) ) . " <".get_option('admin_email').">\r\n";
 	$headers .= "Reply-To: ". get_option('admin_email') . "\r\n";
@@ -93,10 +89,6 @@ function sd_new_ticket_notification_customer( $ticket_id ){
 function sd_updated_ticket_notification_customer($ticket_id, $reply_id){
 	$customer = sd_get_ticket_customer($ticket_id);
 	$statuses = sd_get_ticket_statuses();
-
-	if(!sd_customer_has_email($customer)){
-		return false;
-	}
 
 	//headers
 	$headers = "From: " . stripslashes_deep( html_entity_decode( get_bloginfo('name'), ENT_COMPAT, 'UTF-8' ) ) . " <".get_option('admin_email').">\r\n";

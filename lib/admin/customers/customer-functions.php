@@ -31,13 +31,13 @@ function sd_save_customer( $customer ){
 				'post_status' => 'active'
 			));
 			//set our customer type - to be stored
-			$customer['type'] = 'residential';	
-		}	
+			$customer['type'] = 'residential';
+		}
 
 		if(is_int($customer_id)){
 			foreach($customer as $key => $value){
 				update_post_meta( $customer_id, '_sd_customer_' . $key, $value );
-			}			
+			}
 		}
 
 		return $customer_id;
@@ -64,7 +64,7 @@ function sd_update_customer( $customer ){
 		if(is_int($customer_id)){
 			foreach($customer as $key => $value){
 				update_post_meta( $customer_id, '_sd_customer_' . $key, $value );
-			}			
+			}
 		}
 
 		return true;
@@ -88,8 +88,8 @@ function sd_get_customers( $args = array(''), $list = false ){
 	$customers = get_posts( $args );
 
 	//defaults to return all customers in array format
-	if($customers && !$list){ 
-		return $customers; 
+	if($customers && !$list){
+		return $customers;
 	}elseif($customers && $list){
 		$simple_list = array();
 		foreach($customers as $customer){
@@ -138,15 +138,6 @@ function sd_get_customer_email($customer_id){
 	return sanitize_email(get_post_meta($customer_id, '_sd_customer_email', true));
 }
 
-function sd_customer_has_email($customer_id){
-	$email = sd_get_customer_email($customer_id);
-	if(!empty($email)){
-		return true;
-	}
-
-	return false;
-}
-
 function sd_get_customer_website($customer_id){
 	return get_post_meta($customer_id, '_sd_customer_website', true);
 }
@@ -180,7 +171,7 @@ function sd_get_customer_state($customer_id){
 }
 
 function sd_get_customer_country($customer_id){
-	return get_post_meta($customer_id, '_sd_customer_country', true);	
+	return get_post_meta($customer_id, '_sd_customer_country', true);
 }
 
 function sd_get_customer_zip($customer_id){
@@ -212,8 +203,3 @@ function sd_get_customers_count(){
 
 	return $wpdb->get_var($query);
 }
-
-
-
-
-
