@@ -1,6 +1,6 @@
 <?php
 /**
- * Ticket Admin Actions 
+ * Ticket Admin Actions
  *
  * @package     SD
  * @copyright   Copyright (c) 2014, Adam Sewell
@@ -19,7 +19,7 @@ add_action('sd_add_ticket', 'sd_add_ticket');
 
 function sd_edit_ticket($data){
 	if(isset($data['sd-edit-ticket-nonce']) && wp_verify_nonce($data['sd-edit-ticket-nonce'], 'sd-edit-ticket')){
-		if(sd_edit_existing_ticket($data['ticket'], $data['response'])){
+		if(sd_update_ticket($data['ticket'], $data['response'])){
 			wp_redirect( add_query_arg( 'sd-message', 'ticket_updated', $data['sd_url_redirect'] ) );
 		}
 	}
@@ -35,4 +35,3 @@ function sd_delete_ticket($data){
 	}
 }
 add_action('sd_delete_ticket', 'sd_delete_ticket');
-

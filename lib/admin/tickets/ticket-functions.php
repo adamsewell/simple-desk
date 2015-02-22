@@ -52,7 +52,7 @@ function sd_get_ticket_link($ticket_id){
 function sd_get_tickets_count( $status = '', $cid = '' ){
 	$user = wp_get_current_user();
 	global $wpdb;
-		
+
 	$all_ticket_queries = array(
 		'notresolved' => "SELECT count(post_status) FROM $wpdb->posts WHERE post_type = 'simple-desk-ticket' AND post_status != 'resolved';",
 		'unassigned' => "SELECT count(post_status) FROM $wpdb->posts LEFT JOIN $wpdb->postmeta ON $wpdb->posts.ID = $wpdb->postmeta.post_id WHERE $wpdb->posts.post_type = 'simple-desk-ticket' AND $wpdb->posts.post_status != 'resolved' AND $wpdb->postmeta.meta_key = '_sd_ticket_assign' AND $wpdb->postmeta.meta_value = '0';",
@@ -132,7 +132,7 @@ function sd_add_new_ticket( $ticket ){
 	return false;
 }
 
-function sd_edit_existing_ticket( $ticket, $response = ''){
+function sd_update_ticket( $ticket, $response = ''){
 	/*
 		General ticket information is stored in $ticket while response information will be in
 		$response.
@@ -382,4 +382,15 @@ function sd_get_ticket_statuses() {
 	);
 
 	return $ticket_statuses;
+}
+
+function sd_attach_file($post_id, $file, $filename){
+	$upload_dir = wp_upload_dir();
+
+	//first, move file from temporary location to final destination
+	if(rename($file, trailingslashit($upload_dir['path']).$filename)){
+		return true;
+	}
+
+	return false;
 }
