@@ -17,9 +17,9 @@ if ( ! class_exists( 'WP_List_Table' ) ) {
 }
 
 function sd_display_tickets(){
-    if(isset($_GET['sd_page']) && $_GET['sd_page'] == 'add_ticket'){
+    if(isset($_GET['sd_page']) && $_GET['sd_page'] === 'add_ticket'){
         require_once(SIMPLEDESK_BASE_DIR . 'lib/admin/tickets/add-ticket.php');
-    }elseif(isset($_GET['sd_page']) && $_GET['sd_page'] == 'edit_ticket'){
+    }elseif(isset($_GET['sd_page']) && $_GET['sd_page'] === 'edit_ticket'){
         require_once(SIMPLEDESK_BASE_DIR . 'lib/admin/tickets/edit-ticket.php');
     }else{
         $Tickets = new SimpleDeskTicketTable();
@@ -32,7 +32,7 @@ function sd_display_tickets(){
                 <a href="<?php echo add_query_arg( array( 'sd_page' => 'add_ticket' ), remove_query_arg('sd-message') ); ?>" class="add-new-h2">Add New</a>
             </h2>
             <form id="sd_search_form" method="get">
-                <input type="hidden" name="page" value="<?php echo $_REQUEST['page'] ?>" />
+                <input type="hidden" name="page" value="<?php echo absint($_REQUEST['page']); ?>" />
 
                 <!-- maintain status if present on search so we can search through the different statuses -->
                 <?php if(!empty($_GET['status'])): ?>
@@ -72,7 +72,7 @@ class SimpleDeskTicketTable extends WP_List_Table{
     function get_views(){
         $base_url = admin_url('admin.php?page=simple-desk');
 
-        $current = isset( $_GET['view'] ) ? $_GET['view'] : '';
+        $current = isset( $_GET['view'] ) ? sanitize_text_field($_GET['view']) : '';
         $notresolved_count = '&nbsp;<span class="count">(' . sd_get_tickets_count('notresolved') . ')</span>';
         $mine_count = '&nbsp;<span class="count">(' . sd_get_tickets_count('mine') . ')</span>';
         $resovled_count = '&nbsp;<span class="count">(' . sd_get_tickets_count('resolved') . ')</span>';
@@ -88,18 +88,31 @@ class SimpleDeskTicketTable extends WP_List_Table{
     }
 
     function extra_tablenav($which){
+
+        $status = false;
+        $tech = false;
+
+        if(isset($_GET['status'])) $status = sanitize_text_field($_GET['status']);
+        if(isset($_GET['tech'])) $tech = sanitize_text_field($_GET['tech']);
+
         if($which === 'top'){
 ?>
             <div class="alignleft actions">
-                <?php $statuses = sd_get_ticket_statuses(); ?>
-                <?php if(array_key_exists($_GET['status'], sd_get_ticket_statuses())) $selected = $_GET['status']; ?>
+              <?php if($status): ?>
+                <?php if(array_key_exists($status, sd_get_ticket_statuses())) $selected = $status; ?>
+              <?php endif; ?>
+
+              <?php $statuses = sd_get_ticket_statuses(); ?>
                 <select name="status">
                     <option value=""><?php _e('Status', 'sd'); ?></option>
                     <?php echo sd_menuoptions($statuses, $selected, true); ?>
                 </select>
 
-                <?php $techs = sd_get_technicians(true); ?>
-                <?php if(array_key_exists($_GET['tech'], sd_get_technicians(true))) $selected = $_GET['tech']; ?>
+              <?php if($tech): ?>
+                <?php if(array_key_exists($tech, sd_get_technicians(true))) $selected = $tech; ?>
+              <?php endif; ?>
+
+              <?php $techs = sd_get_technicians(true); ?>
                 <select name="tech">>
                     <option value=""><?php _e('Tech', 'sd'); ?></option>
                     <?php echo sd_menuoptions($techs, $selected, true); ?>
