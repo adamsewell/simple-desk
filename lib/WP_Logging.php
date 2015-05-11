@@ -151,7 +151,7 @@ class WP_Logging {
 
 		$log_args = array(
 			'labels'          => array( 'name' => __( 'Logs', 'wp-logging' ) ),
-			'public'          => false,
+			'public'          => defined( 'WP_DEBUG' ) && WP_DEBUG,
 			'query_var'       => false,
 			'rewrite'         => false,
 			'capability_type' => 'post',
@@ -180,7 +180,7 @@ class WP_Logging {
 
 	public function register_taxonomy() {
 
-		register_taxonomy( 'wp_log_type', 'wp_log' );
+		register_taxonomy( 'wp_log_type', 'wp_log', array( 'public' => defined( 'WP_DEBUG' ) && WP_DEBUG ) );
 
 		$types = self::log_types();
 
