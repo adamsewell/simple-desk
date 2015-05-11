@@ -1,7 +1,7 @@
 <?php
 /*
 Plugin Name: Simple Desk
-Version: 0.0.5
+Version: 0.0.6
 Description: Simple Desk is a simple ticket and customer management system for WordPress.
 Plugin URI: http://simpledesk.io
 Author: Adam Sewell
@@ -28,7 +28,7 @@ if ( !defined( 'ABSPATH' ) ) die();
 define( 'SIMPLEDESK_BASE_URI', dirname( __FILE__ ) );
 define( 'SIMPLEDESK_BASE_DIR', plugin_dir_path( __FILE__ ));
 define( 'SIMPLEDESK_FILE', __FILE__);
-define( 'SIMPLEDESK_VERSION', '0.0.5');
+define( 'SIMPLEDESK_VERSION', '0.0.6');
 
 $SimpleDesk = new SimpleDesk();
 
@@ -64,6 +64,9 @@ class SimpleDesk {
 			require_once SIMPLEDESK_BASE_DIR . 'lib/admin/tickets/ticket-functions.php';
 			require_once SIMPLEDESK_BASE_DIR . 'lib/admin/tickets/ui.php';
 			require_once SIMPLEDESK_BASE_DIR . 'lib/admin/tickets/metaboxes.php';
+
+			//reports
+			require_once SIMPLEDESK_BASE_DIR . 'lib/admin/reporting/reports.php';
 
 			//email
 			require_once SIMPLEDESK_BASE_DIR . 'lib/emails/template.php';
