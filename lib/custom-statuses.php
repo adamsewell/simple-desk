@@ -50,6 +50,24 @@ function sd_register_custom_status() {
 			'label_count' => _n_noop( 'Waiting On User <span class="count">(%s)</span>', 'Waiting On Customer <span class="count">(%s)</span>' ),
 		) );
 
+  register_post_status( 'waitingforpart', array(
+		'label' => _x( 'Waiting for Part', 'post' ),
+		'public' => true,
+		'exclude_from_search' => false,
+		'show_in_admin_all_list' => true,
+		'show_in_admin_status_list' => true,
+		'label_count' => _n_noop( 'Waiting for Part <span class="count">(%s)</span>', 'Waiting for Part <span class="count">(%s)</span>' ),
+	) );
+
+	register_post_status( 'needsinvoice', array(
+			'label' => _x( 'Needs Invoice', 'post' ),
+			'public' => true,
+			'exclude_from_search' => false,
+			'show_in_admin_all_list' => true,
+			'show_in_admin_status_list' => true,
+			'label_count' => _n_noop( 'Needs Invoice <span class="count">(%s)</span>', 'Needs Invoice <span class="count">(%s)</span>' ),
+		) );
+
 	register_post_status( 'resolved', array(
 			'label' => _x( 'Resolved', 'post' ),
 			'public' => false,
@@ -82,4 +100,16 @@ function sd_register_custom_status() {
 
 add_action( 'init', 'sd_register_custom_status' );
 
+function sd_get_ticket_statuses() {
+	$ticket_statuses = array(
+		'new'   => __( 'New', 'sd' ),
+		'inprogress'   => __( 'In Progress', 'sd' ),
+		'waitingonme'  => __( 'Waiting on Me', 'sd' ),
+		'waitingforpart' => __( 'Waiting for Part', 'sd' ),
+		'waitingoncustomer'    => __( 'Waiting on Customer', 'sd' ),
+		'needsinvoice' => __( 'Needs Invoiced', 'sd' ),
+		'resolved' => __( 'Resolved', 'sd' )
+	);
 
+	return $ticket_statuses;
+}

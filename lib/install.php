@@ -52,4 +52,3 @@ function sd_add_user_caps(){
 		$wp_roles->add_cap('sd_tech', 'publish_sd_customers');
 	}
 }
-
