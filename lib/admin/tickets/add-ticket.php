@@ -10,17 +10,20 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 screen_icon();
 
 //to auto assign a new from the customer page
-$customer_id = absint($_GET['cid']);
+$customer_id = false;
+if(isset($_GET['cid'])) $customer_id = absint($_GET['cid']);
+
 ?>
+
 <h2><?php _e( 'Add New Ticket', 'sd' ); ?></h2>
 
-<form id="sd-ticket" action="" method="POST">
+<form id="sd-ticket" action="" method="post">
 	<?php wp_nonce_field( 'meta-box-order', 'meta-box-order-nonce', false ); ?>
 	<?php wp_nonce_field( 'closedpostboxes', 'closedpostboxesnonce', false ); ?>
 	<?php wp_nonce_field( 'sd_add_customer', 'sd_add_customer_nonce' ); ?>
 
 	<div id="poststuff">
-		<div id="post-body" class="metabox-holder columns-<?php echo 1 == get_current_screen()->get_columns() ? '1' : '2'; ?>"> 
+		<div id="post-body" class="metabox-holder columns-<?php echo 1 == get_current_screen()->get_columns() ? '1' : '2'; ?>">
 
 		<div id="post-body-content">
 			<h3 class="section_header">
@@ -75,22 +78,13 @@ $customer_id = absint($_GET['cid']);
 
 		<div id="postbox-container-1" class="postbox-container">
 		    <?php do_meta_boxes('toplevel_page_simple-desk', 'side', null); ?>
-		</div>    
+		</div>
 
 		<div id="postbox-container-2" class="postbox-container">
 		    <?php do_meta_boxes('toplevel_page_simple-desk','normal',null);  ?>
 		    <?php do_meta_boxes('toplevel_page_simple-desk','advanced',null); ?>
-		</div>	     					
+		</div>
 
 		</div> <!-- #post-body -->
 	</div>
 </form>
-
-
-
-
-
-
-
-
-
