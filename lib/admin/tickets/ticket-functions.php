@@ -91,7 +91,7 @@ function sd_add_new_ticket( $ticket ){
 		}
 
 		//add the default contact information if commercial client and none are present
-		if(sd_get_customer_type($ticket['customer']) == 'commercial' && !empty($ticket['customer'])){
+		if(!empty($ticket['customer']) && sd_get_customer_type($ticket['customer']) == 'commercial'){
 			if(empty($ticket['cname'])) $ticket['cname'] = sd_get_customer_display_name($ticket['customer']);
 			if(empty($ticket['cphone'])) $ticket['cphone'] = sd_get_customer_phone($ticket['customer']);
 			if(empty($ticket['cemail'])) $ticket['cemail'] = sd_get_customer_email($ticket['customer']);

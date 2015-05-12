@@ -60,6 +60,7 @@ function sd_assigned_tech_notify( $ticket_id, $new_tech_email ){
 	$body .= '------------------------------------' . "\r\n";
 
 	$mail = wp_mail($new_tech_email, $subject, $body, $headers);
+	
 	return $mail;
 }
 
@@ -83,6 +84,9 @@ function sd_new_ticket_notification_customer( $ticket_id ){
 	$to = sd_get_ticket_contact_email($customer);
 
 	$mail = wp_mail($to, $subject, $body, $headers);
+
+	WP_Logging::add('Customer Email Sent', json_encode(array('customer' => $customer, 'to' => $to, 'subject' => $subject), $ticket_id, 'outgoing_email'));
+
 	return $mail;
 }
 
@@ -106,5 +110,8 @@ function sd_updated_ticket_notification_customer($ticket_id, $reply_id){
 	$to = sd_get_ticket_contact_email($ticket_id);
 
 	$mail = wp_mail($to, $subject, $body, $headers);
+
+	WP_Logging::add('Customer Email Update Sent', json_encode(array('customer' => $customer, 'to' => $to, 'subject' => $subject), $ticket_id, 'outgoing_email'));
+
 	return $mail;
 }
