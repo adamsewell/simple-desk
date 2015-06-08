@@ -17,7 +17,7 @@ function sd_get_tickets( $args = array() ){
 		'post_type' => 'simple-desk-ticket',
 		'posts_per_page' => 30,
 		'paged' => null,
-		'post_status' => array('new', 'inprogress', 'waitingonme', 'waitingoncustomer')
+		'post_status' => array_keys(sd_get_ticket_statuses())
 	);
 
 	//check status to handle our custom post statuses - see also sd_get_tickets_count
@@ -41,7 +41,7 @@ function sd_get_tickets( $args = array() ){
 }
 
 function sd_modify_get_tickets_default($orderby){
-	$orderby = "FIELD(post_status, 'waitingonme', 'inprogress', 'new', 'waitingoncustomer', 'resolved'), post_date";
+	$orderby = "FIELD(post_status, 'waitingonme', 'needsreview', 'inprogress', 'new', 'waitingforpart', 'waitingoncustomer'), post_date";
 	return $orderby;
 }
 

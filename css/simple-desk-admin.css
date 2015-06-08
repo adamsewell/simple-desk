@@ -222,29 +222,26 @@ textarea{
 /*************
 	Ticket List Status
 *************/
+#sd_ticket span[class*='status-']{
+	font-weight: bolder;
+}
+
 #sd_ticket span.status-new{
 	color: green;
-	font-weight: bolder;
 }
 
 #sd_ticket span.status-waitingonme{
 	color: red;
-	font-weight: bolder;
 }
 
 #sd_ticket span.status-inprogress{
 	color: purple;
-	font-weight: bolder;
 }
 
 #sd_ticket span.status-waitingoncustomer{
 	color: blue;
-	font-weight: bolder;
 }
 
-#sd_ticket span.status-resolved{
-	font-weight: bolder;
-}
 
 /*************
 	Edit Ticket

@@ -27,10 +27,10 @@ function sd_display_customers(){
     }else{
         $Customers = new SimpleDeskCustomerTable();
         $Customers->prepare_items();
-?>  
+?>
         <div class="wrap">
             <h2>
-                <?php _e('Customers'); ?> 
+                <?php _e('Customers'); ?>
                 <a href="<?php echo add_query_arg( array( 'sd_page' => 'add_customer' ), remove_query_arg('sd-message') ); ?>" class="add-new-h2">Add New</a>
             </h2>
             <form id="sd_search_form" method="get">
@@ -48,7 +48,7 @@ function sd_display_customers(){
 }
 
 /*
-* Customers List Table 
+* Customers List Table
 */
 class SimpleDeskCustomerTable extends WP_List_Table{
 
@@ -63,11 +63,11 @@ class SimpleDeskCustomerTable extends WP_List_Table{
     }
 
     function get_views(){
-        return $views;
+        return false;
     }
 
     function column_default($item, $column_name){
-        
+
         switch($column_name){
             default:
                 return $item[$column_name];
@@ -77,7 +77,7 @@ class SimpleDeskCustomerTable extends WP_List_Table{
     function column_title($item){
         //title
         $title = '<a href="' . add_query_arg(array('sd_page' => 'view_customer', 'cid' => absint($item['ID'])), remove_query_arg('sd-message')) . '">'. $item['title'] .'</a>';
-       
+
         //Build row actions
         $row_actions = array();
 
@@ -112,7 +112,7 @@ class SimpleDeskCustomerTable extends WP_List_Table{
     function column_cb($item){
         return sprintf(
             '<input type="checkbox" name="%1$s[]" value="%2$s" />',
-            /*$1%s*/ $this->_args['singular'], 
+            /*$1%s*/ $this->_args['singular'],
             /*$2%s*/ $item['ID']
         );
     }
@@ -150,7 +150,7 @@ class SimpleDeskCustomerTable extends WP_List_Table{
         return $actions;
     }
 
-    function process_bulk_action() {   
+    function process_bulk_action() {
         //Detect when a bulk action is being triggered...
         if( 'delete' === $this->current_action() ) {
             wp_die('Items deleted (or they would be if we had items to delete)!');

@@ -59,13 +59,13 @@ function sd_register_custom_status() {
 		'label_count' => _n_noop( 'Waiting for Part <span class="count">(%s)</span>', 'Waiting for Part <span class="count">(%s)</span>' ),
 	) );
 
-	register_post_status( 'needsinvoice', array(
-			'label' => _x( 'Needs Invoice', 'post' ),
+	register_post_status( 'needsreview', array(
+			'label' => _x( 'Needs Review', 'post' ),
 			'public' => true,
 			'exclude_from_search' => false,
 			'show_in_admin_all_list' => true,
 			'show_in_admin_status_list' => true,
-			'label_count' => _n_noop( 'Needs Invoice <span class="count">(%s)</span>', 'Needs Invoice <span class="count">(%s)</span>' ),
+			'label_count' => _n_noop( 'Needs Review <span class="count">(%s)</span>', 'Needs Review <span class="count">(%s)</span>' ),
 		) );
 
 	register_post_status( 'resolved', array(
@@ -107,7 +107,7 @@ function sd_get_ticket_statuses() {
 		'waitingonme'  => __( 'Waiting on Me', 'sd' ),
 		'waitingforpart' => __( 'Waiting for Part', 'sd' ),
 		'waitingoncustomer'    => __( 'Waiting on Customer', 'sd' ),
-		'needsinvoice' => __( 'Needs Invoiced', 'sd' ),
+		'needsreview' => __( 'Needs Review', 'sd' ),
 		'resolved' => __( 'Resolved', 'sd' )
 	);
 

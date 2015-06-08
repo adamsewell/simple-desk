@@ -59,7 +59,7 @@ $ticket = sd_get_ticket($ticket_id);
 								</div>
 								<div class="issue-response">
 									<p>
-										<?php echo nl2br(wp_kses(trim($reply->comment_content), array())); ?>
+										<?php echo make_clickable(nl2br(wp_strip_all_tags($reply->comment_content))); ?>
 									</p>
 								</div>
 						</div>
@@ -89,7 +89,7 @@ $ticket = sd_get_ticket($ticket_id);
 						</div>
 						<div class="issue-response">
 							<p>
-								<?php echo nl2br(wp_kses(trim($ticket->post_content), array())); ?>
+								<?php echo make_clickable(nl2br(wp_strip_all_tags($ticket->post_content))); ?>
 							</p>
 						</div>
 					</div>
