@@ -60,7 +60,7 @@ function sd_assigned_tech_notify( $ticket_id, $new_tech_email ){
 	$body .= '------------------------------------' . "\r\n";
 
 	$mail = wp_mail($new_tech_email, $subject, $body, $headers);
-	
+
 	return $mail;
 }
 
@@ -81,7 +81,7 @@ function sd_new_ticket_notification_customer( $ticket_id ){
 	$body .= wp_kses(sd_get_ticket_details($ticket_id), array()) . "\r\n";
 	$body .= '------------------------------------' . "\r\n";
 
-	$to = sd_get_ticket_contact_email($customer);
+	$to = sd_get_ticket_contact_email($ticket_id);
 
 	$mail = wp_mail($to, $subject, $body, $headers);
 
