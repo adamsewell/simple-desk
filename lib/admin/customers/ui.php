@@ -34,7 +34,7 @@ function sd_display_customers(){
                 <a href="<?php echo add_query_arg( array( 'sd_page' => 'add_customer' ), remove_query_arg('sd-message') ); ?>" class="add-new-h2">Add New</a>
             </h2>
             <form id="sd_search_form" method="get">
-                <input type="hidden" name="page" value="<?php echo $_REQUEST['page'] ?>" />
+                <input type="hidden" name="page" value="<?php esc_attr_e($_REQUEST['page']) ?>" />
                 <?php $Customers->search_box('Search', 'sd-customers'); ?>
             </form>
             <form id="sd_ticket" method="get">
