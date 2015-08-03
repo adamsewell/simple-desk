@@ -32,7 +32,7 @@ function sd_display_tickets(){
                 <a href="<?php echo add_query_arg( array( 'sd_page' => 'add_ticket' ), remove_query_arg('sd-message') ); ?>" class="add-new-h2">Add New</a>
             </h2>
             <form id="sd_search_form" method="get">
-                <input type="hidden" name="page" value="<?php echo absint($_REQUEST['page']); ?>" />
+                <input type="hidden" name="page" value="<?php esc_attr_e($_REQUEST['page']); ?>" />
 
                 <!-- maintain status if present on search so we can search through the different statuses -->
                 <?php if(!empty($_GET['status'])): ?>
