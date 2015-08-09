@@ -34,7 +34,7 @@ function sd_get_tickets( $args = array() ){
 	if(empty($args['orderby'])) remove_filter('posts_orderby', 'sd_modify_get_tickets_default');
 
 	if(!empty($tickets->posts)){
-		return $tickets->posts;
+		return $tickets;
 	}
 
 	return false;

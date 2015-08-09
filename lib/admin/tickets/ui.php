@@ -243,7 +243,7 @@ class SimpleDeskTicketTable extends WP_List_Table{
         $this->process_bulk_action();
 
         $data = $this->table_data();
-        $this->items = $data;
+        $this->items = $data->tickets;
 
         //Pagination
         $current_page = $this->get_pagenum();
@@ -251,8 +251,7 @@ class SimpleDeskTicketTable extends WP_List_Table{
         $status = isset( $_GET['status'] ) ? $_GET['status'] : 'mine';
         $cid = isset( $_GET['cid'] ) ? absint($_GET['cid']) : '';
         $view = isset( $_GET['view'] ) ? $_GET['view'] : 'mine';
-        //$total_items = sd_get_tickets_count($status, $cid, $view);
-        $total_items = count($data);
+        $total_items = $data->count;
 
         $this->set_pagination_args( array(
             'total_items' => $total_items,                  //WE have to calculate the total number of items
@@ -330,22 +329,27 @@ class SimpleDeskTicketTable extends WP_List_Table{
             'date_query' => $date
         );
 
-        $tickets = sd_get_tickets($args);
+        $raw = sd_get_tickets($args);
 
-        if(is_array($tickets)){
-            foreach($tickets as $ticket){
-                $tickets_data[] = array(
-                    'issue' => sd_get_ticket_title($ticket->ID),
-                    'ID' => $ticket->ID,
-                    'status' => get_post_status($ticket->ID),
-                    'customer' => sd_get_ticket_customer($ticket->ID),
-                    'modified' => $ticket->post_modified,
-                    'assign' => sd_get_ticket_tech($ticket->ID)
+        $ticket_data = new stdClass();
+        $ticket_data->count = $raw->found_posts;
+        $ticket_data->tickets = array();
+
+        if(!empty($ticket_data->count)){
+            $tickets = array();
+            foreach($raw->posts as $post){
+                $tickets[] = array(
+                    'issue' => sd_get_ticket_title($post->ID),
+                    'ID' => $post->ID,
+                    'status' => get_post_status($post->ID),
+                    'customer' => sd_get_ticket_customer($post->ID),
+                    'modified' => $post->post_modified,
+                    'assign' => sd_get_ticket_tech($post->ID)
                 );
             }
+            $ticket_data->tickets = $tickets;
+            return $ticket_data;
         }
-
-        if($tickets_data) return $tickets_data;
 
         return false;
 

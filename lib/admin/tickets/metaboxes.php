@@ -1,6 +1,6 @@
-<?php
+ <?php
 /**
- * Ticket Metaboxes 
+ * Ticket Metaboxes
  *
  * @package     SD
  * @subpackage  Admin/Tickets
@@ -50,7 +50,7 @@ function sd_render_add_ticket_actions(){
 					</select>
 				</label>
 			</span>
-		</p>		
+		</p>
 		<p>
 			<span>
 				<?php wp_nonce_field('sd-add-ticket', 'sd-add-ticket-nonce'); ?>
@@ -92,7 +92,7 @@ function sd_render_edit_ticket_actions(){
 					</select>
 				</label>
 			</span>
-		</p>	
+		</p>
 		<p>
 			<span>
 				<label for="response-private">
@@ -125,20 +125,20 @@ function sd_render_customer_history(){
 	$ticket_id = absint($_GET['tid']);
 	$customer_id = sd_get_ticket_customer($ticket_id);
 	$customer_history = sd_get_tickets(array(
-		'post_status' => 'resolved', 
-		'meta_key' => '_sd_ticket_customer', 
-		'meta_value' => $customer_id, 
-		'orderby' => 'post_modified', 
+		'post_status' => 'resolved',
+		'meta_key' => '_sd_ticket_customer',
+		'meta_value' => $customer_id,
+		'orderby' => 'post_modified',
 		'order' => 'DESC',
 		'posts_per_page' => 5
 	));
 ?>
-	<?php if(!empty($customer_history)): ?>
+	<?php if(!empty($customer_history->tickets)): ?>
 		<ol>
-			<?php foreach($customer_history as $history): ?>
+			<?php foreach($customer_history->tickets as $history): ?>
 				<li>
 					<?php $url = add_query_arg( array('sd_page' => 'edit_ticket', 'tid' => $history->ID),  admin_url('admin.php?page=simple-desk')); ?>
-					<a href="<?php echo $url; ?>"><?php echo $history->post_title; ?></a> - 
+					<a href="<?php echo $url; ?>"><?php echo $history->post_title; ?></a> -
 					<?php echo mysql2date(get_option('date_format'), $history->post_modified); ?>
 				</li>
 
@@ -177,12 +177,26 @@ function sd_render_customer_information(){
 			<strong>Email Address:</strong> <a href="mailto:<?php echo esc_attr(sd_get_ticket_contact_email($ticket_id)); ?>"><?php echo sanitize_email(sd_get_ticket_contact_email($ticket_id)); ?></a>
 		</span>
 	</p>
+	<?php if(sd_ticket_has_cc($ticket_id)): ?>
+		<p>
+      <span>
+        <strong>Carbon Copied:</strong>
+        <?php $cc = sd_ticket_get_cc($ticket_id); ?>
+        <?php foreach($cc as $id => $contact): ?>
+          <a href="mailto:<?php esc_attr_e(sd_ticket_get_cc_email($contact)); ?>"><?php esc_attr_e(sd_ticket_get_cc_displayname($contact));?></a>
+          <?php if($id != 0){ echo ', '; } ?>
+        <?php endforeach; ?>
+      </span>
+    </p>
+	<?php endif; ?>
+	<?php if(!empty(sd_get_customer_address($customer_id))): ?>
 	<p>
 		<span>
 			<?php $address = sd_get_customer_address($customer_id) . ' ' . sd_get_customer_xaddress($customer_id) . ' ' . sd_get_customer_city($customer_id) . ', ' . sd_get_customer_state($customer_id) . ' ' . sd_get_customer_zip($customer_id); ?>
 			<strong>Address:</strong> <a target="_blank" href="http://maps.google.com/maps?f=q&amp;source=s_q&amp;hl=en&amp;geocode=&amp;q=<?php echo urlencode($address); ?>"><?php echo esc_attr($address); ?></a>
 		</span>
 	</p>
+	<?php endif; ?>
 	<p>
 		<span>
 			<strong>Open Tickets:</strong> <a href="<?php echo add_query_arg(array('cid' => $customer_id, 'status' => 'open'), $ticket_url) ?>"><?php echo absint(sd_get_tickets_count('notresolved', $customer_id)); ?></a>
