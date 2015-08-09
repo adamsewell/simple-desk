@@ -49,11 +49,11 @@ function sd_get_ticket_link($ticket_id){
 
 }
 
-function sd_get_tickets_count( $status = '', $cid = '' ){
+function sd_get_tickets_count( $status = '', $cid = '', $view = '' ){
 	$user = wp_get_current_user();
 	global $wpdb;
 
-	$all_ticket_queries = array(
+	$ticket_queries = array(
 		'notresolved' => "SELECT count(post_status) FROM $wpdb->posts WHERE post_type = 'simple-desk-ticket' AND post_status != 'resolved';",
 		'unassigned' => "SELECT count(post_status) FROM $wpdb->posts LEFT JOIN $wpdb->postmeta ON $wpdb->posts.ID = $wpdb->postmeta.post_id WHERE $wpdb->posts.post_type = 'simple-desk-ticket' AND $wpdb->posts.post_status != 'resolved' AND $wpdb->postmeta.meta_key = '_sd_ticket_assign' AND $wpdb->postmeta.meta_value = '0';",
 		'mine' => "SELECT count(post_status) FROM $wpdb->posts LEFT JOIN $wpdb->postmeta ON $wpdb->posts.ID = $wpdb->postmeta.post_id WHERE $wpdb->posts.post_type = 'simple-desk-ticket' AND $wpdb->posts.post_status != 'resolved' AND $wpdb->postmeta.meta_key = '_sd_ticket_assign' AND $wpdb->postmeta.meta_value = '$user->ID';",
@@ -70,9 +70,9 @@ function sd_get_tickets_count( $status = '', $cid = '' ){
 	);
 
 	if(empty($status)){
-		$query = $all_ticket_queries['all'];
+		$query = $ticket_queries['all'];
 	}elseif(!empty($status) && empty($cid)){
-		$query = $all_ticket_queries[$status];
+		$query = $ticket_queries[$status];
 	}elseif(!empty($status) && !empty($cid)){
 		$query = $customer_ticket_queries[$status];
 	}
@@ -372,6 +372,22 @@ function sd_get_ticket_tech($ticket_id){
 	return get_post_meta($ticket_id, '_sd_ticket_assign', true);
 }
 
+function sd_ticket_has_cc($ticket_id){
+	$cc = get_post_meta($ticket_id, '_sd_ticket_cc', true);
+	if(!empty($cc) && count($cc) > 0){
+		return true;
+	}
+	return false;
+}
+
+function sd_ticket_get_cc($ticket_id){
+	$cc = get_post_meta($ticket_id, '_sd_ticket_cc', true);
+	if(!empty($cc) && count($cc) > 0){
+		return explode(',', $cc);
+	}
+	return false;
+}
+
 function sd_attach_file($post_id, $file, $filename){
 	$upload_dir = wp_upload_dir();
 
@@ -381,4 +397,14 @@ function sd_attach_file($post_id, $file, $filename){
 	}
 
 	return false;
+}
+
+function sd_ticket_get_cc_displayname($email){
+	$name = preg_match('/[\w\s]+/', $email, $match);
+	return trim($match[0]);
+}
+
+function sd_ticket_get_cc_email($email){
+	$email = preg_match('/(?:<)(.+)(?:>)$/', $email, $match);
+	return filter_var($match[0], FILTER_SANITIZE_EMAIL);
 }
