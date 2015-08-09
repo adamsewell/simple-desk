@@ -206,7 +206,7 @@ class SimpleDeskTicketTable extends WP_List_Table{
 
     function get_sortable_columns() {
         $sortable_columns = array(
-            'id'     => array('id',true),     //true means it's already sorted
+            'ID'     => array('id',true),     //true means it's already sorted
             'modified'  => array('modified',false)
         );
         return $sortable_columns;
@@ -248,15 +248,16 @@ class SimpleDeskTicketTable extends WP_List_Table{
         //Pagination
         $current_page = $this->get_pagenum();
 
-        $view = isset( $_GET['view'] ) ? $_GET['view'] : 'mine';
         $status = isset( $_GET['status'] ) ? $_GET['status'] : 'mine';
         $cid = isset( $_GET['cid'] ) ? absint($_GET['cid']) : '';
-        $total_items = sd_get_tickets_count($status, $cid);
+        $view = isset( $_GET['view'] ) ? $_GET['view'] : 'mine';
+        //$total_items = sd_get_tickets_count($status, $cid, $view);
+        $total_items = count($data);
 
         $this->set_pagination_args( array(
             'total_items' => $total_items,                  //WE have to calculate the total number of items
             'per_page'    => $per_page,                     //WE have to determine how many items to show on a page
-            'total_pages' => ceil($total_items/$per_page)   //WE have to calculate the total number of pages
+            'total_pages' => ceil( $total_items / $per_page )   //WE have to calculate the total number of pages
         ) );
     }
 
