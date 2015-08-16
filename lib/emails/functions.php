@@ -12,10 +12,10 @@ function sd_new_ticket_notification_techs( $ticket_id ){
 
 	$subject = '[#' . absint($ticket_id) .']: ' . wp_strip_all_tags(sd_get_email_subject($ticket_id), true);
 
-	$body = 'A new ticket has been created for: ' . sd_get_ticket_contact_name($ticket_id) . "\r\n";
-	$body .= 'Created By: ' . sd_get_tech_display_name(sd_get_ticket_creator($ticket_id)) . "\r\n";
-	$body .= 'Status: ' . sd_get_ticket_status($ticket_id) . "\r\n";
+	$body = 'A new ticket has been created.' . "\r\n";
 	$body .= "\r\n";
+	$body .= 'Status: ' . sd_get_ticket_status($ticket_id) . "\r\n";
+	$body .= 'Ticket Content:' . "\r\n";
 	$body .= '------------------------------------' . "\r\n";
 	$body .= wp_kses_post(sd_get_ticket_details($ticket_id)) . "\r\n";
 	$body .= '------------------------------------' . "\r\n";
@@ -71,12 +71,16 @@ function sd_new_ticket_notification_customer( $ticket_id ){
 	//headers
 	$headers = "From: " . stripslashes_deep( html_entity_decode( get_bloginfo('name'), ENT_COMPAT, 'UTF-8' ) ) . " <".get_option('admin_email').">\r\n";
 	$headers .= "Reply-To: ". get_option('admin_email') . "\r\n";
+	if(sd_ticket_has_cc($ticket_id)){
+		$headers .= "Cc: " . sd_ticket_get_cc($ticket_id, true) . "\r\n";
+	}
 
 	$subject = '[#' . absint($ticket_id) .']: ' . wp_strip_all_tags(sd_get_email_subject($ticket_id), true);
 
-	$body = 'Ticket created by: ' . sd_get_tech_display_name(sd_get_ticket_creator($ticket_id)) . "\r\n";
-	$body .= 'Status: ' . $statuses[sd_get_ticket_status($ticket_id)] . "\r\n";
+	$body = 'A new ticket has been created. You may reply to this email to update your ticket. ' . "\r\n";
 	$body .= "\r\n";
+	$body .= 'Status: ' . $statuses[sd_get_ticket_status($ticket_id)] . "\r\n";
+	$body .= 'Ticket Content: ' . "\r\n";
 	$body .= '------------------------------------' . "\r\n";
 	$body .= wp_kses(sd_get_ticket_details($ticket_id), array()) . "\r\n";
 	$body .= '------------------------------------' . "\r\n";
@@ -97,12 +101,16 @@ function sd_updated_ticket_notification_customer($ticket_id, $reply_id){
 	//headers
 	$headers = "From: " . stripslashes_deep( html_entity_decode( get_bloginfo('name'), ENT_COMPAT, 'UTF-8' ) ) . " <".get_option('admin_email').">\r\n";
 	$headers .= "Reply-To: ". get_option('admin_email') . "\r\n";
+	if(sd_ticket_has_cc($ticket_id)){
+		$headers .= "Cc: " . sd_ticket_get_cc($ticket_id, true) . "\r\n";
+	}
 
 	$subject = '[#' . absint($ticket_id) .']: Updated - ' . wp_strip_all_tags(sd_get_email_subject($ticket_id), true);
 
 	$body = 'Ticket updated by: ' . sd_get_tech_display_name(sd_get_ticket_reply_author($reply_id)) . "\r\n";
-	$body .= 'Status: ' . $statuses[sd_get_ticket_status($ticket_id)] . "\r\n";
 	$body .= "\r\n";
+	$body .= 'Status: ' . $statuses[sd_get_ticket_status($ticket_id)] . "\r\n";
+	$body .= 'Ticket Reply: ' . "\r\n";
 	$body .= '------------------------------------' . "\r\n";
 	$body .= wp_kses(sd_get_ticket_reply($reply_id), array()) . "\r\n";
 	$body .= '------------------------------------' . "\r\n";

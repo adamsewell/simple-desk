@@ -299,8 +299,8 @@ function sd_get_ticket_contact_email($ticket_id){
 }
 
 function sd_get_ticket_creator($ticket_id){
-	$ticket = get_post(absint($ticket_id));
-	return $ticket->post_author;
+	$ticket_creator = get_post_meta($ticket_id, '_sd_ticket_cname', true);
+	return $ticket_creator;
 }
 
 function sd_get_ticket_reply_author($reply_id){
@@ -380,11 +380,17 @@ function sd_ticket_has_cc($ticket_id){
 	return false;
 }
 
-function sd_ticket_get_cc($ticket_id){
+function sd_ticket_get_cc($ticket_id, $raw = false){
 	$cc = get_post_meta($ticket_id, '_sd_ticket_cc', true);
-	if(!empty($cc) && count($cc) > 0){
+
+	if(!empty($cc) && $raw == true){
+		return $cc;
+	}
+
+	if(!empty($cc)){
 		return explode(',', $cc);
 	}
+
 	return false;
 }
 
@@ -400,11 +406,17 @@ function sd_attach_file($post_id, $file, $filename){
 }
 
 function sd_ticket_get_cc_displayname($email){
-	$name = preg_match('/[\w\s]+/', $email, $match);
-	return trim($match[0]);
+	$name = preg_match('/(.+)\s?<(.+)>/', $email, $match);
+	if(count($match) === 3){
+		return trim($match[1]);
+	}
+	return sanitize_email($email);
 }
 
 function sd_ticket_get_cc_email($email){
-	$email = preg_match('/(?:<)(.+)(?:>)$/', $email, $match);
-	return filter_var($match[0], FILTER_SANITIZE_EMAIL);
+	$name = preg_match('/(.+)\s?<(.+)>/', $email, $match);
+	if(count($match) === 3){
+		return trim($match[2]);
+	}
+	return sanitize_email($email);
 }

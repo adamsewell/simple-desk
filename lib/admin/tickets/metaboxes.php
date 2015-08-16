@@ -180,11 +180,10 @@ function sd_render_customer_information(){
 	<?php if(sd_ticket_has_cc($ticket_id)): ?>
 		<p>
       <span>
-        <strong>Carbon Copied:</strong>
+        <strong>Copied:</strong>
         <?php $cc = sd_ticket_get_cc($ticket_id); ?>
         <?php foreach($cc as $id => $contact): ?>
           <a href="mailto:<?php esc_attr_e(sd_ticket_get_cc_email($contact)); ?>"><?php esc_attr_e(sd_ticket_get_cc_displayname($contact));?></a>
-          <?php if($id != 0){ echo ', '; } ?>
         <?php endforeach; ?>
       </span>
     </p>
