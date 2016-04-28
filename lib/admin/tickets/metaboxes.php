@@ -133,9 +133,9 @@ function sd_render_customer_history(){
 		'posts_per_page' => 5
 	));
 ?>
-	<?php if(!empty($customer_history->tickets)): ?>
+	<?php if(!empty($customer_history->posts)): ?>
 		<ol>
-			<?php foreach($customer_history->tickets as $history): ?>
+			<?php foreach($customer_history->posts as $history): ?>
 				<li>
 					<?php $url = add_query_arg( array('sd_page' => 'edit_ticket', 'tid' => $history->ID),  admin_url('admin.php?page=simple-desk')); ?>
 					<a href="<?php echo $url; ?>"><?php echo $history->post_title; ?></a> -
