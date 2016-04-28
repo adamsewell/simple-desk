@@ -408,7 +408,7 @@ function sd_attach_file($post_id, $file, $filename){
 function sd_ticket_get_cc_displayname($email){
 	$name = preg_match('/(.+)\s?<(.+)>/', $email, $match);
 	if(count($match) === 3){
-		return trim($match[1]);
+		return sanitize_text_field($match[1]);
 	}
 	return sanitize_email($email);
 }
@@ -416,7 +416,7 @@ function sd_ticket_get_cc_displayname($email){
 function sd_ticket_get_cc_email($email){
 	$name = preg_match('/(.+)\s?<(.+)>/', $email, $match);
 	if(count($match) === 3){
-		return trim($match[2]);
+		return sanitize_email($match[2]);
 	}
 	return sanitize_email($email);
 }
