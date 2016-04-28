@@ -1,6 +1,6 @@
 <?php
 /**
- * Customer Metaboxes 
+ * Customer Metaboxes
  *
  * @package     SD
  * @subpackage  Admin/Downloads
@@ -15,7 +15,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 function sd_add_customer_meta_boxes(){
 	//add customer page
 	add_meta_box('sd_customer_add_save_meta', __('Customer Actions', 'sd'), 'sd_render_add_customer_actions', 'simple-desk_page_simple-desk-add-customer-page', 'side', 'core');
-	
+
 	//edit customer page
 	add_meta_box('sd_customer_edit_save_meta', __('Customer Actions', 'sd'), 'sd_render_edit_customer_actions', 'sd_edit-customer-page', 'side', 'core');
 	add_meta_box('sd_customer_edit_meta', __('Customer Meta', 'sd'), 'sd_render_edit_customer_meta', 'sd_edit-customer-page', 'side', 'core');
@@ -152,12 +152,17 @@ function sd_render_edit_customer_meta(){
 	</p>
 	<p>
 		<span>
-			<strong>Last Modified:</strong> <?php echo mysql2date('n/j/y g:ia', $customer->post_modified); ?>
+			<strong>Customer Type:</strong> <?php echo sd_get_customer_type($customer->ID); ?>
 		</span>
 	</p>
 	<p>
 		<span>
-			<strong>Created:</strong> <?php echo mysql2date('n/j/y g:ia', $customer->post_date); ?>
+			<strong>Last Modified:</strong> <?php echo sd_get_customer_modified($customer->ID); ?>
+		</span>
+	</p>
+	<p>
+		<span>
+			<strong>Created:</strong> <?php echo sd_get_customer_created($customer->ID); ?>
 		</span>
 	</p>
 	<p>
@@ -172,16 +177,3 @@ function sd_render_edit_customer_meta(){
 	</p>
 <?php
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
